@@ -1,4 +1,4 @@
-import {NavbarLayout} from './layouts'
+import { NavbarLayout } from './layouts';
 import {NavigationMenu} from './modules/NavigationMenu'
 
 function App() {
