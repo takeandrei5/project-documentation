@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
+import type { Editor as TinyMCEEditor } from 'tinymce';
+
 const NavbarLayoutRightSide: React.FC = () => {
-	const editorRef = useRef<unknown | null>(null);
+	const editorRef = useRef<TinyMCEEditor | null>(null);
 	const log = () => {
 		if (editorRef.current) {
 			console.log(editorRef.current.getContent());
@@ -12,24 +14,29 @@ const NavbarLayoutRightSide: React.FC = () => {
 	return (
 		<>
 			<Editor
-				apiKey='jfsdtu13jdktgd8qdvokv0g1t3fso4xidcwrlykuli4pavg7'
-				onInit={(_, editor) => {
-					console.log(editor);
-					editorRef.current = editor;
-				}}
+				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
+				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
 				initialValue='<p>This is the initial content of the editor.</p>'
 				init={{
-					height: 500,
 					menubar: false,
 					inline: true,
-					plugins: ['autolink', 'autoresize', 'codesample', 'link', 'lists', 'media', 'powerpaste', 'table', 'image', 'quickbars', 'codesample', 'help'],
+					plugins: [
+            'autolink', 'autoresize', 'codesample', 'checklist',
+            'link', 'lists', 'media', 'powerpaste', 'table', 'image',
+            'quickbars', 'codesample'
+          ],
 					toolbar: false,
-					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+					content_style: 'body { font-family:ui-sans-serif, -apple-system, "system-ui", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; font-size:14pt }',
 					quickbars_insert_toolbar: 'quicktable image media codesample',
-					quickbars_selection_toolbar: 'bold italic underline | blocks | bullist numlist | blockquote quicklink',
-					contextmenu: 'undo redo | inserttable | cell row column deletetable | help',
+					quickbars_selection_toolbar: 'bold italic underline strikethrough blocks' +
+            '| indent outdent' +
+            '| alignleft aligncenter alignjustify alignright' +
+            '| backcolor forecolor' +
+            '| bullist checklist numlist' +
+            '| link',
 					powerpaste_word_import: 'clean',
-					powerpaste_html_import: 'clean'
+					powerpaste_html_import: 'clean',
+          icons: 'material'
 				}}
 			/>
 			<button onClick={log}>Log editor content</button>
