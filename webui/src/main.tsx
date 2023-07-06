@@ -1,7 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import './index.css';
-
 import { Router, RouterProvider } from '@tanstack/router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { routeTree } from './router';
@@ -16,10 +15,15 @@ declare module '@tanstack/router' {
   }
 }
 
+import App from './App.tsx'
+import './index.css'
+import {ThemeProvider} from '@mui/material'
+import {mainTheme} from './assets/theme'
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-		<TanStackRouterDevtools router={router} initialIsOpen={false} />
-		{/* <App /> */}
-	</React.StrictMode>
-);
+//  <React.StrictMode>
+    <ThemeProvider theme={mainTheme}>
+      <App/>
+    </ThemeProvider>
+//  </React.StrictMode>,
+)
