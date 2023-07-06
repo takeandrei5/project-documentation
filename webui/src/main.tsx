@@ -6,12 +6,10 @@ import {mainTheme} from './assets/theme'
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
+//	<React.StrictMode>
     <ThemeProvider theme={mainTheme}>
-
     <App />
     </ThemeProvider>
-
-  </React.StrictMode>
+//  </React.StrictMode>
 )
 
