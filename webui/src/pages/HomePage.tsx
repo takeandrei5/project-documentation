@@ -5,7 +5,7 @@ const HomePage: React.FC = () => {
 
   return <>
     <div>Hello from home!</div>
-      <button onClick={() => loginWithRedirect()}>Log In</button>
+      {!isAuthenticated && <button onClick={() => loginWithRedirect()}>Log In</button>}
       {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
     </>
 
