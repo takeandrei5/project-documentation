@@ -1,11 +1,12 @@
-import { RootRoute, Route } from '@tanstack/router';
-import { Dashboard, Home } from './pages';
+import { RootRoute, Route, Router } from '@tanstack/router';
+import { DashboardPage, HomePage } from './pages';
 
 const rootRoute = new RootRoute();
 
-const homeRoute = new Route({ getParentRoute: () => rootRoute, path: '/', component: Home });
-const dashboardRoute = new Route({ getParentRoute: () => rootRoute, path: '/dashboard', component: Dashboard });
+const homePageRoute = new Route({ getParentRoute: () => rootRoute, path: '/', component: HomePage });
+const dashboardPageRoute = new Route({ getParentRoute: () => rootRoute, path: '/dashboard', component: DashboardPage });
 
-const routeTree = rootRoute.addChildren([homeRoute, dashboardRoute]);
+const routeTree = rootRoute.addChildren([homePageRoute, dashboardPageRoute]);
+const router = new Router({ routeTree })
 
-export { routeTree };
+export { router };

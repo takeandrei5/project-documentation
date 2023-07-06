@@ -1,2 +1,2 @@
-export { Dashboard as Dashboard } from './Dashboard';
-export { Home as Home } from './Home';
+export { default as DashboardPage } from './DashboardPage';
+export { default as HomePage } from './HomePage';
