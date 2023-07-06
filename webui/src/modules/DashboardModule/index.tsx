@@ -1,0 +1,1 @@
+export { DashboardContainer as DashboardContainer } from './containers';
