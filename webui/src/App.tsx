@@ -1,15 +1,17 @@
-import { NavbarLayout } from './layouts';
+import { RouterProvider } from '@tanstack/router';
+import { router } from './router';
 
 function App() {
 	return (
-		// <MainLayout>
-		//   <div>
-		//     <button>Click me</button>
-		//   </div>
-		// </MainLayout>
-
-		<NavbarLayout leftComponent={<div>Left</div>} rightComponent={<div>Right</div>} />
+    <RouterProvider router={router} />
 	);
+}
+
+declare module '@tanstack/router' {
+  interface Register {
+    // This infers the type of our router and registers it across your entire project
+    router: typeof router
+  }
 }
 
 export default App;
