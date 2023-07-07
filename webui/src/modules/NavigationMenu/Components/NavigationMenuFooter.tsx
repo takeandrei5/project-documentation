@@ -6,6 +6,12 @@ import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined'
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 
+const arr = [
+  {id: 'item-1', name: 'Create a teamspace'},
+  {id: 'item-2', name: 'Templates'},
+  {id: 'item-3', name: 'Import'},
+  {id: 'item-4', name: 'Trash'}
+]
 const NavigationMenuHeader = () => {
   return (
     <List>
