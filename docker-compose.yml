@@ -31,6 +31,10 @@ services:
       - 3000:3000
     networks:
       - project-documentation-network
+    environment:
+      - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
+      - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
+      - VITE_TINY_MCE_API_KEY=${VITE_TINY_MCE_API_KEY}
     depends_on:
       - webapi
     volumes:
