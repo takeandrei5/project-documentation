@@ -6,8 +6,8 @@ import type { NavbarLayoutProps } from './types';
 const NavbarLayout: React.FC<NavbarLayoutProps> = ({ leftComponent, rightComponent }: NavbarLayoutProps) => {
 	return (
 		<Split className='split' gutterSize={8} sizes={[20, 80]} snapOffset={0}>
-			<Box sx={{minWidth: '20%'}}>{leftComponent}</Box>
-			<Box sx={{minWidth: '20%'}}>{rightComponent}</Box>
+			<Box sx={{ minWidth: '20%' }}>{leftComponent}</Box>
+			<Box sx={{ minWidth: '20%' }}>{rightComponent}</Box>
 		</Split>
 	);
 };

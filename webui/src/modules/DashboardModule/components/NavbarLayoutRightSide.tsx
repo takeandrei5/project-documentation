@@ -20,23 +20,14 @@ const NavbarLayoutRightSide: React.FC = () => {
 				init={{
 					menubar: false,
 					inline: true,
-					plugins: [
-            'autolink', 'autoresize', 'codesample', 'checklist',
-            'link', 'lists', 'media', 'powerpaste', 'table', 'image',
-            'quickbars', 'codesample'
-          ],
+					plugins: ['autolink', 'autoresize', 'codesample', 'checklist', 'link', 'lists', 'media', 'powerpaste', 'table', 'image', 'quickbars', 'codesample'],
 					toolbar: false,
 					content_style: 'body { font-family:ui-sans-serif, -apple-system, "system-ui", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; font-size:14pt }',
 					quickbars_insert_toolbar: 'quicktable image media codesample',
-					quickbars_selection_toolbar: 'bold italic underline strikethrough blocks' +
-            '| indent outdent' +
-            '| alignleft aligncenter alignjustify alignright' +
-            '| backcolor forecolor' +
-            '| bullist checklist numlist' +
-            '| link',
+					quickbars_selection_toolbar: 'bold italic underline strikethrough blocks' + '| indent outdent' + '| alignleft aligncenter alignjustify alignright' + '| backcolor forecolor' + '| bullist checklist numlist' + '| link',
 					powerpaste_word_import: 'clean',
 					powerpaste_html_import: 'clean',
-          icons: 'material'
+					icons: 'material'
 				}}
 			/>
 			<button onClick={log}>Log editor content</button>

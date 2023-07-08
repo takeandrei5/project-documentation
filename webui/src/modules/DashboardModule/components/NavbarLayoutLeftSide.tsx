@@ -1,5 +1,11 @@
+import { NavigationMenu } from '../../NavigationMenu';
+
 const NavbarLayoutLeftSide: React.FC = () => {
-  return <div>Left</div>
-}
+	return (
+		<div>
+			<NavigationMenu />
+		</div>
+	);
+};
 
 export default NavbarLayoutLeftSide;
