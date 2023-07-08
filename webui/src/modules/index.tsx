@@ -1,1 +1,1 @@
-export { DashboardContainer as DashboardContainer } from './DashboardModule';
+export { PRDContainer as DashboardContainer } from './PRDModule';

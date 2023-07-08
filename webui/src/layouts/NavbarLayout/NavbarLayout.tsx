@@ -7,7 +7,7 @@ const NavbarLayout: React.FC<NavbarLayoutProps> = ({ leftComponent, rightCompone
 	return (
 		<Split className='split' gutterSize={8} sizes={[20, 80]} snapOffset={0}>
 			<Box sx={{ minWidth: '20%' }}>{leftComponent}</Box>
-			<Box sx={{ minWidth: '20%' }}>{rightComponent}</Box>
+			<Box sx={{ minWidth: '20%', backgroundColor: '#FFFFFF' }}>{rightComponent}</Box>
 		</Split>
 	);
 };

@@ -1,3 +1,6 @@
+using Giveaway.Web.WebApi.Extensions;
+using MongoDB.Driver;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<MongoClientSettings>(builder.Configuration.GetSection("ProjectDocumentationDatabase"));
+
+builder.Services.AddApplicationUseCases();
 
 var app = builder.Build();
 

@@ -1,1 +1,1 @@
-export { default as NavigationMenu } from './Containers/NavigationMenuContainer';
+export { default as NavigationMenu } from './containers/NavigationMenuContainer';
