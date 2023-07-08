@@ -1,14 +1,14 @@
-﻿using ProjectDocumentation.Web.Database.Primitives;
+﻿namespace ProjectDocumentation.Web.Domain.Entities.Projects;
 
-namespace ProjectDocumentation.Web.Domain.Entities.Projects;
-
-public sealed class Project : AggregateRoot
+public sealed class Project
 {
-    internal Project(Guid id, ProjectName projectName)
-        : base(id)
+    internal Project(ProjectId projectId, ProjectName projectName)
     {
+        ProjectId = projectId;
         ProjectName = projectName;
     }
+
+    public ProjectId ProjectId { get; init; }
 
     public ProjectName ProjectName { get; init; }
 }

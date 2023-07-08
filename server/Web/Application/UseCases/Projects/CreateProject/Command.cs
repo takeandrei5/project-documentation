@@ -1,3 +1,4 @@
+using ProjectDocumentation.Web.Domain.Entities.Projects;
 using ProjectDocumentation.Web.Domain.Errors;
 using ProjectDocumentation.Web.Domain.Interfaces;
 using SoftwareCraft.Functional;
@@ -15,7 +16,7 @@ public sealed class Command
         _userRepository = userRepository;
     }
 
-    public async Task<Result<Guid, ForbiddenError>> ExecuteAsync(CommandInput commandInput,
+    public async Task<Result<ProjectId, ForbiddenError>> ExecuteAsync(CommandInput commandInput,
         CancellationToken cancellationToken)
     {
         var userResult = await 
@@ -27,7 +28,7 @@ public sealed class Command
 
             await _projectRepository.CreateAsync(newProject, cancellationToken);
 
-            return newProject.Id.AsSuccess<Guid, ForbiddenError>();
+            return newProject.ProjectId.AsSuccess<ProjectId, ForbiddenError>();
         });
     }
 }

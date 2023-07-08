@@ -13,14 +13,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<MongoClientSettings>(builder.Configuration.GetSection("ProjectDocumentationDatabase"));
 
 builder.Services.AddApplicationUseCases();
+builder.Services.AddRepositories();
+builder.Services.AddAutoMapperProfiles();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(swaggerOptions => swaggerOptions.RouteTemplate = "api/swagger/{documentname}/swagger.json");
+    app.UseSwaggerUI(swaggerUiOptions =>
+    {
+        swaggerUiOptions.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Project Documentation APIs v1");
+        swaggerUiOptions.RoutePrefix = "api/swagger";
+    });
 }
 
 app.UseHttpsRedirection();

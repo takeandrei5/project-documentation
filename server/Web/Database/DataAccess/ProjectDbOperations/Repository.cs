@@ -15,13 +15,13 @@ public sealed class Repository : IProjectRepository
     public Repository(IMapper mapper, IOptions<DatabaseSettings> databaseSettings)
     {
         _mapper = mapper;
-        _projectsCollection = databaseSettings.Value.GetMongoCollection<ProjectEntity>();
+        //_projectsCollection = databaseSettings.Value.GetMongoCollection<ProjectEntity>();
     }
 
     public async Task CreateAsync(Project project, CancellationToken cancellationToken)
     {
         var projectEntity = _mapper.Map<ProjectEntity>(project);
 
-        await _projectsCollection.InsertOneAsync(projectEntity, null, cancellationToken);
+        //await _projectsCollection.InsertOneAsync(projectEntity, null, cancellationToken);
     }
 }

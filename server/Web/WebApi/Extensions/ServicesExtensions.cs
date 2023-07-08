@@ -4,9 +4,13 @@ using ProjectDocumentation.Web.Domain.Interfaces;
 namespace Giveaway.Web.WebApi.Extensions;
 
 using ProjectRepository = ProjectDocumentation.Web.Database.DataAccess.ProjectDbOperations.Repository;
+using UserRepository = ProjectDocumentation.Web.Database.DataAccess.UserDbOperations.Repository;
 
 public static partial class ServicesExtensions
 {
+    public static void AddAutoMapperProfiles(this IServiceCollection services) =>
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
     public static void AddApplicationUseCases(this IServiceCollection services)
     {
         // Projects
@@ -22,7 +26,7 @@ public static partial class ServicesExtensions
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IProjectRepository, ProjectRepository>();
-        //services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 
     //public static void AddSwagger(this IServiceCollection services, string authority, string audience) =>
