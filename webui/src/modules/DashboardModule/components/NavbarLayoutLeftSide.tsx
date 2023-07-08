@@ -1,7 +1,11 @@
-import {NavigationMenu} from '../../NavigationMenu'
+import { NavigationMenu } from '../../NavigationMenu';
 
-const NavbarLayoutLeftSide:React.FC = () => {
-  return <div><NavigationMenu/></div>
-}
+const NavbarLayoutLeftSide: React.FC = () => {
+	return (
+		<div>
+			<NavigationMenu />
+		</div>
+	);
+};
 
-export default NavbarLayoutLeftSide
+export default NavbarLayoutLeftSide;

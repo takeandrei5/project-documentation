@@ -1,25 +1,32 @@
-import * as React from 'react'
-import {List, ListItem, ListItemIcon, Typography} from '@mui/material'
-
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
-import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined'
-import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import { Icon, List, ListItem, ListItemIcon, Typography } from '@mui/material';
 
 const arr = [
-  {id: 'item-1', name: 'Create a teamspace'},
-  {id: 'item-2', name: 'Templates'},
-  {id: 'item-3', name: 'Import'},
-  {id: 'item-4', name: 'Trash'}
-]
-const NavigationMenuHeader = () => {
-  return (
-    <List>
-      <ListItem><ListItemIcon><PeopleAltOutlinedIcon/></ListItemIcon><Typography>Create a teamspace</Typography></ListItem>
-      <ListItem><ListItemIcon><WidgetsOutlinedIcon/></ListItemIcon><Typography>Templates</Typography></ListItem>
-      <ListItem><ListItemIcon><DownloadOutlinedIcon/></ListItemIcon><Typography>Import</Typography></ListItem>
-      <ListItem><ListItemIcon><DeleteOutlineOutlinedIcon/></ListItemIcon><Typography>Trash</Typography></ListItem>
-    </List>
-  )
-}
-export default NavigationMenuHeader
+	{ id: 'item-1', name: 'Create a teamspace', iconName: 'people_alt_outlined_icon' },
+	{ id: 'item-2', name: 'Templates', iconName: 'widgets_outlined' },
+	{ id: 'item-3', name: 'Import', iconName: 'download_outlined' },
+	{ id: 'item-4', name: 'Trash', iconName: 'delete_outline_outlined' }
+];
+
+const NavigationMenuHeader: React.FC = () => {
+  const renderItems = () => {
+    return arr.map((item) => {
+      return (
+        <ListItem key={item.id}>
+          <ListItemIcon>
+            <Icon>{item.iconName}</Icon>
+          </ListItemIcon>
+          <Typography>{item.name}</Typography>
+        </ListItem>
+      );
+    });
+  }
+
+
+	return (
+		<List>
+			{renderItems()}
+		</List>
+	);
+};
+
+export default NavigationMenuHeader;

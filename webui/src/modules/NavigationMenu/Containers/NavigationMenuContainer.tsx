@@ -1,22 +1,15 @@
-import * as React from 'react'
-import {Box, Divider} from '@mui/material'
-import {FC} from 'react'
-import NavigationMenuHeader from '../Components/NavigationMenuHeader'
-import NavigationMenuBody from '../Components/NavigationMenuBody'
-import NavigationMenuFooter from '../Components/NavigationMenuFooter'
+import { Box, Divider } from '@mui/material';
+import { NavigationMenuHeader, NavigationMenuBody, NavigationMenuFooter } from '../Components';
 
-const NavMenu:FC = ({}) => {
+const NavMenu: React.FC = () => {
+	return (
+		<Box>
+			<NavigationMenuHeader />
+			<NavigationMenuBody />
+			<Divider />
+			<NavigationMenuFooter />
+		</Box>
+	);
+};
 
-  return (
-    <Box>
-      <NavigationMenuHeader/>
-      {/*<Divider/>*/}
-      <NavigationMenuBody/>
-      <Divider/>
-      <NavigationMenuFooter/>
-    </Box>
-
-  )
-}
-
-export default NavMenu
+export default NavMenu;

@@ -1,8 +1,8 @@
-import { NavbarLayout } from '../../../layouts'
-import { NavbarLayoutLeftSide, NavbarLayoutRightSide } from '../components'
+import { NavbarLayout } from '../../../layouts';
+import { NavbarLayoutLeftSide, NavbarLayoutRightSide } from '../components';
 
 const DashboardContainer: React.FC = () => {
-  return <NavbarLayout leftComponent={<NavbarLayoutLeftSide />} rightComponent={<NavbarLayoutRightSide />} />
-}
+	return <NavbarLayout leftComponent={<NavbarLayoutLeftSide />} rightComponent={<NavbarLayoutRightSide />} />;
+};
 
-export default DashboardContainer
+export default DashboardContainer;
