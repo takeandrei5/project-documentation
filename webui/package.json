@@ -27,7 +27,6 @@
     "react-dnd": "16.0.1",
     "react-dom": "18.2.0",
     "react-hook-form": "7.45.1",
-    "react-query": "3.39.3",
     "react-split": "2.0.14",
     "zod": "3.21.4"
   },

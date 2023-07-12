@@ -8,7 +8,7 @@ public abstract class BaseError
 
     public abstract string Title { get; }
 
-    public abstract string Type { get; }
+    public abstract string { type get; }
 
     protected BaseError(int status, string message)
     {

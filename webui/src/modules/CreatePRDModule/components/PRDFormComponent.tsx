@@ -1,7 +1,7 @@
 import { Box, Button, Link, TextField, Typography } from '@mui/material';
 import { Controller } from 'react-hook-form';
 
-import type { PRDFormComponentProps } from './types';
+import { type PRDFormComponentProps } from './types';
 
 const PRDFormComponent: React.FC<PRDFormComponentProps> = ({ control, handleOnSubmit }) => {
 	return (
@@ -25,16 +25,16 @@ const PRDFormComponent: React.FC<PRDFormComponentProps> = ({ control, handleOnSu
 			<Controller
 				defaultValue=''
 				control={control}
-				name='prdName'
+				name='projectName'
 				render={({ formState: { errors }, field: { onChange, value } }) => (
 					<>
 						<TextField
-              error={errors.prdName ? true : false}
+              error={errors.projectName ? true : false}
 							placeholder='Type your project name'
               label='Project name'
 							variant='outlined'
 							size='small'
-              // helperText={errors.prdName?.message}
+              // helperText={errors.projectName?.message}
 							InputProps={{
 								sx: {
 									width: '12rem',

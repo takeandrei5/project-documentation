@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-import type { Editor as TinyMCEEditor } from 'tinymce';
+import { type Editor as TinyMCEEditor } from 'tinymce';
 
 const NavbarLayoutRightSide: React.FC = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
@@ -29,6 +29,7 @@ const NavbarLayoutRightSide: React.FC = () => {
 					powerpaste_html_import: 'clean',
 					icons: 'material'
 				}}
+
 			/>
 			<button onClick={log}>Log editor content</button>
 		</>
