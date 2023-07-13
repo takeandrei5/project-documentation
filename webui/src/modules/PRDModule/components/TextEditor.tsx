@@ -1,11 +1,14 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
+import { useTextEditor } from './hooks';
 import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
 
 import './tinyMce.css';
 
 const TextEditor = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
+
+	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, isCharacterInsertedInFirstLineElement } = useTextEditor();
 
 	const log = () => {
 		if (editorRef.current) {
@@ -41,19 +44,18 @@ const TextEditor = () => {
 					icons: 'material',
 					setup: function (editor: TinyMCEEditor) {
 						editor.on('dblclick', function (e: EditorEvent<MouseEvent>) {
-							const quickToolbarNode: Element = document.getElementsByClassName('tox tox-silver-sink tox-tinymce-aux')[0];
-							const iframe: HTMLIFrameElement = document.getElementsByTagName('iframe')[0];
-							const tinyMceBodyNode: Element | null | undefined = iframe.contentDocument?.getElementById('tinymce');
+							const quickToolbarElement: Element = getQuickToolbarElement();
+							const firstChildNode: ChildNode = getTinyMceFirstLineNode();
 
-							if (!tinyMceBodyNode || !tinyMceBodyNode.firstChild) {
-								return;
-							}
-
-							const tinyMceBodyNodeAttributes = tinyMceBodyNode.firstChild;
-							if (e.target === tinyMceBodyNodeAttributes) {
-								quickToolbarNode.setAttribute('style', 'display: none');
+							if (e.target === firstChildNode) {
+								quickToolbarElement.setAttribute('style', 'display: none');
 							} else {
-								quickToolbarNode.setAttribute('style', 'position: relative');
+								quickToolbarElement.setAttribute('style', 'position: relative');
+							}
+						});
+						editor.on('keydown', function (e: EditorEvent<KeyboardEvent>) {
+							if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
+								e.preventDefault();
 							}
 						});
 					}
