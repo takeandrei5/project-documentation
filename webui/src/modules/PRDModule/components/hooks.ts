@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
+import type { Editor as TinyMCEEditor } from 'tinymce';
 
 const useTextEditor = () => {
 	const getQuickToolbarElement = (): Element => {
