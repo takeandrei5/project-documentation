@@ -1,4 +1,12 @@
 div.tox.tox-tinymce {
-  border: 0 !important;
-  border-radius: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+}
+
+:is(body > p:first-child, body:before) {
+  font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #37352f;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { Editor as TinyMCEEditor } from 'tinymce';
+import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
 
 const useTextEditor = () => {
 	const getQuickToolbarElement = (): Element => {
@@ -22,14 +22,21 @@ const useTextEditor = () => {
 		return firstLineNode;
 	};
 
+  const getTinyMceFirstLineElement = (): Element => {
+		const bodyElement: Element = getTinyMceBodyElement();
+		const firstLineElement: Element = bodyElement.firstElementChild!;
+
+		return firstLineElement;
+	};
+
 	const isCharacterInsertedInFirstLineElement = (editor: TinyMCEEditor): boolean => {
 		const firstChildNode: ChildNode = getTinyMceFirstLineNode();
-		const isInsertedInFirstNode = editor.dom.getParent(editor.selection.getStart(), 'p')!.isSameNode(firstChildNode);
+		const isInsertedInFirstNode = editor.selection.getNode().isSameNode(firstChildNode);
 
 		return isInsertedInFirstNode;
 	};
 
-	return { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, isCharacterInsertedInFirstLineElement };
+	return { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
 };
 
 export { useTextEditor };

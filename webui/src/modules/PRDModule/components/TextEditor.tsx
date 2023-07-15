@@ -1,14 +1,15 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import { useTextEditor } from './hooks';
-import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
+import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
 
 import './tinyMce.css';
 
 const TextEditor = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
+	const currentFocusedElement = useRef<Element | null>(null);
 
-	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, isCharacterInsertedInFirstLineElement } = useTextEditor();
+	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } = useTextEditor();
 
 	const log = () => {
 		if (editorRef.current) {
@@ -27,15 +28,24 @@ const TextEditor = () => {
 					menubar: false,
 					toolbar: false,
 					statusbar: false,
+          placeholder: 'Untitled',
 					quickbars_selection_toolbar: 'bold italic underline strikethrough blocks' + '| indent outdent' + '| alignleft aligncenter alignjustify alignright' + '| backcolor forecolor' + '| bullist checklist numlist' + '| link',
-					content_style: `body p:first-child {
-            font-family: ui-sans-serif, -apple-system, "system-ui",
-              "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
-              "Segoe UI Emoji", "Segoe UI Symbol";
-            font-size: 40px;
-            font-weight: 700;
+					content_style: `
+          & {
+            font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+          }
+
+          body > p:first-child {
+            font-size: 2.5rem;
             line-height: 1.2;
-            color: #37352F
+            font-weight: 700;
+            color: #37352F;
+          }
+
+          body[aria-placeholder="Untitled"] {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            opacity: 0.3;
           }
 
           p {
@@ -53,9 +63,31 @@ const TextEditor = () => {
 								quickToolbarElement.setAttribute('style', 'position: relative');
 							}
 						});
+
 						editor.on('keydown', function (e: EditorEvent<KeyboardEvent>) {
 							if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
 								e.preventDefault();
+							}
+
+							if (currentFocusedElement.current && e.key === 'a') {
+								editor.selection.select(currentFocusedElement.current);
+							} else {
+								currentFocusedElement.current = null;
+							}
+
+							if (e.ctrlKey || e.metaKey) {
+								currentFocusedElement.current = editor.selection.getNode();
+							}
+						});
+
+						editor.on('NodeChange', function (e: EditorEvent<Events.NodeChangeEvent>) {
+							const quickToolbarElement: Element = getQuickToolbarElement();
+							const firstChildElement: Element = getTinyMceFirstLineElement();
+
+							if (e.element === firstChildElement || !e.element.innerHTML) {
+								quickToolbarElement.setAttribute('style', 'display: none');
+							} else {
+								quickToolbarElement.setAttribute('style', 'position: relative');
 							}
 						});
 					}
