@@ -1,6 +1,4 @@
-﻿using ProjectDocumentation.Web.Errors;
-
-namespace ProjectDocumentation.Web.Domain.Errors;
+﻿namespace ProjectDocumentation.Web.Domain.Errors;
 
 public sealed class ServerError : BaseError
 {

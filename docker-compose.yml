@@ -11,10 +11,13 @@ services:
       context: ./server
       dockerfile: Web/WebApi/Dockerfile
     container_name: project-documentation-webapi
-    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - ASPNETCORE_URLS=${ASPNETCORE_WEBAPI_URLS}
+      - ASPNETCORE_AUTH0_DOMAIN=${ASPNETCORE_AUTH0_DOMAIN}
+      - ASPNETCORE_AUTH0_CLIENT_ID=${ASPNETCORE_AUTH0_CLIENT_ID}
+      - ASPNETCORE_AUTH0_AUDIENCE=${ASPNETCORE_AUTH0_AUDIENCE}
+      - ConnectionStrings__DefaultConnection=${ASPNETCORE_WEB_CONNECTION_STRING}
     ports:
       - 81:81
     networks:

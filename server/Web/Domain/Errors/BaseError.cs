@@ -1,4 +1,4 @@
-﻿namespace ProjectDocumentation.Web.Errors;
+﻿namespace ProjectDocumentation.Web.Domain.Errors;
 
 public abstract class BaseError
 {
@@ -8,7 +8,7 @@ public abstract class BaseError
 
     public abstract string Title { get; }
 
-    public abstract string { type get; }
+    public abstract string Type { get; }
 
     protected BaseError(int status, string message)
     {

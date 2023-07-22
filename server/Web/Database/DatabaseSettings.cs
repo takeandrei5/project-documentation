@@ -1,26 +1,31 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using ProjectDocumentation.Web.Common.Attributes;
 
 namespace ProjectDocumentation.Web.Database;
 
 public sealed class DatabaseSettings
 {
-    public required string ConnectionString { get; init; } = null!;
+    private const string DATABASE_NAME ="project-documentation";
+    
+    public required string ConnectionString { get; set; } = null!;
 
-    public required string DatabaseName { get; init; } = null!;
-
-    public required string CollectionName { get; init; } = null!;
-
-    public IMongoCollection<T> GetMongoCollection<T>()
+    internal IMongoCollection<T> GetMongoCollection<T>()
     {
         var settings = MongoClientSettings.FromConnectionString(ConnectionString);
         settings.LinqProvider = LinqProvider.V3;
 
         var mongoClient = new MongoClient(settings);
-        var mongoDatabase = mongoClient.GetDatabase(DatabaseName);
-
-        var mongoCollection = mongoDatabase.GetCollection<T>(CollectionName);
+        var mongoDatabase = mongoClient.GetDatabase(DATABASE_NAME);
+        
+        var mongoCollection = mongoDatabase.GetCollection<T>(GetCollectionName<T>());
 
         return mongoCollection;
+    }
+    
+    private static string GetCollectionName<T>()
+    {
+        return (typeof(T).GetCustomAttributes(typeof(BsonCollectionAttribute), true).FirstOrDefault()
+            as BsonCollectionAttribute).CollectionName;
     }
 }

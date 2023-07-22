@@ -1,9 +1,21 @@
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 const axiosInstance: AxiosInstance = axios.create({
-	baseURL: '/api',
+	baseURL: import.meta.env.VITE_BASE_URL,
 	validateStatus: (status: number) => status < 500
 });
+
+export const injectAccessToken = (accessToken: string): void => {
+	axiosInstance.interceptors.request.use(
+		(config) => {
+			config.headers.Authorization = `Bearer ${accessToken}`;
+			return config;
+		},
+		(error) => {
+			return Promise.reject(error);
+		}
+	);
+};
 
 axiosInstance.interceptors.response.use((response: AxiosResponse) => {
 	handleDates(response.data);

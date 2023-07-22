@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { type AxiosResponse } from 'axios';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { createProjectApi } from '../../../api';
 import { prdSchema, type PRDValidationSchema } from './schema';
 
@@ -9,9 +11,11 @@ const useCreatePRDContainer = () => {
 		resolver: zodResolver(prdSchema)
 	});
 
+  const navigate = useNavigate();
+
 	const { mutate: createProjectMutate } = useMutation(createProjectApi, {
-		onSuccess: (response) => {
-			console.log(response);
+		onSuccess: (response: AxiosResponse<null>) => {
+      navigate(response.headers.location);
 		}
 	});
 
