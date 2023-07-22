@@ -8,13 +8,16 @@
     <RootNamespace>ProjectDocumentation.Web.WebApi</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <UserSecretsId>e595dcf2-30b2-4097-9fc8-cfe21d8e11dd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Ardalis.ApiEndpoints" Version="4.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="SoftwareCraft.Maybe" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 

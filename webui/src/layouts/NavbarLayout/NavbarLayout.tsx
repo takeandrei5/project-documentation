@@ -1,7 +1,7 @@
 import Split from 'react-split';
 import { Box } from '@mui/material';
 
-import type { NavbarLayoutProps } from './types';
+import { type NavbarLayoutProps } from './types';
 
 const NavbarLayout: React.FC<NavbarLayoutProps> = ({ leftComponent, rightComponent }: NavbarLayoutProps) => {
 	return (
