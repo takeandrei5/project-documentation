@@ -1,0 +1,12 @@
+div.tox.tox-tinymce {
+	border: 0 !important;
+	border-radius: 0 !important;
+}
+
+div.tox.tox-tinymce-aux button[aria-label="Toggle accordion"]{
+  display: none !important;
+}
+
+div.tox-dialog--width-md {
+  max-width: 76% !important;
+}

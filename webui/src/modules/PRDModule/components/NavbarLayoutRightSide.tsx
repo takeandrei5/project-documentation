@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 
-import TextEditor from './TextEditor';
+import { TextEditor } from './TextEditor';
 
 const NavbarLayoutRightSide: React.FC = () => {
 	return (
-		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF' }}>
-      <TextEditor />
+		<Box sx={{ overflowY: 'auto', overflowX: 'hidden', height: '100%', maxHeight: '100%', width: '100%', maxWidth: '100%', bgcolor: '#FFFFFF', padding: '2rem' }}>
+			<TextEditor />
 		</Box>
 	);
 };

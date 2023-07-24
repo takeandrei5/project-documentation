@@ -19,7 +19,7 @@ services:
       - ASPNETCORE_AUTH0_AUDIENCE=${ASPNETCORE_AUTH0_AUDIENCE}
       - ConnectionStrings__DefaultConnection=${ASPNETCORE_WEB_CONNECTION_STRING}
     ports:
-      - 81:81
+      - "81:81"
     networks:
       - project-documentation-network
 
@@ -31,7 +31,7 @@ services:
     container_name: project-documentation-webui
     restart: on-failure
     ports:
-      - 3000:3000
+      - "3000:3000"
     networks:
       - project-documentation-network
     environment:
@@ -50,7 +50,7 @@ services:
       context: ./network
       dockerfile: ./Nginx/Dockerfile
     ports:
-      - 80:80
+      - "80:80"
     container_name: project-documentation-nginx
     networks:
       - project-documentation-network
