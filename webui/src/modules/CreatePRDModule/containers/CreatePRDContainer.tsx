@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 const CreatePRDContainer: React.FC = () => {
   const [projectName, setProjectName] = useState<string>('');
-
 	return (
 		<Box sx={{ display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
 			<Box

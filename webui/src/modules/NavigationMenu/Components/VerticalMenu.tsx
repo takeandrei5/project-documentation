@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {Dispatch, FC, useState} from 'react'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import MenuItem from '@mui/material/MenuItem'
@@ -6,18 +7,18 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Typography from '@mui/material/Typography'
 import {Box, ClickAwayListener, Icon, ListItemButton, Snackbar} from '@mui/material'
-import {Dispatch, FC, useState} from 'react'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import Menu from '@mui/material/Menu'
 import RenameFileComponent from './RenameFileComponent'
-import {TreeDataProps} from './NavigationMenuBody'
 import useCopyToClipboard from '../../../hooks/useCopyToClipboard'
+import {v4 as uuidv4} from 'uuid'
+import {TreeDataValues} from '../types'
 
 type MenuProps = {
-  setTreeData:Dispatch<React.SetStateAction<TreeDataProps[]>>
+  setTreeData:Dispatch<React.SetStateAction<TreeDataValues[]>>
   nodeId:number
   text:string
-  treeData:TreeDataProps[]
+  treeData:TreeDataValues[]
   link:string
 }
 const icons = {
@@ -52,7 +53,19 @@ const VerticalMenu:FC<MenuProps> = ({nodeId, setTreeData, text, treeData, link})
   const renameFileHandler = (ev):void => {
     setRenameFile(ev.target.value)
   }
-
+  const addNewProjectHandler = () => {
+    const newTreeData = {
+      parent: 0,
+      id: 99,
+      text: 'new project',
+      droppable: true,
+      iconName: 'folder_open',
+      link: '/project-description/2',
+    }
+    const newTreeDataArr = [...treeData, newTreeData]
+    setTreeData(newTreeDataArr)
+    handleClose()
+  }
   const openRenameFileHandler = ():void => {
     setRenameIsOpen(!renameIsOpen)
     handleClose()
@@ -88,23 +101,35 @@ const VerticalMenu:FC<MenuProps> = ({nodeId, setTreeData, text, treeData, link})
     handleClose()
   }
 
-  const deleteItem = (data) => {
+  const deleteItem = (data):TreeDataValues[] => {
     const filteredData = data.filter((item) => item.id !== nodeId)
-    return filteredData.filter((item, index) => {
-      const hasChildren = treeData.some((child) => child.parent === item.id)
-      if (hasChildren) {
-        filteredData[index].droppable = true
-        //        item.droppable = true
-      } else {
-        filteredData[index].droppable = false
-      }
+    return filteredData.filter((item) => {
+      item.droppable = treeData.some((child) => child.parent === item.id);
       return true // Keep root items or items without remaining children
     })
   }
+
   const handleDelete = () => {
     const updatedData = deleteItem([...treeData])
     setTreeData(updatedData)
   }
+
+  const duplicateNode = (nodeId, parentId = null) => {
+    const selectedNode = treeData.find((item) => item.id === nodeId) //PROJECT MANAGEMENT node
+    const newSelectedNodeId = uuidv4()
+    const newSelectedNode = {...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)`}
+    let newNodes = [newSelectedNode]
+    treeData.filter((item) => item.parent === selectedNode.id).forEach((item) => {
+      newNodes = [...newNodes, ...duplicateNode(item.id, newSelectedNodeId)]
+    })
+    return newNodes
+  }
+  const duplicateNodeHandler = ():void => {
+    const arr = duplicateNode(nodeId)
+    setTreeData([...treeData, ...arr])
+
+  }
+
   return (
     <Box sx={{position: 'relative'}}>
       <ListItemButton id={buttonId}
@@ -178,7 +203,8 @@ const VerticalMenu:FC<MenuProps> = ({nodeId, setTreeData, text, treeData, link})
             ⌘C
           </Typography>
         </MenuItem>
-        <MenuItem>
+        {/*<MenuItem onClick={handleDuplicate}>*/}
+        <MenuItem onClick={duplicateNodeHandler}>
           <ListItemIcon>
             <Icon>{icons.content_paste}</Icon>
           </ListItemIcon>
@@ -197,7 +223,7 @@ const VerticalMenu:FC<MenuProps> = ({nodeId, setTreeData, text, treeData, link})
           </Typography>
         </MenuItem>
         <Divider/>
-        <MenuItem>
+        <MenuItem onClick={addNewProjectHandler}>
           <ListItemIcon>
             <Icon>{icons.cloud}</Icon>
           </ListItemIcon>
