@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectDocumentation.Web.Application.UseCases.Projects.CreateProject;
 using ProjectDocumentation.Web.Domain.Entities.Projects;
-using ProjectDocumentation.Web.Domain.Entities.Users;
 
 namespace ProjectDocumentation.Web.WebApi.Endpoints.Projects;
 
@@ -11,7 +10,10 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
 {
     private readonly Command _command;
 
-    public Create(Command command) => _command = command;
+    public Create(Command command)
+    {
+        _command = command;
+    }
 
     [HttpPost]
     [Produces("application/json")]
@@ -23,12 +25,13 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
         CancellationToken cancellationToken = default)
     {
         var commandResult = await _command.ExecuteAsync(new CommandInput
-        {
-            ProjectName = new ProjectName(request.ProjectName),
-            UserEmail = new UserEmail("test@test.com")
-        }, cancellationToken);
+            {
+                ProjectName = new ProjectName(request.ProjectName)
+            },
+            cancellationToken);
 
-        return commandResult.Match<ActionResult>(projectId => Created($"/project-documentation/{projectId.Value}", null),
+        return commandResult.Match<ActionResult>(projectId =>
+                Created($"/project-documentation/{projectId.Value}", null),
             error => Problem(error.Message, HttpContext.Request.Path, error.Status, error.Title, error.Type));
     }
 }

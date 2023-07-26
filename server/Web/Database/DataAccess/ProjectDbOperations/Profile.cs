@@ -1,7 +1,7 @@
 using ProjectDocumentation.Web.Database.Persistence.Entities;
 using ProjectDocumentation.Web.Domain.Entities.Projects;
 
-namespace ProjectDocumentation.Web.Database.DataAccess.Pro;
+namespace ProjectDocumentation.Web.Database.DataAccess.ProjectDbOperations;
 
 public sealed class Profile : AutoMapper.Profile
 {

@@ -1,4 +1,4 @@
-﻿namespace ProjectDocumentation.Web.Errors;
+﻿namespace ProjectDocumentation.Web.Domain.Errors;
 
 public abstract class BaseError
 {
