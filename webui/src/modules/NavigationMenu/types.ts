@@ -1,21 +1,12 @@
-import {Dispatch, SetStateAction} from 'react'
+import type { NodeModel } from '@minoru/react-dnd-treeview';
+import type { Dispatch, SetStateAction } from 'react';
 
-type TreeDataValues = {
-  id:number
-  parent:number
-  droppable?:boolean
-  text:string
-  iconName?:string
-  link:string
-  data?:{
-    fileType?:string
-    fileSize?:string
-  }
-}
+export type TreeDataValues = {
+	iconName?: string;
+  link: string;
+};
 
-type TreeDataProps = {
-  treeData:TreeDataValues[]
-  setTreeData:Dispatch<SetStateAction<TreeDataValues[]>>
-}
-
-export {TreeDataValues, TreeDataProps}
+export type TreeDataProps = {
+	treeData: NodeModel<TreeDataValues>[];
+	setTreeData: Dispatch<SetStateAction<NodeModel<TreeDataValues>[]>>;
+};

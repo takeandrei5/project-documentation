@@ -1,14 +1,14 @@
-function useCopyToClipboard() {
-  const copyToClipboard = async (text:string) => {
-    try {
-      const res = await navigator.clipboard.writeText(text)
-      console.log('res', res)
-      return {status: 'success'}
-    } catch (e) {
-      throw e
-    }
-  }
-  return {copyToClipboard}
-}
+const useCopyToClipboard = () => {
+	const copyToClipboard = async (
+		text: string
+	): Promise<{
+		status: string;
+	}> => {
+		await navigator.clipboard.writeText(text);
+		return { status: 'success' };
+	};
 
-export default useCopyToClipboard
+	return { copyToClipboard };
+};
+
+export { useCopyToClipboard };
