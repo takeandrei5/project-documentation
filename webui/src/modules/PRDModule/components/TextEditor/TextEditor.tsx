@@ -1,9 +1,10 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
-import { useTextEditor } from './hooks/useTextEditor';
+import { useAi } from './hooks/useAi';
 import { useCallout } from './hooks/useCallout';
 import { useSlashCommand } from './hooks/useSlashCommand';
+import { useTextEditor } from './hooks/useTextEditor';
 
 import './tinyMce.css';
 
@@ -14,15 +15,13 @@ const TextEditor: React.FC = () => {
 	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } = useTextEditor();
 	const initializeSlashCommand = useSlashCommand();
 	const initializeCallout = useCallout();
+  const ai_request = useAi();
 
 	const log = function () {
 		if (editorRef.current) {
 			console.log(editorRef.current.getContent());
 		}
 	};
-
-  const fetchApi = import("https://unpkg.com/@microsoft/fetch-event-source@2.0.1/lib/esm/index.js").then(module => module.fetchEventSource);
-	const api_key = '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';
 
 	return (
 		<>
@@ -153,7 +152,9 @@ const TextEditor: React.FC = () => {
 						});
 
 						editor.on('click', function (e: EditorEvent<MouseEvent>) {
-							if (e.target.nodeName === 'SUMMARY') {
+              console.log(editor);
+
+              if (e.target.nodeName === 'SUMMARY') {
 								editor.execCommand('ToggleAccordion', false);
 							}
 						});
@@ -184,76 +185,11 @@ const TextEditor: React.FC = () => {
 								quickToolbarElement.setAttribute('style', 'position: relative');
 							}
 						});
+
 						initializeCallout(editor);
 						initializeSlashCommand(editor);
 					},
-					ai_request: function (request, respondWith) {
-						respondWith.stream((signal, streamMessage) => {
-							// Adds each previous query and response as individual messages
-							const conversation = request.thread.flatMap((event) => {
-								if (event.response) {
-									return [
-										{ role: 'user', content: event.request.query },
-										{ role: 'assistant', content: event.response.data }
-									];
-								} else {
-									return [];
-								}
-							});
-
-							// Forms the new query sent to the API
-							const content = request.context.length === 0 || conversation.length > 0 ? request.query : `Question: ${request.query} Context: """${request.context}"""`;
-
-							const messages = [...conversation, { role: 'system', content: request.system.join('\n') }, { role: 'user', content }];
-
-							const requestBody = {
-								model: 'gpt-3.5-turbo',
-								temperature: 0.7,
-								max_tokens: 800,
-								messages,
-								stream: true
-							};
-
-							const openAiOptions = {
-								signal,
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									Authorization: `Bearer ${api_key}`
-								},
-								body: JSON.stringify(requestBody)
-							};
-
-							// This function passes each new message into the plugin via the `streamMessage` callback.
-							const onmessage = (ev) => {
-								const data = ev.data;
-								if (data !== '[DONE]') {
-									const parsedData = JSON.parse(data);
-									const firstChoice = parsedData?.choices[0];
-									const message = firstChoice?.delta?.content;
-									if (message) {
-										streamMessage(message);
-									}
-								}
-							};
-
-							const onerror = (error) => {
-								// Stop operation and do not retry by the fetch-event-source
-								throw error;
-							};
-
-							// Use microsoft's fetch-event-source library to work around the 2000 character limit
-							// of the browser `EventSource` API, which requires query strings
-							return fetchApi.then((fetchEventSource) =>
-								fetchEventSource('https://api.openai.com/v1/chat/completions', {
-									...openAiOptions,
-									openWhenHidden: true,
-									onmessage,
-									onerror
-								})
-							);
-						});
-					}
+					ai_request,
 				}}
 			/>
 			<button onClick={log}>Log editor content</button>
