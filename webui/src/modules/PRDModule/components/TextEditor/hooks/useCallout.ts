@@ -2,7 +2,6 @@ import type { Editor as TinyMCEEditor } from 'tinymce';
 
 const useCallout = () => {
   const initializeCallout = (editor: TinyMCEEditor): void => {
-
     editor.ui.registry.addIcon(
       'callout',
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g><path d="M20 7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h16zm0 2H4v6h16V9z"/><path d="M7 10.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></g></svg>'
@@ -103,8 +102,7 @@ const useCallout = () => {
           return;
         }
 
-        editor.selection.select(callout);
-        editor.execCommand('delete');
+        callout.remove();
       }
     });
 
@@ -128,10 +126,10 @@ const useCallout = () => {
             icon: 'callout-swatch-blue',
             onAction: function () {
               editor.insertContent(`
-                          <div class="callout">
-                              <div class="content"><p>${editor.selection.getContent()}</p></div>
-                          </div>
-                      `);
+                <div class="callout">
+                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                </div>
+              `);
             }
           },
           {
@@ -140,10 +138,10 @@ const useCallout = () => {
             icon: 'callout-swatch-yellow',
             onAction: function () {
               editor.insertContent(`
-                          <div class="callout yellow">
-                              <div class="content"><p>${editor.selection.getContent()}</p></div>
-                          </div>
-                      `);
+                <div class="callout yellow">
+                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                </div>
+              `);
             }
           },
           {
@@ -152,10 +150,10 @@ const useCallout = () => {
             icon: 'callout-swatch-red',
             onAction: function () {
               editor.insertContent(`
-                          <div class="callout red">
-                              <div class="content"><p>${editor.selection.getContent()}</p></div>
-                          </div>
-                      `);
+                <div class="callout red">
+                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                </div>
+              `);
             }
           },
           {
@@ -164,10 +162,10 @@ const useCallout = () => {
             icon: 'callout-swatch-orange',
             onAction: function () {
               editor.insertContent(`
-                          <div class="callout orange">
-                              <div class="content"><p>${editor.selection.getContent()}</p></div>
-                          </div>
-                      `);
+                <div class="callout orange">
+                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                </div>
+              `);
             }
           }
         ];
