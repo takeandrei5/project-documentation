@@ -3,11 +3,11 @@ import { useRef } from 'react';
 import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
 import { useAi } from './hooks/useAi';
 import { useCallout } from './hooks/useCallout';
+import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useSlashCommand } from './hooks/useSlashCommand';
 import { useTextEditor } from './hooks/useTextEditor';
 
 import './tinyMce.css';
-import { useDragAndDrop } from './hooks/useDragAndDrop';
 
 const TextEditor: React.FC = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
