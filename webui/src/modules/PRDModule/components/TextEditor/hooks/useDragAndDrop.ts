@@ -1,9 +1,10 @@
 import { useRef } from 'react';
 import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
 import { useTextEditor } from './useTextEditor';
+import { parse } from 'node-html-parser';
 
 const useDragAndDrop = () => {
-	const { getTinyMceDocumentElement, getTinyMceFirstLineElement } = useTextEditor();
+	const { covertStringToHTMElement, getTinyMceDocumentElement, getTinyMceFirstLineElement } = useTextEditor();
 	const currentMouseOveredElement = useRef<Element | null>(null);
 
 	const dragElementSvg = `
@@ -20,6 +21,7 @@ const useDragAndDrop = () => {
 		editor.on('mouseover', function (e: EditorEvent<MouseEvent>) {
 			const element = e.target as Element;
 			const documentElement: Document = getTinyMceDocumentElement();
+      const draggableSvgIcon: HTMLElement = covertStringToHTMElement(dragElementSvg);
 
 			if (element.nodeName === 'HTML' || element.nodeName === 'BODY' || element === getTinyMceFirstLineElement()) {
 				return;
@@ -42,10 +44,7 @@ const useDragAndDrop = () => {
 			dragElement.style.top = `${boundingClientRect.top}px`;
 			dragElement.style.left = `${boundingClientRect.left - 27}px`;
 
-			const DragElementSvg = document.createElement('div');
-			DragElementSvg.innerHTML = dragElementSvg;
-
-			dragElement.appendChild(DragElementSvg.firstElementChild!);
+			dragElement.appendChild(draggableSvgIcon);
 			dragElement.addEventListener('dragstart', (e: DragEvent) => {
 				if (!currentMouseOveredElement.current) {
 					return;

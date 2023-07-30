@@ -2,6 +2,13 @@
 import type { Editor as TinyMCEEditor } from 'tinymce';
 
 const useTextEditor = () => {
+  const covertStringToHTMElement = (htmlString: string): HTMLElement => {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(htmlString, 'text/html');
+
+    return htmlDoc.body.firstChild as HTMLElement;
+  }
+
 	const getQuickToolbarElement = (): Element => {
 		const quickToolbarNode: Element = document.getElementsByClassName('tox tox-silver-sink tox-tinymce-aux')[0];
 
@@ -41,7 +48,7 @@ const useTextEditor = () => {
 		return isInsertedInFirstNode;
 	};
 
-	return { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
+	return { covertStringToHTMElement, getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
 };
 
 export { useTextEditor };
