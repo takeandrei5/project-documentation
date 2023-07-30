@@ -7,15 +7,18 @@ import { useSlashCommand } from './hooks/useSlashCommand';
 import { useTextEditor } from './hooks/useTextEditor';
 
 import './tinyMce.css';
+import { useDragAndDrop } from './hooks/useDragAndDrop';
 
 const TextEditor: React.FC = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
 	const currentFocusedElement = useRef<Element | null>(null);
 
-	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } = useTextEditor();
+	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } =
+		useTextEditor();
 	const initializeSlashCommand = useSlashCommand();
 	const initializeCallout = useCallout();
-  const ai_request = useAi();
+	const initializeAiRequest = useAi();
+	const initializeDragAndDrop = useDragAndDrop();
 
 	const log = function () {
 		if (editorRef.current) {
@@ -31,20 +34,25 @@ const TextEditor: React.FC = () => {
 				initialValue='This is the initial content of the editor.'
 				plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
 				init={{
-          menubar: false,
+					menubar: false,
 					toolbar: false,
 					statusbar: false,
 					placeholder: 'Untitled',
 					font_size_input_default_unit: 'px',
 					font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
 					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-					quickbars_selection_toolbar: 'bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+					quickbars_selection_toolbar:
+						'bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
 					quickbars_insert_toolbar: false,
 					noneditable_noneditable_class: 'callout',
 					content_style: `
           * {
             box-sizing: border-box !important;
             font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+          }
+
+          html {
+            padding: 2rem 4rem 2rem 4rem;
           }
 
           body {
@@ -137,8 +145,33 @@ const TextEditor: React.FC = () => {
             visibility: visible;
             border-top: 1px solid rgba(55, 53, 47, 0.16);
           }
+
+          div#drag-element-container {
+            height: 1.5rem;
+            width: 1.25rem;
+            border-radius: 0.25rem;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            fill: rgba(55, 53, 47, 0.35);
+            user-select: none;
+            pointer-events: cursor;
+            position: absolute;
+            z-index: 1000;
+            margin-right: 0.125rem;
+          }
+
+          div#drag-element-container:hover {
+            background: rgba(55, 53, 47, 0.08);
+          }
           `,
 					icons: 'material',
+					init_instance_callback: (editor) => {
+						editor.on('ExecCommand', (e) => {
+							console.log(`The ${e.command} command was fired.`);
+						});
+					},
 					setup: function (editor: TinyMCEEditor) {
 						editor.on('dblclick', function (e: EditorEvent<MouseEvent>) {
 							const quickToolbarElement: Element = getQuickToolbarElement();
@@ -152,9 +185,7 @@ const TextEditor: React.FC = () => {
 						});
 
 						editor.on('click', function (e: EditorEvent<MouseEvent>) {
-              console.log(editor);
-
-              if (e.target.nodeName === 'SUMMARY') {
+							if (e.target.nodeName === 'SUMMARY') {
 								editor.execCommand('ToggleAccordion', false);
 							}
 						});
@@ -188,8 +219,9 @@ const TextEditor: React.FC = () => {
 
 						initializeCallout(editor);
 						initializeSlashCommand(editor);
+						initializeDragAndDrop(editor);
 					},
-					ai_request,
+					ai_request: initializeAiRequest
 				}}
 			/>
 			<button onClick={log}>Log editor content</button>

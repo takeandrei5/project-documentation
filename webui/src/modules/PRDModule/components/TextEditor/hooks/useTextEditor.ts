@@ -8,6 +8,11 @@ const useTextEditor = () => {
 		return quickToolbarNode;
 	};
 
+	const getTinyMceDocumentElement = (): Document => {
+		const iframe: HTMLIFrameElement = document.getElementsByTagName('iframe')[0];
+		return iframe.contentDocument!;
+	};
+
 	const getTinyMceBodyElement = (): Element => {
 		const iframe: HTMLIFrameElement = document.getElementsByTagName('iframe')[0];
 		const tinyMceBodyNode: Element = iframe.contentDocument!.getElementById('tinymce')!;
@@ -22,7 +27,7 @@ const useTextEditor = () => {
 		return firstLineNode;
 	};
 
-  const getTinyMceFirstLineElement = (): Element => {
+	const getTinyMceFirstLineElement = (): Element => {
 		const bodyElement: Element = getTinyMceBodyElement();
 		const firstLineElement: Element = bodyElement.firstElementChild!;
 
@@ -36,7 +41,7 @@ const useTextEditor = () => {
 		return isInsertedInFirstNode;
 	};
 
-	return { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
+	return { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
 };
 
 export { useTextEditor };
