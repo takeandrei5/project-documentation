@@ -1,10 +1,11 @@
 import type { Editor as TinyMCEEditor } from 'tinymce';
+import {calloutSvg} from '../../../../../assets/svg'
 
 const useCallout = () => {
   const initializeCallout = (editor: TinyMCEEditor): void => {
     editor.ui.registry.addIcon(
       'callout',
-      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g><path d="M20 7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h16zm0 2H4v6h16V9z"/><path d="M7 10.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></g></svg>'
+      calloutSvg
     );
     editor.ui.registry.addIcon('callout-swatch-blue', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#76B8E4" fill-rule="evenodd" rx="2"/></svg>');
     editor.ui.registry.addIcon('callout-swatch-yellow', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#FAD281" fill-rule="evenodd" rx="2"/></svg>');

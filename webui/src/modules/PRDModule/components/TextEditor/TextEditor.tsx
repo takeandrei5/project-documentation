@@ -1,51 +1,53 @@
-import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
-import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
-import { useAi } from './hooks/useAi';
-import { useCallout } from './hooks/useCallout';
-import { useDragAndDrop } from './hooks/useDragAndDrop';
-import { useSlashCommand } from './hooks/useSlashCommand';
-import { useTextEditor } from './hooks/useTextEditor';
+import {Editor} from '@tinymce/tinymce-react'
+import {useRef} from 'react'
+import type {EditorEvent, Events, Editor as TinyMCEEditor} from 'tinymce'
+import {useAi} from './hooks/useAi'
+import {useCallout} from './hooks/useCallout'
+import {useDragAndDrop} from './hooks/useDragAndDrop'
+import {useSlashCommand} from './hooks/useSlashCommand'
+import {useTextEditor} from './hooks/useTextEditor'
 
-import './tinyMce.css';
+import './tinyMce.css'
+import {useComponent} from './hooks/useComponent'
 
-const TextEditor: React.FC = () => {
-	const editorRef = useRef<TinyMCEEditor | null>(null);
-	const currentFocusedElement = useRef<Element | null>(null);
+const TextEditor:React.FC = () => {
+  const editorRef = useRef<TinyMCEEditor | null>(null)
+  const currentFocusedElement = useRef<Element | null>(null)
 
-	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } =
-		useTextEditor();
-	const initializeSlashCommand = useSlashCommand();
-	const initializeCallout = useCallout();
-	const initializeAiRequest = useAi();
-	const initializeDragAndDrop = useDragAndDrop();
+  const {getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement} =
+          useTextEditor()
+  const initializeSlashCommand = useSlashCommand()
+  const initializeCallout = useCallout()
+  const initializeAiRequest = useAi()
+  const initializeDragAndDrop = useDragAndDrop()
+  const initializeComponent = useComponent()
 
-	const log = function () {
-		if (editorRef.current) {
-			console.log(editorRef.current.getContent());
-		}
-	};
+  const log = function () {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent())
+    }
+  }
 
-	return (
-		<>
-			<Editor
-				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
-				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
-				initialValue='This is the initial content of the editor.'
-				plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
-				init={{
-					menubar: false,
-					toolbar: false,
-					statusbar: false,
-					placeholder: 'Untitled',
-					font_size_input_default_unit: 'px',
-					font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
-					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-					quickbars_selection_toolbar:
-						'bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
-					quickbars_insert_toolbar: false,
-					noneditable_noneditable_class: 'callout',
-					content_style: `
+  return (
+    <>
+      <Editor
+        apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
+        onInit={(_, editor:TinyMCEEditor) => (editorRef.current = editor)}
+        initialValue="This is the initial content of the editor."
+        plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
+        init={{
+          menubar: false,
+          toolbar: false,
+          statusbar: false,
+          placeholder: 'Untitled',
+          font_size_input_default_unit: 'px',
+          font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
+          table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+          quickbars_selection_toolbar:
+            'bold italic underline strikethrough link fontsize blockquote callout component | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+          quickbars_insert_toolbar: false,
+          noneditable_noneditable_class: 'callout',
+          content_style: `
           * {
             box-sizing: border-box !important;
             font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -110,14 +112,23 @@ const TextEditor: React.FC = () => {
           }
 
           .callout p {
-              margin: 0;
+            margin: 0;
           }
 
           details.mce-accordion {
             outline: 0 !important;
             width: fit-content;
           }
-
+          
+          .component {
+            padding: .5rem 1rem .5rem 1.5rem;
+            background: transparent;
+            border: 3px solid #ff9494;
+            border-radius:4px;
+            color: #5D7F95;
+            font-size: 14px;
+          }
+          
           details.mce-accordion summary.mce-accordion-summary {
             outline: 0 !important;
           }
@@ -166,67 +177,68 @@ const TextEditor: React.FC = () => {
             background: rgba(55, 53, 47, 0.08);
           }
           `,
-					icons: 'material',
-					init_instance_callback: (editor) => {
-						editor.on('ExecCommand', (e) => {
-							console.log(`The ${e.command} command was fired.`);
-						});
-					},
-					setup: function (editor: TinyMCEEditor) {
-						editor.on('dblclick', function (e: EditorEvent<MouseEvent>) {
-							const quickToolbarElement: Element = getQuickToolbarElement();
-							const firstChildNode: ChildNode = getTinyMceFirstLineNode();
+          icons: 'material',
+          init_instance_callback: (editor) => {
+            editor.on('ExecCommand', (e) => {
+              console.log(`The ${e.command} command was fired.`)
+            })
+          },
+          setup: function (editor:TinyMCEEditor) {
+            editor.on('dblclick', function (e:EditorEvent<MouseEvent>) {
+              const quickToolbarElement:Element = getQuickToolbarElement()
+              const firstChildNode:ChildNode = getTinyMceFirstLineNode()
 
-							if (e.target === firstChildNode) {
-								quickToolbarElement.setAttribute('style', 'display: none');
-							} else {
-								quickToolbarElement.setAttribute('style', 'position: relative');
-							}
-						});
+              if (e.target === firstChildNode) {
+                quickToolbarElement.setAttribute('style', 'display: none')
+              } else {
+                quickToolbarElement.setAttribute('style', 'position: relative')
+              }
+            })
 
-						editor.on('click', function (e: EditorEvent<MouseEvent>) {
-							if (e.target.nodeName === 'SUMMARY') {
-								editor.execCommand('ToggleAccordion', false);
-							}
-						});
+            editor.on('click', function (e:EditorEvent<MouseEvent>) {
+              if (e.target.nodeName === 'SUMMARY') {
+                editor.execCommand('ToggleAccordion', false)
+              }
+            })
 
-						editor.on('keydown', function (e: EditorEvent<KeyboardEvent>) {
-							if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
-								e.preventDefault();
-							}
+            editor.on('keydown', function (e:EditorEvent<KeyboardEvent>) {
+              if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
+                e.preventDefault()
+              }
 
-							if (currentFocusedElement.current && e.key === 'a') {
-								editor.selection.select(currentFocusedElement.current, true);
-							} else {
-								currentFocusedElement.current = null;
-							}
+              if (currentFocusedElement.current && e.key === 'a') {
+                editor.selection.select(currentFocusedElement.current, true)
+              } else {
+                currentFocusedElement.current = null
+              }
 
-							if (e.ctrlKey || e.metaKey) {
-								currentFocusedElement.current = editor.selection.getNode();
-							}
-						});
+              if (e.ctrlKey || e.metaKey) {
+                currentFocusedElement.current = editor.selection.getNode()
+              }
+            })
 
-						editor.on('NodeChange', function (e: EditorEvent<Events.NodeChangeEvent>) {
-							const quickToolbarElement: Element = getQuickToolbarElement();
-							const firstChildElement: Element = getTinyMceFirstLineElement();
+            editor.on('NodeChange', function (e:EditorEvent<Events.NodeChangeEvent>) {
+              const quickToolbarElement:Element = getQuickToolbarElement()
+              const firstChildElement:Element = getTinyMceFirstLineElement()
 
-							if (e.element === firstChildElement || !e.element.innerHTML) {
-								quickToolbarElement.setAttribute('style', 'display: none');
-							} else {
-								quickToolbarElement.setAttribute('style', 'position: relative');
-							}
-						});
+              if (e.element === firstChildElement || !e.element.innerHTML) {
+                quickToolbarElement.setAttribute('style', 'display: none')
+              } else {
+                quickToolbarElement.setAttribute('style', 'position: relative')
+              }
+            })
 
-						initializeCallout(editor);
-						initializeSlashCommand(editor);
-						initializeDragAndDrop(editor);
-					},
-					ai_request: initializeAiRequest
-				}}
-			/>
-			<button onClick={log}>Log editor content</button>
-		</>
-	);
-};
+            initializeCallout(editor)
+            initializeSlashCommand(editor)
+            initializeDragAndDrop(editor)
+            initializeComponent(editor)
+          },
+          ai_request: initializeAiRequest
+        }}
+      />
+      <button onClick={log}>Log editor content</button>
+    </>
+  )
+}
 
-export default TextEditor;
+export default TextEditor
