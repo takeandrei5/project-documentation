@@ -28,26 +28,26 @@ const TextEditor:React.FC = () => {
     }
   }
 
-  return (
-    <>
-      <Editor
-        apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
-        onInit={(_, editor:TinyMCEEditor) => (editorRef.current = editor)}
-        initialValue="This is the initial content of the editor."
-        plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
-        init={{
-          menubar: false,
-          toolbar: false,
-          statusbar: false,
-          placeholder: 'Untitled',
-          font_size_input_default_unit: 'px',
-          font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
-          table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-          quickbars_selection_toolbar:
-            'bold italic underline strikethrough link fontsize blockquote callout component | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
-          quickbars_insert_toolbar: false,
-          noneditable_noneditable_class: 'callout',
-          content_style: `
+	return (
+		<>
+			<Editor
+				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
+				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
+				initialValue='This is the initial content of the editor.'
+				plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
+				init={{
+					menubar: false,
+					toolbar: false,
+					statusbar: false,
+					placeholder: 'Untitled',
+					font_size_input_default_unit: 'px',
+					font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
+					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+					quickbars_selection_toolbar:
+						'aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+					quickbars_insert_toolbar: false,
+					noneditable_noneditable_class: 'callout',
+					content_style: `
           * {
             box-sizing: border-box !important;
             font-family: ui-sans-serif, -apple-system, 'system-ui', 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -119,7 +119,7 @@ const TextEditor:React.FC = () => {
             outline: 0 !important;
             width: fit-content;
           }
-          
+
           .component {
             padding: .5rem 1rem .5rem 1.5rem;
             background: transparent;
@@ -128,7 +128,7 @@ const TextEditor:React.FC = () => {
             color: #5D7F95;
             font-size: 14px;
           }
-          
+
           details.mce-accordion summary.mce-accordion-summary {
             outline: 0 !important;
           }

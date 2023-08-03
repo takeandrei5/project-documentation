@@ -7,6 +7,10 @@ div.tox.tox-tinymce-aux button[aria-label="Toggle accordion"]{
   display: none !important;
 }
 
+div.tox.tox-tinymce-aux div.tox-toolbar__group:first-child{
+  display: none !important;
+}
+
 div.tox-dialog--width-md {
   max-width: 76% !important;
 }
