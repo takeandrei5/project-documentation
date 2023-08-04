@@ -1,68 +1,174 @@
-import {useRef} from 'react'
-import type {EditorEvent, Editor as TinyMCEEditor} from 'tinymce'
-import {useTextEditor} from './useTextEditor'
-import {parse} from 'node-html-parser'
-import {dragElementSvg} from '../../../../../assets/svg'
+import { useRef } from 'react';
+import type { EditorEvent, Editor as TinyMCEEditor } from 'tinymce';
+import { useTextEditor } from './useTextEditor';
+import { dragElementSvg } from '../../../../../assets/svg';
 
 const useDragAndDrop = () => {
-  const {covertStringToHTMElement, getTinyMceDocumentElement, getTinyMceFirstLineElement} = useTextEditor()
-  const currentMouseOveredElement = useRef<Element | null>(null)
+	const { covertStringToHTMElement, getTinyMceDocumentElement, getTinyMceFirstLineElement } = useTextEditor();
+	const hoveredElement = useRef<HTMLElement | null>(null);
+	const draggedOverElement = useRef<HTMLElement | null>(null);
 
-  const initializeDragAndDrop = (editor:TinyMCEEditor):void => {
-    editor.on('mouseover', function (e:EditorEvent<MouseEvent>) {
-      const element = e.target as Element
-      const documentElement:Document = getTinyMceDocumentElement()
-      const draggableSvgIcon:HTMLElement = covertStringToHTMElement(dragElementSvg)
+	const reset = (): void => {
+		const documentElement: Document = getTinyMceDocumentElement();
 
-      if (element.nodeName === 'HTML' || element.nodeName === 'BODY' || element === getTinyMceFirstLineElement()) {
-        return
-      }
+		draggedOverElement.current = null;
+		hoveredElement.current = null;
 
-      if (element.nodeName === 'P') {
-        currentMouseOveredElement.current = element
-      }
+		documentElement.getElementById('ghost-element')?.remove();
+	};
 
-      const boundingClientRect:DOMRect = currentMouseOveredElement.current!.getBoundingClientRect()
+	const applyDragElementStyle = (element: HTMLElement, removeStyle = false): void => {
+		if (!removeStyle) {
+			element.style.backgroundColor = 'rgba(35, 131, 226, 0.14)';
+      element.style.backgroundClip = 'content-box';
 
-      const dragElement = documentElement.createElement('div')
+			return;
+		}
 
-      dragElement.setAttribute('id', 'drag-element-container')
-      dragElement.setAttribute('draggable', 'true')
-      dragElement.setAttribute('role', 'button')
-      dragElement.setAttribute('tabIndex', '-1')
-      dragElement.setAttribute('aria-label', 'Drag')
+		element.style.backgroundColor = '';
+    element.style.backgroundClip = '';
+	};
 
-      dragElement.style.top = `${boundingClientRect.top}px`
-      dragElement.style.left = `${boundingClientRect.left - 27}px`
+	const isNestedElement = (element: Element): boolean => {
+		if (element.parentElement && element.parentElement.nodeName !== 'BODY') {
+			return true;
+		}
 
-      dragElement.appendChild(draggableSvgIcon)
-      dragElement.addEventListener('dragstart', (e:DragEvent) => {
-        if (!currentMouseOveredElement.current) {
-          return
-        }
+		return false;
+	};
 
-        e.dataTransfer?.setDragImage(currentMouseOveredElement.current, 10, 10)
-        e.dataTransfer?.setData('text/html', currentMouseOveredElement.current.innerHTML)
-      })
+	const hideDragElementHook = (editor: TinyMCEEditor): void => {
+		editor.contentDocument.getElementById('drag-element-hook')?.remove();
+	};
 
-      dragElement.addEventListener('dragend', (e:DragEvent) => {
-        if (e.dataTransfer?.dropEffect === 'copy' && currentMouseOveredElement.current) {
-          currentMouseOveredElement.current.remove()
-          editor.selection.collapse()
-          editor.undoManager.data.pop()
-        }
-      })
+	const displayDragElementHook = (editor: TinyMCEEditor, element: Element): boolean => {
+		if (element.nodeName === 'HTML') {
+			hideDragElementHook(editor);
+			return false;
+		}
 
-      if (element.id === 'drag-element-container' || element.id === 'drag-element-svg' || element.id === 'drag-element-path') {
-        return
-      }
-      documentElement.getElementById('drag-element-container')?.remove()
+		if (element.nodeName === 'BODY') {
+			hideDragElementHook(editor);
+			return false;
+		}
 
-      element.insertAdjacentElement('afterend', dragElement)
-    })
-  }
+		if (element === getTinyMceFirstLineElement()) {
+			hideDragElementHook(editor);
+			return false;
+		}
 
-  return initializeDragAndDrop
-}
+		if (element.id === 'drag-element-hook') {
+			return false;
+		}
 
-export {useDragAndDrop}
+		if (isNestedElement(element)) {
+			return false;
+		}
+
+		return true;
+	};
+
+	const createDragElementHook = (sourceElement: HTMLElement, document: Document): HTMLElement => {
+		const boundingClientRect: DOMRect = sourceElement.getBoundingClientRect();
+
+		const dragElementContainer: HTMLDivElement = document.createElement('div');
+
+		dragElementContainer.setAttribute('id', 'drag-element-hook');
+		dragElementContainer.setAttribute('draggable', 'true');
+		dragElementContainer.setAttribute('role', 'button');
+		dragElementContainer.setAttribute('tabIndex', '-1');
+		dragElementContainer.setAttribute('aria-label', 'Drag');
+
+		dragElementContainer.style.top = `${boundingClientRect.top}px`;
+		dragElementContainer.style.left = `${boundingClientRect.left + 16}px`;
+		dragElementContainer.style.paddingLeft = '0';
+		dragElementContainer.style.paddingRight = '0';
+
+		return dragElementContainer;
+	};
+
+	const initializeDragAndDrop = (editor: TinyMCEEditor): void => {
+		editor.on('dragend', function () {
+			if (!hoveredElement.current || !draggedOverElement.current || hoveredElement.current === draggedOverElement.current) {
+				return;
+			} else {
+        console.log('HELLO', draggedOverElement.current)
+				draggedOverElement.current.appendChild(hoveredElement.current);
+				applyDragElementStyle(draggedOverElement.current, true);
+			}
+
+			reset();
+		});
+
+		editor.on('dragover', function (e: EditorEvent<DragEvent>) {
+			e.preventDefault();
+
+			const currentMouseOverElement: HTMLElement | null = editor.contentDocument.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+
+			if (
+				!currentMouseOverElement ||
+				currentMouseOverElement.nodeName === 'HTML' ||
+				currentMouseOverElement.nodeName === 'BODY' ||
+				currentMouseOverElement.getAttribute('id')?.startsWith('drag-element') ||
+				currentMouseOverElement === hoveredElement.current
+			) {
+				draggedOverElement.current = null;
+
+				return;
+			}
+
+			if (draggedOverElement.current) {
+				applyDragElementStyle(draggedOverElement.current, true);
+			}
+			draggedOverElement.current = currentMouseOverElement;
+			applyDragElementStyle(draggedOverElement.current);
+		});
+
+		editor.on('mouseover', function (e: EditorEvent<MouseEvent>) {
+			const element = e.target as HTMLElement;
+			const documentElement: Document = getTinyMceDocumentElement();
+			const draggableSvgIcon: HTMLElement = covertStringToHTMElement(dragElementSvg);
+
+			if (!element || !displayDragElementHook(editor, element)) {
+				return;
+			}
+
+			hoveredElement.current = element;
+
+			const dragElementHook: HTMLElement = createDragElementHook(element, documentElement);
+
+			dragElementHook.appendChild(draggableSvgIcon);
+
+			dragElementHook.addEventListener('dragstart', (e: DragEvent) => {
+				if (!hoveredElement.current || !e.dataTransfer) {
+					return;
+				}
+
+				const ghostElement: HTMLElement = documentElement.createElement('div');
+				ghostElement.setAttribute('id', 'ghost-element');
+				ghostElement.innerHTML = hoveredElement.current.outerHTML;
+        ghostElement.style.position = 'absolute';
+        ghostElement.style.top = '-1000px';
+        ghostElement.style.width = `${hoveredElement.current.offsetWidth}px`;
+        ghostElement.style.height = `${hoveredElement.current.offsetHeight}'px`;
+
+				documentElement.body.appendChild(ghostElement);
+
+        dragElementHook.style.opacity = '0';
+				e.dataTransfer.effectAllowed = 'none';
+				e.dataTransfer.setDragImage(ghostElement, 0, 0);
+			});
+
+			if (element.id === 'drag-element-hook' || element.id === 'drag-element-svg' || element.id === 'drag-element-path') {
+				return;
+			}
+			documentElement.getElementById('drag-element-hook')?.remove();
+
+			element.insertAdjacentElement('afterend', dragElementHook);
+		});
+	};
+
+	return initializeDragAndDrop;
+};
+
+export { useDragAndDrop };

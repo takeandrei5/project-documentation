@@ -1,32 +1,35 @@
-import {Editor} from '@tinymce/tinymce-react'
-import {useRef} from 'react'
-import type {EditorEvent, Events, Editor as TinyMCEEditor} from 'tinymce'
-import {useAi} from './hooks/useAi'
-import {useCallout} from './hooks/useCallout'
-import {useDragAndDrop} from './hooks/useDragAndDrop'
-import {useSlashCommand} from './hooks/useSlashCommand'
-import {useTextEditor} from './hooks/useTextEditor'
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
+import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
+import { useAi } from './hooks/useAi';
+import { useCallout } from './hooks/useCallout';
+import { useComponent } from './hooks/useComponent';
+import { useDragAndDrop } from './hooks/useDragAndDrop';
+import { useSlashCommand } from './hooks/useSlashCommand';
+import { useTextEditor } from './hooks/useTextEditor';
+import { useSelectAllBlock } from './hooks/useSelectAllBlock';
 
-import './tinyMce.css'
-import {useComponent} from './hooks/useComponent'
+import './tinyMce.css';
 
-const TextEditor:React.FC = () => {
-  const editorRef = useRef<TinyMCEEditor | null>(null)
-  const currentFocusedElement = useRef<Element | null>(null)
+const TextEditor: React.FC = () => {
+	const editorRef = useRef<TinyMCEEditor | null>(null);
 
-  const {getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement} =
-          useTextEditor()
-  const initializeSlashCommand = useSlashCommand()
-  const initializeCallout = useCallout()
-  const initializeAiRequest = useAi()
-  const initializeDragAndDrop = useDragAndDrop()
-  const initializeComponent = useComponent()
+	const currentFocusedElement = useRef<HTMLElement | null>(null);
 
-  const log = function () {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent())
-    }
-  }
+	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } =
+		useTextEditor();
+	const initializeSlashCommand = useSlashCommand();
+	const initializeCallout = useCallout();
+	const initializeAiRequest = useAi();
+	const initializeDragAndDrop = useDragAndDrop();
+	const initializeComponent = useComponent();
+  const initializeSelectAllBlock = useSelectAllBlock();
+
+	const log = function () {
+		if (editorRef.current) {
+			console.log(editorRef.current.getContent());
+		}
+	};
 
 	return (
 		<>
@@ -42,6 +45,7 @@ const TextEditor:React.FC = () => {
 					placeholder: 'Untitled',
 					font_size_input_default_unit: 'px',
 					font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
+					forced_root_block: 'div',
 					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
 					quickbars_selection_toolbar:
 						'aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
@@ -54,11 +58,17 @@ const TextEditor:React.FC = () => {
           }
 
           html {
-            padding: 2rem 4rem 2rem 4rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
           }
 
           body {
             margin: 0;
+          }
+
+          body > * {
+            padding-right: 4rem;
+            padding-left: 4rem;
           }
 
           body table {
@@ -67,7 +77,7 @@ const TextEditor:React.FC = () => {
             background-color: transparent;
           }
 
-          body > p:first-child {
+          body > div:first-child {
             font-size: 2.5rem;
             line-height: 1.2;
             font-weight: 700;
@@ -80,7 +90,7 @@ const TextEditor:React.FC = () => {
             opacity: 0.3;
           }
 
-          p {
+          div {
             margin: 0;
           }
 
@@ -111,7 +121,7 @@ const TextEditor:React.FC = () => {
             color: #AA8664;
           }
 
-          .callout p {
+          .callout div {
             margin: 0;
           }
 
@@ -157,7 +167,17 @@ const TextEditor:React.FC = () => {
             border-top: 1px solid rgba(55, 53, 47, 0.16);
           }
 
-          div#drag-element-container {
+          div:has(br):after {
+            content: attr(placeholder)
+          }
+
+          div:after {
+            display: inline-block;
+            transform: translateY(-100%);
+            color: rgba(55, 53, 47, 0.5)
+          }
+
+          div#drag-element-hook {
             height: 1.5rem;
             width: 1.25rem;
             border-radius: 0.25rem;
@@ -173,72 +193,65 @@ const TextEditor:React.FC = () => {
             margin-right: 0.125rem;
           }
 
-          div#drag-element-container:hover {
+          div#drag-element-hook:hover {
             background: rgba(55, 53, 47, 0.08);
           }
           `,
-          icons: 'material',
-          init_instance_callback: (editor) => {
-            editor.on('ExecCommand', (e) => {
-              console.log(`The ${e.command} command was fired.`)
-            })
-          },
-          setup: function (editor:TinyMCEEditor) {
-            editor.on('dblclick', function (e:EditorEvent<MouseEvent>) {
-              const quickToolbarElement:Element = getQuickToolbarElement()
-              const firstChildNode:ChildNode = getTinyMceFirstLineNode()
+					icons: 'material',
+					init_instance_callback: (editor) => {
+						editor.on('ExecCommand', (e) => {
+							console.log(`The ${e.command} command was fired.`);
+						});
+					},
+					setup: function (editor: TinyMCEEditor) {
+						editor.on('dblclick', function (e: EditorEvent<MouseEvent>) {
+							const quickToolbarElement: Element = getQuickToolbarElement();
+							const firstChildNode: ChildNode = getTinyMceFirstLineNode();
 
-              if (e.target === firstChildNode) {
-                quickToolbarElement.setAttribute('style', 'display: none')
-              } else {
-                quickToolbarElement.setAttribute('style', 'position: relative')
-              }
-            })
+							if (e.target === firstChildNode) {
+								quickToolbarElement.setAttribute('style', 'display: none');
+							} else {
+								quickToolbarElement.setAttribute('style', 'position: relative');
+							}
+						});
 
-            editor.on('click', function (e:EditorEvent<MouseEvent>) {
-              if (e.target.nodeName === 'SUMMARY') {
-                editor.execCommand('ToggleAccordion', false)
-              }
-            })
+						editor.on('click', function (e: EditorEvent<MouseEvent>) {
+							if (e.target.nodeName === 'SUMMARY') {
+								editor.execCommand('ToggleAccordion', false);
+							}
+						});
 
-            editor.on('keydown', function (e:EditorEvent<KeyboardEvent>) {
-              if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
-                e.preventDefault()
-              }
+						editor.on('NodeChange', function (e: EditorEvent<Events.NodeChangeEvent>) {
+							const quickToolbarElement: Element = getQuickToolbarElement();
+							const firstChildElement: Element = getTinyMceFirstLineElement();
+							const element: HTMLElement = e.element as HTMLElement;
 
-              if (currentFocusedElement.current && e.key === 'a') {
-                editor.selection.select(currentFocusedElement.current, true)
-              } else {
-                currentFocusedElement.current = null
+              if (currentFocusedElement.current) {
+                currentFocusedElement.current.removeAttribute('placeholder');
               }
 
-              if (e.ctrlKey || e.metaKey) {
-                currentFocusedElement.current = editor.selection.getNode()
-              }
-            })
+              currentFocusedElement.current = element;
+              currentFocusedElement.current.setAttribute('placeholder', 'Press ‘/’ for commands…');
 
-            editor.on('NodeChange', function (e:EditorEvent<Events.NodeChangeEvent>) {
-              const quickToolbarElement:Element = getQuickToolbarElement()
-              const firstChildElement:Element = getTinyMceFirstLineElement()
+							if (element === firstChildElement || !element.innerHTML) {
+								quickToolbarElement.setAttribute('style', 'display: none');
+							} else {
+								quickToolbarElement.setAttribute('style', 'position: relative');
+							}
+						});
 
-              if (e.element === firstChildElement || !e.element.innerHTML) {
-                quickToolbarElement.setAttribute('style', 'display: none')
-              } else {
-                quickToolbarElement.setAttribute('style', 'position: relative')
-              }
-            })
+            initializeSelectAllBlock(editor);
+						initializeCallout(editor);
+						initializeSlashCommand(editor);
+						initializeDragAndDrop(editor);
+						initializeComponent(editor);
+					},
+					ai_request: initializeAiRequest
+				}}
+			/>
+			<button onClick={log}>Log editor content</button>
+		</>
+	);
+};
 
-            initializeCallout(editor)
-            initializeSlashCommand(editor)
-            initializeDragAndDrop(editor)
-            initializeComponent(editor)
-          },
-          ai_request: initializeAiRequest
-        }}
-      />
-      <button onClick={log}>Log editor content</button>
-    </>
-  )
-}
-
-export default TextEditor
+export default TextEditor;
