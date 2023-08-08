@@ -6,6 +6,7 @@ import { dragElementSvg } from '../../../../../assets/svg';
 const useDragAndDrop = () => {
 	const { covertStringToHTMElement, getTinyMceDocumentElement, getTinyMceFirstLineElement } = useTextEditor();
 	const hoveredElement = useRef<HTMLElement | null>(null);
+	const hookedDragElement = useRef<HTMLElement | null>(null);
 	const draggedOverElement = useRef<HTMLElement | null>(null);
 
 	const reset = (): void => {
@@ -88,11 +89,18 @@ const useDragAndDrop = () => {
 	};
 
 	const initializeDragAndDrop = (editor: TinyMCEEditor): void => {
+    editor.on('keyup', function (e: EditorEvent<KeyboardEvent>) {
+			const documentElement: Document = getTinyMceDocumentElement();
+
+      if (e.target !== hookedDragElement.current) {
+        documentElement.getElementById('drag-element-hook')?.remove();
+      }
+    });
+
 		editor.on('dragend', function () {
 			if (!hoveredElement.current || !draggedOverElement.current || hoveredElement.current === draggedOverElement.current) {
 				return;
 			} else {
-        console.log('HELLO', draggedOverElement.current)
 				draggedOverElement.current.appendChild(hoveredElement.current);
 				applyDragElementStyle(draggedOverElement.current, true);
 			}
@@ -165,6 +173,8 @@ const useDragAndDrop = () => {
 			documentElement.getElementById('drag-element-hook')?.remove();
 
 			element.insertAdjacentElement('afterend', dragElementHook);
+
+      hookedDragElement.current = dragElementHook;
 		});
 	};
 

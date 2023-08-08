@@ -1,29 +1,23 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
-import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
-import { useAi } from './hooks/useAi';
-import { useCallout } from './hooks/useCallout';
-import { useComponent } from './hooks/useComponent';
-import { useDragAndDrop } from './hooks/useDragAndDrop';
-import { useSlashCommand } from './hooks/useSlashCommand';
-import { useTextEditor } from './hooks/useTextEditor';
-import { useSelectAllBlock } from './hooks/useSelectAllBlock';
+import type { Editor as TinyMCEEditor } from 'tinymce';
 
+import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageTitle, usePlaceholder, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
 import './tinyMce.css';
 
 const TextEditor: React.FC = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
 
-	const currentFocusedElement = useRef<HTMLElement | null>(null);
-
-	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } =
-		useTextEditor();
-	const initializeSlashCommand = useSlashCommand();
-	const initializeCallout = useCallout();
+	const initializeAccordion = useAccordion();
 	const initializeAiRequest = useAi();
-	const initializeDragAndDrop = useDragAndDrop();
+	const initializeCallout = useCallout();
 	const initializeComponent = useComponent();
-  const initializeSelectAllBlock = useSelectAllBlock();
+	const initializeDragAndDrop = useDragAndDrop();
+	const initializePageTitle = usePageTitle();
+	const initializePlaceholder = usePlaceholder();
+	const initializeQuickToolbar = useQuickToolbar();
+	const initializeSelectAllBlock = useSelectAllBlock();
+	const initializeSlashCommand = useSlashCommand();
 
 	const log = function () {
 		if (editorRef.current) {
@@ -167,9 +161,9 @@ const TextEditor: React.FC = () => {
             border-top: 1px solid rgba(55, 53, 47, 0.16);
           }
 
-          div:has(br):after {
-            content: attr(placeholder)
-          }
+          // div:has(br):after {
+          //   content: 'Temporary placeholder for empty lines.'
+          // }
 
           div:after {
             display: inline-block;
@@ -204,47 +198,15 @@ const TextEditor: React.FC = () => {
 						});
 					},
 					setup: function (editor: TinyMCEEditor) {
-						editor.on('dblclick', function (e: EditorEvent<MouseEvent>) {
-							const quickToolbarElement: Element = getQuickToolbarElement();
-							const firstChildNode: ChildNode = getTinyMceFirstLineNode();
-
-							if (e.target === firstChildNode) {
-								quickToolbarElement.setAttribute('style', 'display: none');
-							} else {
-								quickToolbarElement.setAttribute('style', 'position: relative');
-							}
-						});
-
-						editor.on('click', function (e: EditorEvent<MouseEvent>) {
-							if (e.target.nodeName === 'SUMMARY') {
-								editor.execCommand('ToggleAccordion', false);
-							}
-						});
-
-						editor.on('NodeChange', function (e: EditorEvent<Events.NodeChangeEvent>) {
-							const quickToolbarElement: Element = getQuickToolbarElement();
-							const firstChildElement: Element = getTinyMceFirstLineElement();
-							const element: HTMLElement = e.element as HTMLElement;
-
-              if (currentFocusedElement.current) {
-                currentFocusedElement.current.removeAttribute('placeholder');
-              }
-
-              currentFocusedElement.current = element;
-              currentFocusedElement.current.setAttribute('placeholder', 'Press ‘/’ for commands…');
-
-							if (element === firstChildElement || !element.innerHTML) {
-								quickToolbarElement.setAttribute('style', 'display: none');
-							} else {
-								quickToolbarElement.setAttribute('style', 'position: relative');
-							}
-						});
-
-            initializeSelectAllBlock(editor);
+						initializeAccordion(editor);
 						initializeCallout(editor);
-						initializeSlashCommand(editor);
-						initializeDragAndDrop(editor);
 						initializeComponent(editor);
+						initializeDragAndDrop(editor);
+						initializePageTitle(editor);
+						// initializePlaceholder(editor);
+						initializeQuickToolbar(editor);
+						initializeSelectAllBlock(editor);
+						initializeSlashCommand(editor);
 					},
 					ai_request: initializeAiRequest
 				}}

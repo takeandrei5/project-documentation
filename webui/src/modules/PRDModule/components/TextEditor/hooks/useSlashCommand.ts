@@ -135,7 +135,7 @@ const useSlashCommand = () => {
 		}
 	];
 
-	const initializeSlashCommand = (editor: TinyMCEEditor) => {
+	const initializeSlashCommand = (editor: TinyMCEEditor): void => {
 		editor.ui.registry.addAutocompleter('slashcommands', {
 			ch: '/',
 			minChars: 0,

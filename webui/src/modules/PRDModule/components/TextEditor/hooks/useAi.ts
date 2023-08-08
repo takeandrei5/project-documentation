@@ -2,7 +2,7 @@ import { fetchEventSource, type EventSourceMessage, type FetchEventSourceInit } 
 import type { AiMessage, AiRequest, AiRequestBody, AiResponse, StreamMessage, Thread } from '../types';
 
 const useAi = () => {
-	const initializeAiRequest = (request: AiRequest, response: AiResponse) => {
+	const initializeAiRequest = (request: AiRequest, response: AiResponse): void => {
 		response.stream((signal: AbortSignal, streamMessage: StreamMessage) => {
 			const conversation = request.thread.flatMap((event: Thread) => {
 				if (event.response) {

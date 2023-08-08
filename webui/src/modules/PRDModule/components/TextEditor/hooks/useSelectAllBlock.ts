@@ -7,7 +7,7 @@ const useSelectAllBlock = () => {
 
   const { isCharacterInsertedInFirstLineElement } = useTextEditor();
 
-  const initializeSelectAllBlock = (editor: TinyMCEEditor) => {
+  const initializeSelectAllBlock = (editor: TinyMCEEditor): void => {
     editor.on('keydown', function (e: EditorEvent<KeyboardEvent>) {
       if (e.key === 'Enter' && e.shiftKey && isCharacterInsertedInFirstLineElement(editor)) {
         e.preventDefault();

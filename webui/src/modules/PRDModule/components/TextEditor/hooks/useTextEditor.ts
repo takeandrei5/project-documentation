@@ -9,8 +9,8 @@ const useTextEditor = () => {
     return htmlDoc.body.firstChild as HTMLElement;
   }
 
-	const getQuickToolbarElement = (): Element => {
-		const quickToolbarNode: Element = document.getElementsByClassName('tox tox-silver-sink tox-tinymce-aux')[0];
+	const getQuickToolbarElement = (): HTMLElement => {
+		const quickToolbarNode: HTMLElement = document.getElementsByClassName('tox tox-silver-sink tox-tinymce-aux')[0] as HTMLElement;
 
 		return quickToolbarNode;
 	};
@@ -20,23 +20,23 @@ const useTextEditor = () => {
 		return iframe.contentDocument!;
 	};
 
-	const getTinyMceBodyElement = (): Element => {
+	const getTinyMceBodyElement = (): HTMLElement => {
 		const iframe: HTMLIFrameElement = document.getElementsByTagName('iframe')[0];
-		const tinyMceBodyNode: Element = iframe.contentDocument!.getElementById('tinymce')!;
+		const tinyMceBodyNode: HTMLElement = iframe.contentDocument!.getElementById('tinymce')!;
 
 		return tinyMceBodyNode;
 	};
 
 	const getTinyMceFirstLineNode = (): ChildNode => {
-		const bodyElement: Element = getTinyMceBodyElement();
+		const bodyElement: HTMLElement = getTinyMceBodyElement();
 		const firstLineNode: ChildNode = bodyElement.firstChild!;
 
 		return firstLineNode;
 	};
 
-	const getTinyMceFirstLineElement = (): Element => {
-		const bodyElement: Element = getTinyMceBodyElement();
-		const firstLineElement: Element = bodyElement.firstElementChild!;
+	const getTinyMceFirstLineElement = (): HTMLElement => {
+		const bodyElement: HTMLElement = getTinyMceBodyElement();
+		const firstLineElement: HTMLElement = bodyElement.firstElementChild! as HTMLElement;
 
 		return firstLineElement;
 	};
@@ -48,7 +48,21 @@ const useTextEditor = () => {
 		return isInsertedInFirstNode;
 	};
 
-	return { covertStringToHTMElement, getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement };
+  const isElementDescendantOf = (element: HTMLElement, ancestor: string): boolean => {
+    let node: HTMLElement | null = element;
+
+    while (node !== null) {
+      if (node.nodeName === ancestor) {
+        return true;
+      }
+
+      node = node.parentElement;
+    }
+
+    return false;
+  }
+
+	return { covertStringToHTMElement, getQuickToolbarElement, getTinyMceBodyElement, getTinyMceDocumentElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement, isElementDescendantOf };
 };
 
 export { useTextEditor };
