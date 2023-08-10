@@ -14,3 +14,7 @@ div.tox.tox-tinymce-aux div.tox-toolbar__group:first-child{
 div.tox-dialog--width-md {
   max-width: 76% !important;
 }
+
+div.tox-editor-header {
+  display: none !important;
+}

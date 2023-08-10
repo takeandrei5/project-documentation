@@ -31,10 +31,10 @@ const TextEditor: React.FC = () => {
 				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
 				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
 				initialValue='This is the initial content of the editor.'
-				plugins={['ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
+				plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
 				init={{
 					menubar: false,
-					toolbar: false,
+					toolbar: ['pageembed'],
 					statusbar: false,
 					placeholder: 'Untitled',
 					font_size_input_default_unit: 'px',
@@ -42,7 +42,7 @@ const TextEditor: React.FC = () => {
 					forced_root_block: 'div',
 					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
 					quickbars_selection_toolbar:
-						'aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+						'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
 					quickbars_insert_toolbar: false,
 					noneditable_noneditable_class: 'callout',
 					content_style: `
@@ -206,9 +206,6 @@ const TextEditor: React.FC = () => {
 						});
 					},
 					setup: function (editor: TinyMCEEditor) {
-          //   editor.on('BeforeSetContent', function(e) {
-          //     e.content = e.content.replace(/<br data-mce-bogus="1" \/>/g, '');
-          // });
 						initializeAccordion(editor);
 						initializeCallout(editor);
 						initializeComponent(editor);

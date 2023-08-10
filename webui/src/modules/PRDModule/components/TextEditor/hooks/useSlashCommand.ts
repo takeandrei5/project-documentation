@@ -119,15 +119,19 @@ const useSlashCommand = () => {
 			type: 'separator'
 		},
 		{
-			text: 'Divider',
-			value: 'Divider',
-			icon: 'page-break',
-			meta: function (editor: TinyMCEEditor) {
-				editor.insertContent(`
-        <div class="divider">
-          <div role="separator"></div>
-        </div>
-        `);
+			text: 'Page Embed',
+			value: 'Page Embed',
+			icon: 'embed-page',
+			meta: function () {
+        const pageEmbedButton = document.querySelector('button[title="Embed iframe"]') as HTMLButtonElement | null;
+        if (pageEmbedButton) {
+          pageEmbedButton.click();
+
+          const pageEmbedInput = document.querySelector('input[type="url"]') as HTMLInputElement | null;
+          if (pageEmbedInput) {
+            setTimeout(() => pageEmbedInput.focus());
+          }
+        }
 			}
 		}
 	];
