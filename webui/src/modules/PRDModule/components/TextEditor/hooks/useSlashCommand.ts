@@ -20,7 +20,6 @@ const useSlashCommand = () => {
 			icon: 'h1',
 			meta: function (editor: TinyMCEEditor) {
 				editor.execCommand('mceInsertContent', false, '<h1>Heading 1</h1>');
-				editor.selection.select(editor.selection.getNode());
 			}
 		},
 		{
@@ -29,7 +28,6 @@ const useSlashCommand = () => {
 			icon: 'h2',
 			meta: function (editor: TinyMCEEditor) {
 				editor.execCommand('mceInsertContent', false, '<h2>Heading 2</h2>');
-				editor.selection.select(editor.selection.getNode());
 			}
 		},
 		{
@@ -38,7 +36,6 @@ const useSlashCommand = () => {
 			icon: 'h3',
 			meta: function (editor: TinyMCEEditor) {
 				editor.execCommand('mceInsertContent', false, '<h3>Heading 3</h3>');
-				editor.selection.select(editor.selection.getNode());
 			}
 		},
 		{

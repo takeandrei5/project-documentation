@@ -101,7 +101,12 @@ const useDragAndDrop = () => {
 			if (!hoveredElement.current || !draggedOverElement.current || hoveredElement.current === draggedOverElement.current) {
 				return;
 			} else {
-				draggedOverElement.current.appendChild(hoveredElement.current);
+        if (!draggedOverElement.current.textContent) {
+          draggedOverElement.current.replaceChildren(hoveredElement.current);
+
+        } else {
+          draggedOverElement.current.appendChild(hoveredElement.current);
+        }
 				applyDragElementStyle(draggedOverElement.current, true);
 			}
 
@@ -152,19 +157,9 @@ const useDragAndDrop = () => {
 					return;
 				}
 
-				const ghostElement: HTMLElement = documentElement.createElement('div');
-				ghostElement.setAttribute('id', 'ghost-element');
-				ghostElement.innerHTML = hoveredElement.current.outerHTML;
-        ghostElement.style.position = 'absolute';
-        ghostElement.style.top = '-1000px';
-        ghostElement.style.width = `${hoveredElement.current.offsetWidth}px`;
-        ghostElement.style.height = `${hoveredElement.current.offsetHeight}'px`;
-
-				documentElement.body.appendChild(ghostElement);
-
         dragElementHook.style.opacity = '0';
 				e.dataTransfer.effectAllowed = 'none';
-				e.dataTransfer.setDragImage(ghostElement, 0, 0);
+				e.dataTransfer.setDragImage(hoveredElement.current, 50, 0);
 			});
 
 			if (element.id === 'drag-element-hook' || element.id === 'drag-element-svg' || element.id === 'drag-element-path') {

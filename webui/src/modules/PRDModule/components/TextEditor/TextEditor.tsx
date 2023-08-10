@@ -161,9 +161,17 @@ const TextEditor: React.FC = () => {
             border-top: 1px solid rgba(55, 53, 47, 0.16);
           }
 
-          // div:has(br):after {
+          // div:has(br):before {
           //   content: 'Temporary placeholder for empty lines.'
           // }
+
+          // div:before {
+          //   position: absolute;
+          // }
+
+          h2:before {
+            content: "Heading 2";
+          }
 
           div:after {
             display: inline-block;
@@ -198,6 +206,9 @@ const TextEditor: React.FC = () => {
 						});
 					},
 					setup: function (editor: TinyMCEEditor) {
+          //   editor.on('BeforeSetContent', function(e) {
+          //     e.content = e.content.replace(/<br data-mce-bogus="1" \/>/g, '');
+          // });
 						initializeAccordion(editor);
 						initializeCallout(editor);
 						initializeComponent(editor);
