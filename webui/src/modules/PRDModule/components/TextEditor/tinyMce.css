@@ -17,4 +17,6 @@ div.tox-dialog--width-md {
 
 div.tox-editor-header {
   display: none !important;
+  position: absolute !important;
+  top: -9000px !important;
 }
