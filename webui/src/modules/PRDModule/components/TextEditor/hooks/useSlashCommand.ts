@@ -129,7 +129,7 @@ const useSlashCommand = () => {
 
           const pageEmbedInput = document.querySelector('input[type="url"]') as HTMLInputElement | null;
           if (pageEmbedInput) {
-            setTimeout(() => pageEmbedInput.focus());
+            requestAnimationFrame(() => pageEmbedInput.focus());
           }
         }
 			}
