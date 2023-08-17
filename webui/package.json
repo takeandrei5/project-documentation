@@ -46,5 +46,6 @@
     "typescript": "5.0.2",
     "vite": "4.3.9",
     "vite-plugin-mkcert": "1.16.0"
-  }
+  },
+  "prettier": {"bracketSameLine": true, "jsxSingleQuote": true, "printWidth": 180, "singleQuote": true, "trailingComma": "none", "useTabs": true}
 }

@@ -1,14 +1,14 @@
 import { Box, ClickAwayListener, Icon, Paper, TextField } from '@mui/material';
 import type { TextInputPopupProps } from './types';
 
-const TextInputPopup: React.FC<TextInputPopupProps> = ({ onChangeHandler, onClosePopperHandler, onSaveHandler, value }) => {
-	const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
-      onSaveHandler();
-    }
-  }
+const TextInputPopup:React.FC<TextInputPopupProps> = ({ onChangeHandler, onClosePopperHandler, onSaveHandler, value }) => {
+	const onKeyDownHandler = (e:React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			onSaveHandler();
+		}
+	};
 
-  return (
+	return (
 		<ClickAwayListener onClickAway={onClosePopperHandler}>
 			<Paper
 				elevation={3}
@@ -22,7 +22,8 @@ const TextInputPopup: React.FC<TextInputPopupProps> = ({ onChangeHandler, onClos
 					alignItems: 'center',
 					height: '2rem',
 					columnGap: '0.25rem'
-				}}>
+				}}
+			>
 				<TextField
 					onKeyDown={onKeyDownHandler}
 					sx={{ '& .MuiOutlinedInput-root': { height: '2rem' }, background: '#F8F8F8', height: '2rem', width: '20rem' }}
@@ -39,7 +40,8 @@ const TextInputPopup: React.FC<TextInputPopupProps> = ({ onChangeHandler, onClos
 						borderRadius: '0.25rem',
 						border: '1px solid lightgrey',
 						alignItems: 'center'
-					}}>
+					}}
+				>
 					<Icon sx={{ cursor: 'pointer' }} onClick={onSaveHandler}>
 						save_outlined_icon
 					</Icon>
