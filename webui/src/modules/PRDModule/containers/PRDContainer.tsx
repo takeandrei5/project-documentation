@@ -1,8 +1,12 @@
-import { NavbarLayout } from '../../../layouts';
-import { NavbarLayoutLeftSide, NavbarLayoutRightSide } from '../components';
+import TextEditor from '../components/TextEditor';
+import { Box } from '@mui/material';
 
-const PRDContainer: React.FC = () => {
-	return <NavbarLayout leftComponent={<NavbarLayoutLeftSide />} rightComponent={<NavbarLayoutRightSide />} />;
+const PRDContainer:React.FC = () => {
+	return (
+		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF' }}>
+			<TextEditor />
+		</Box>
+	);
 };
 
 export default PRDContainer;
