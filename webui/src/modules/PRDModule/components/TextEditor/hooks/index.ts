@@ -3,6 +3,7 @@ export { useAi as useAi } from './useAi';
 export { useCallout as useCallout } from './useCallout';
 export { useComponent as useComponent } from './useComponent';
 export { useDragAndDrop as useDragAndDrop } from './useDragAndDrop';
+export { usePageEmbed as usePageEmbed } from './usePageEmbed';
 export { usePageTitle as usePageTitle } from './usePageTitle';
 export { usePlaceholder as usePlaceholder } from './usePlaceholder';
 export { useQuickToolbar as useQuickToolbar } from './useQuickToolbar';

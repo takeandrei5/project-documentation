@@ -2,7 +2,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import type { Editor as TinyMCEEditor } from 'tinymce';
 
-import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageTitle, usePlaceholder, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, usePlaceholder, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
 import './tinyMce.css';
 
 const TextEditor: React.FC = () => {
@@ -13,6 +13,7 @@ const TextEditor: React.FC = () => {
 	const initializeCallout = useCallout();
 	const initializeComponent = useComponent();
 	const initializeDragAndDrop = useDragAndDrop();
+	const initializePageEmbed = usePageEmbed();
 	const initializePageTitle = usePageTitle();
 	const initializePlaceholder = usePlaceholder();
 	const initializeQuickToolbar = useQuickToolbar();
@@ -63,6 +64,10 @@ const TextEditor: React.FC = () => {
           body > * {
             padding-right: 4rem;
             padding-left: 4rem;
+          }
+
+          div.mce-visual-caret {
+            padding: 0;
           }
 
           body table {
@@ -210,6 +215,7 @@ const TextEditor: React.FC = () => {
 						initializeCallout(editor);
 						initializeComponent(editor);
 						initializeDragAndDrop(editor);
+            initializePageEmbed(editor);
 						initializePageTitle(editor);
 						// initializePlaceholder(editor);
 						initializeQuickToolbar(editor);
