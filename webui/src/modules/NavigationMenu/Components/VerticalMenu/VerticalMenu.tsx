@@ -74,8 +74,13 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
 					open={isSnackbarOpen}
 					onClose={onSnackbarCloseHandler}
-					message='Link copied to clipboard!'
+					message={snackbarMessage}
 					key='bottom-center'
+					sx={{
+						'div.MuiSnackbarContent-message': {
+							fontSize: '1rem'
+						}
+					}}
 				/>
 			</Box>
 			<Dialog

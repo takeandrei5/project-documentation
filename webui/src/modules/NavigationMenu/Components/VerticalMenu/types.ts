@@ -7,5 +7,12 @@ export type VerticalMenuProps = {
 	text: string;
 	treeData: NodeModel<TreeDataValues>[];
 	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>;
-	link:string;
+	link: string;
+};
+
+export type SnackbarMessages = {
+	copy: string;
+	delete: string;
+	duplicate: string;
+	rename: string;
 };
