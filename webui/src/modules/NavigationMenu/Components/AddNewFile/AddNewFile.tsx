@@ -1,7 +1,7 @@
 import { Box, Icon, IconButton } from '@mui/material';
+import { TextInputPopup } from '../TextInputPopup';
 import { useAddNewFileComponent } from './hooks';
 import type { AddNewFileProps } from './types';
-import { TextInputPopup } from '../TextInputPopup';
 
 const AddNewFileComponent: React.FC<AddNewFileProps> = ({ setTreeData, nodeId, treeData }) => {
 	const { isNewFileOpen, newFileName, onAddNewFileHandler, onChangeFileNameHandler, onClosePopperHandler, onOpenPopperHandler } = useAddNewFileComponent(
