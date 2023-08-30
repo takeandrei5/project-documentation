@@ -1,14 +1,17 @@
-import type { NodeModel } from '@minoru/react-dnd-treeview';
+import { type NodeModel } from '@minoru/react-dnd-treeview';
 import { type SnackbarCloseReason } from '@mui/material';
 import { useState, type Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCopyToClipboard } from '../../../../hooks';
+import { type TreeDataValues } from '../../types';
+import { snackbarMessages } from './constants';
 
-const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetStateAction<NodeModel[]>>, text: string, nodeId: number) => {
+const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: number) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
 
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
 	const [isRenamePopupOpen, setIsRenamePopupOpen] = useState<boolean>(false);
 
 	const [newFileName, setNewFileName] = useState<string>(text);
@@ -22,29 +25,29 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 		handleClose();
 	};
 
-	const deleteItem = (data: NodeModel[]): NodeModel[] => {
-		const filteredData: NodeModel[] = data.filter((item: NodeModel) => item.id !== nodeId);
+	const deleteItem = (data: NodeModel<TreeDataValues>[]): NodeModel<TreeDataValues>[] => {
+		const filteredData: NodeModel<TreeDataValues>[] = data.filter((item: NodeModel<TreeDataValues>) => item.id !== nodeId);
 
-		return filteredData.filter((item: NodeModel) => {
-			item.droppable = treeData.some((child: NodeModel) => child.parent === item.id);
+		return filteredData.filter((item: NodeModel<TreeDataValues>) => {
+			item.droppable = treeData.some((child: NodeModel<TreeDataValues>) => child.parent === item.id);
 			return true; // Keep root items or items without remaining children
 		});
 	};
 
-	const duplicateNode = (nodeId: number, parentId: number | null = null): NodeModel[] => {
-		const selectedNode: NodeModel | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
+	const duplicateNode = (nodeId: number, parentId: number | null = null): NodeModel<TreeDataValues>[] => {
+		const selectedNode: NodeModel<TreeDataValues> | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
 
 		if (!selectedNode) {
 			return [];
 		}
 
 		const newSelectedNodeId: number = uuidv4();
-		const newSelectedNode: NodeModel = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
+		const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
 
-		let newNodes: NodeModel[] = [newSelectedNode];
+		let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];
 		treeData
-			.filter((item: NodeModel) => item.parent === selectedNode.id)
-			.forEach((item: NodeModel) => {
+			.filter((item: NodeModel<TreeDataValues>) => item.parent === selectedNode.id)
+			.forEach((item: NodeModel<TreeDataValues>) => {
 				newNodes = [...newNodes, ...duplicateNode(+item.id, newSelectedNodeId)];
 			});
 
@@ -78,17 +81,22 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 		const response = await copyToClipboard(link);
 		if (response) {
 			setIsSnackbarOpen(true);
+      setSnackbarMessage(snackbarMessages.copy)
 		}
 		handleClose();
 	};
 
 	const onDeleteItemClickedHandler = (): void => {
 		const updatedData = deleteItem([...treeData]);
+    setIsSnackbarOpen(true);
+    setSnackbarMessage(snackbarMessages.delete)
 		setTreeData(updatedData);
 	};
 
 	const onDuplicateItemClickedHandler = (): void => {
-		const arr: NodeModel[] = duplicateNode(nodeId);
+		const arr: NodeModel<TreeDataValues>[] = duplicateNode(nodeId);
+    setIsSnackbarOpen(true);
+    setSnackbarMessage(snackbarMessages.duplicate)
 		setTreeData([...treeData, ...arr]);
 	};
 
@@ -102,6 +110,8 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 	};
 
 	const onRenameFileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setIsSnackbarOpen(true);
+    setSnackbarMessage(snackbarMessages.rename)
 		setNewFileName(e.currentTarget.value);
 	};
 
@@ -117,11 +127,11 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 	};
 
 	const onSaveHandler = (): void => {
-		const findNode: NodeModel | undefined = treeData.find((node: NodeModel) => node.id === nodeId);
+		const findNode: NodeModel<TreeDataValues> | undefined = treeData.find((node: NodeModel<TreeDataValues>) => node.id === nodeId);
 
 		if (findNode) {
 			findNode.text = newFileName;
-			const newTreeData: NodeModel[] = [...treeData];
+			const newTreeData: NodeModel<TreeDataValues>[] = [...treeData];
 			setTreeData(newTreeData);
 		}
 
@@ -131,9 +141,11 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 	return {
 		anchorEl,
 		buttonId,
+		isRenamePopupOpen,
 		isSnackbarOpen,
 		menuId,
 		menuIsOpen,
+		newFileName,
 		onAddNewProjectHandler,
 		onCopyItemClickedHandler,
 		onClosePopperHandler,
@@ -145,8 +157,7 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 		onRenameItemClickedHandler,
 		onSaveHandler,
 		onSnackbarCloseHandler,
-		newFileName,
-		isRenamePopupOpen
+    snackbarMessage
 	};
 };
 

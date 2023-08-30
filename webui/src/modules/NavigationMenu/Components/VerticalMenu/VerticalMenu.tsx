@@ -15,7 +15,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 	const {
 		anchorEl,
 		buttonId,
-    isRenamePopupOpen,
+		isRenamePopupOpen,
 		isSnackbarOpen,
 		menuId,
 		menuIsOpen,
@@ -30,7 +30,8 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		onRenameFileChangeHandler,
 		onRenameItemClickedHandler,
 		onSaveHandler,
-		onSnackbarCloseHandler
+		onSnackbarCloseHandler,
+    snackbarMessage
 	} = useVerticalMenu(treeData, setTreeData, text, nodeId);
 
 	return (
@@ -45,7 +46,9 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 				<MoreHorizIcon />
 			</ListItemButton>
 			<Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 1000 }}>
-				{isRenamePopupOpen && <RenameFilePopup value={newFileName} onClosePopperHandler={onClosePopperHandler} onChangeHandler={onRenameFileChangeHandler} onSaveHandler={onSaveHandler} />}
+				{isRenamePopupOpen && (
+					<RenameFilePopup value={newFileName} onClosePopperHandler={onClosePopperHandler} onChangeHandler={onRenameFileChangeHandler} onSaveHandler={onSaveHandler} />
+				)}
 			</Box>
 			<Menu
 				anchorEl={anchorEl}
@@ -73,8 +76,13 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
 				open={isSnackbarOpen}
 				onClose={onSnackbarCloseHandler}
-				message='Link copied to clipboard!'
+				message={snackbarMessage}
 				key='bottom-center'
+        sx={{
+          'div.MuiSnackbarContent-message': {
+            fontSize: '1rem'
+          }
+        }}
 			/>
 		</Box>
 	);
