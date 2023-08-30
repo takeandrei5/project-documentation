@@ -8,11 +8,9 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
 
-	//open state
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 	const [isRenamePopupOpen, setIsRenamePopupOpen] = useState<boolean>(false);
 
-	//value state
 	const [newFileName, setNewFileName] = useState<string>(text);
 	const { copyToClipboard } = useCopyToClipboard();
 
@@ -45,9 +43,9 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 
 		let newNodes: NodeModel[] = [newSelectedNode];
 		treeData
-			.filter((item) => item.parent === selectedNode.id)
-			.forEach((item) => {
-				newNodes = [...newNodes, ...duplicateNode(item.id, newSelectedNodeId)];
+			.filter((item: NodeModel) => item.parent === selectedNode.id)
+			.forEach((item: NodeModel) => {
+				newNodes = [...newNodes, ...duplicateNode(+item.id, newSelectedNodeId)];
 			});
 
 		return newNodes;
@@ -112,8 +110,8 @@ const useVerticalMenu = (treeData: NodeModel[], setTreeData: Dispatch<React.SetS
 		handleClose();
 	};
 
-	const onSnackbarCloseHandler = (_: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason): void => {
-		if (reason === 'escapeKeyDown' || reason === 'clickaway') {
+	const onSnackbarCloseHandler = (_: Event | React.SyntheticEvent<unknown, Event>, reason: SnackbarCloseReason): void => {
+		if (reason === 'escapeKeyDown' || reason === 'clickaway' || reason === 'timeout') {
 			setIsSnackbarOpen(false);
 		}
 	};
