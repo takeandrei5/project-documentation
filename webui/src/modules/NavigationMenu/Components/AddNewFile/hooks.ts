@@ -1,8 +1,9 @@
-import { type Dispatch, useState } from 'react';
+import type { NodeModel } from '@minoru/react-dnd-treeview';
+import { useState, type Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { NodeModel } from '../../types';
+import type { TreeDataValues } from '../../types';
 
-const useAddNewFileComponent = (treeData: NodeModel[], setTreeData: Dispatch<React.SetStateAction<NodeModel[]>>, nodeId: number) => {
+const useAddNewFileComponent = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, nodeId: number) => {
 	const [newFileName, setNewFileName] = useState<string>('');
 	const [isNewFileOpen, setIsNewFileOpen] = useState<boolean>(false);
 
@@ -19,12 +20,14 @@ const useAddNewFileComponent = (treeData: NodeModel[], setTreeData: Dispatch<Rea
 	};
 
 	const onAddNewFileHandler = (): void => {
-		const newTreeData: NodeModel = {
+		const newTreeData: NodeModel<TreeDataValues> = {
 			parent: nodeId,
 			id: uuidv4(),
 			text: newFileName,
-			iconName: 'text_snippet_outlined',
-			link: `/project-description/2/${newFileName}`
+			data: {
+				iconName: 'text_snippet_outlined',
+				link: `/project-description/2/${newFileName}`
+			}
 		};
 
 		const newTreeDataArr = [...treeData, newTreeData];

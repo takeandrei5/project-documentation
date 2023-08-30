@@ -41,7 +41,8 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 			return [];
 		}
 
-		const newSelectedNodeId: number = uuidv4();
+		const newSelectedNodeId: number = +(uuidv4());
+
 		const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
 
 		let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];

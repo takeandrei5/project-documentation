@@ -1,8 +1,9 @@
-import { type Dispatch, type SetStateAction, useState } from 'react';
-import type { NodeModel } from '../../types';
+import type { NodeModel } from '@minoru/react-dnd-treeview';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import type { TreeDataValues } from '../../types';
 
-const useNavigationMenuHeader = (setTreeData: Dispatch<SetStateAction<NodeModel[]>>, treeData: NodeModel[]) => {
+const useNavigationMenuHeader = (setTreeData: Dispatch<SetStateAction<NodeModel<TreeDataValues>[]>>, treeData: NodeModel<TreeDataValues>[]) => {
 	const [projectName, setProjectName] = useState<string>('');
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -11,13 +12,15 @@ const useNavigationMenuHeader = (setTreeData: Dispatch<SetStateAction<NodeModel[
 	};
 
 	const addNewProjectHandler = (): void => {
-		const newTreeData: NodeModel = {
+		const newTreeData: NodeModel<TreeDataValues> = {
 			parent: 0,
 			id: uuidv4(),
 			text: projectName,
 			droppable: true,
-			iconName: 'folder_open',
-			link: '/project-description/2'
+			data: {
+				iconName: 'folder_open',
+				link: '/project-description/2'
+			}
 		};
 		setTreeData([...treeData, newTreeData]);
 		changeModalState(false);
