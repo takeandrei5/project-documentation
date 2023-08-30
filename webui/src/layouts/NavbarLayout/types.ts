@@ -1,4 +1,4 @@
 export type NavbarLayoutProps = {
-	children:React.ReactNode;
+	children?:React.ReactNode;
 
 }

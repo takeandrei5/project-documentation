@@ -11,7 +11,7 @@ const NavigationMenuBody:React.FC<TreeDataProps> = ({ treeData, setTreeData, tra
 	const handleDrop = (newTreeData:NodeModel<TreeDataValues>[]) => {
 		setTreeData(newTreeData);
 	};
-
+	console.log('treeData', treeData)
 	return (
 		<Box
 			sx={{

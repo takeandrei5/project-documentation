@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { EditNodeProps } from './types';
-import { Box, Popover } from '@mui/material';
+import { Box, Popover, Typography } from '@mui/material';
 import NodeTextInput from '../NodeTextInput/NodeTextInput';
 import useEditNode from './hooks';
 
@@ -16,7 +16,7 @@ const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node }) => {
 					id
 				} = useEditNode(treeData, setTreeData, node);
 	return (
-		<Box sx={{ position: 'relative' }}>
+		<>
 			<Popover
 				id={id}
 				open={open}
@@ -38,10 +38,9 @@ const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node }) => {
 				}}
 				onDoubleClick={handleClick}
 			>
-				{node.text}
+				<Typography>{node.text}</Typography>
 			</Box>
-
-		</Box>
+		</>
 	);
 };
 export default EditNode;

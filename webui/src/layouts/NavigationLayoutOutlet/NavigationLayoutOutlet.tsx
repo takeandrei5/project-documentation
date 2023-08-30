@@ -1,5 +1,5 @@
 import { NavbarLayout } from '../NavbarLayout';
-import { Outlet } from '@mui/icons-material';
+import { Outlet } from 'react-router-dom';
 
 const NavigationLayoutOutlet:React.FC = () => {
 	return (

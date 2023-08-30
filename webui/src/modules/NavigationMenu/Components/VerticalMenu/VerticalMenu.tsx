@@ -15,7 +15,6 @@ import useDialogControl from '../../../../hooks/useDialogControl';
 
 const VerticalMenu:React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData, setTrashTreeData, trashTreeData }) => {
 	const control = useDialogControl();
-
 	const {
 					anchorEl,
 					buttonId,
@@ -73,7 +72,11 @@ const VerticalMenu:React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, t
 					<CopyItem onClickHandler={onCopyItemClickedHandler} />
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
 					<RenameItem onClickHandler={onRenameItemClickedHandler} />
-					<DeleteItem onClickHandler={() => control.openHandler()} />
+					<DeleteItem onClickHandler={() => {
+						control.openHandler();
+						onMenuCloseHandler();
+					}}
+					/>
 					<Divider />
 					<MenuItem onClick={onAddNewProjectHandler}>
 						<ListItemIcon>

@@ -13,7 +13,9 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			iconName: 'folder_open',
 			link: '/project-description/1',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
+
 		}
 	},
 	{
@@ -24,7 +26,9 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			iconName: 'folder_open',
 			link: '/project-description/1/project-management',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
+
 		}
 	},
 	{
@@ -32,7 +36,8 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		parent: 2,
 		text: 'Tasks',
 		data: {
-			iconName: 'text_snippet_outlined', link: '/project-description/1/tasks', isEditable: false
+			iconName: 'text_snippet_outlined', link: '/project-description/1/tasks', isEditable: false, isDeletable: false
+
 		}
 	},
 	{
@@ -40,7 +45,11 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		parent: 2,
 		text: 'Projects',
 		data: {
-			iconName: 'folder_open', link: '/project-description/1/projects', isEditable: false
+			iconName: 'folder_open',
+			link: '/project-description/1/projects',
+			isEditable: false,
+			isDeletable: false
+
 		},
 		droppable: true
 	},
@@ -51,7 +60,9 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			iconName: 'text_snippet_outlined',
 			link: '/project-description/1/e-shop',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
+
 		}
 	},
 	{
@@ -61,7 +72,9 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			iconName: 'text_snippet_outlined',
 			link: '/project-description/1/development',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
+
 		}
 	},
 	{
@@ -71,7 +84,8 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			link: '/project-description/1/qa',
 			iconName: 'text_snippet_outlined',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
 		}
 	},
 	{
@@ -81,8 +95,8 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			link: '/project-description/1/design',
 			iconName: 'text_snippet_outlined',
-			isEditable: false
-
+			isEditable: false,
+			isDeletable: false
 		}
 	},
 	{
@@ -92,7 +106,9 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		data: {
 			link: '/project-description/1/templates',
 			iconName: 'text_snippet_outlined',
-			isEditable: false
+			isEditable: false,
+			isDeletable: false
+
 		}
 	}
 ];

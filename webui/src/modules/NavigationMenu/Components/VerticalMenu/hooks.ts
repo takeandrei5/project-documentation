@@ -1,17 +1,21 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { type SnackbarCloseReason } from '@mui/material';
-import { useState, type Dispatch, useEffect } from 'react';
+import { type Dispatch, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCopyToClipboard } from '../../../../hooks';
 import { DialogControlProps } from '../../../../utils/types';
+import { useAppDispatch } from '../../../../redux/hooks';
 
-const useVerticalMenu = (treeData:NodeModel[],
-												 setTreeData:Dispatch<React.SetStateAction<NodeModel[]>>,
-												 text:string, nodeId:number, control:DialogControlProps,
-												 trashTreeData:NodeModel[],
-												 setTrashTreeMenu:Dispatch<React.SetStateAction<NodeModel[]>>
+const useVerticalMenu = (
+	treeData:NodeModel[],
+	setTreeData:Dispatch<React.SetStateAction<NodeModel[]>>,
+	text:string,
+	nodeId:number,
+	control:DialogControlProps,
+	trashTreeData:NodeModel[],
+	setTrashTreeMenu:Dispatch<React.SetStateAction<NodeModel[]>>
 ) => {
-
+	const dispatch = useAppDispatch();
 	const { isOpen, openHandler, closeHandler } = control;
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -19,7 +23,7 @@ const useVerticalMenu = (treeData:NodeModel[],
 	//open state
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 	const [isRenamePopupOpen, setIsRenamePopupOpen] = useState<boolean>(false);
-
+	console.log({ treeData });
 	//value state
 	useEffect(() => {
 		setNewFileName(text);
@@ -36,29 +40,20 @@ const useVerticalMenu = (treeData:NodeModel[],
 	};
 
 	const deleteItem = (data:NodeModel[]):NodeModel[] => {
-		const filteredData:NodeModel[] = data.filter((item:NodeModel) => item.id !== nodeId);
-
-		const newFiltredData = filteredData.filter((item:NodeModel) => {
-			item.droppable = treeData.some((child:NodeModel) => child.parent === item.id);
+		return data.filter((item:NodeModel) => {
+			const bool = data.some((child:NodeModel) => child.parent === item.id);
+			console.log({ bool });
+			item.data.isDeletable = bool;
+			item.droppable = bool;
 			return true; // Keep root items or items without remaining children
 		});
-		console.log({ newFiltredData });
-		return newFiltredData;
 	};
-	const getDeletedItemAndChildrenRecursive = (data:NodeModel[], id:number):NodeModel[] => {
-		let deletedItems:NodeModel[] = [];
 
-		data.filter((item:NodeModel) => item.id === id).forEach((item:NodeModel) => {
-			deletedItems = [...deletedItems, getDeletedItemAndChildrenRecursive(data, item.id)];
-
-		});
-
-		//		const newData = filteredData.filter((item:NodeModel) => {
-		//			item.droppable = treeData.some((child:NodeModel) => child.parent === item.id);
-		//			return true; // Keep root items or items without remaining children
-		//		});
-		return deletedItems;
+	const onConfirmDeleteItemHandler = ():void => {
+		const updatedData = deleteItem([...treeData]);
+		setTreeData(updatedData);
 	};
+
 	const duplicateNode = (nodeId:number, parentId:number | null = null):NodeModel[] => {
 		const selectedNode:NodeModel | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
 
@@ -110,15 +105,11 @@ const useVerticalMenu = (treeData:NodeModel[],
 		handleClose();
 	};
 
-	const onConfirmDeleteItemHandler = ():void => {
-		const updatedData = deleteItem([...treeData]);
-		setTreeData(updatedData);
-	};
 	const onPermanentDeleteItemHandler = ():void => {
-		const arr:NodeModel[] = duplicateNode(nodeId);
-		setTrashTreeMenu([...trashTreeData, ...arr]);
-		onConfirmDeleteItemHandler();
-
+		//		const arr:NodeModel[] = duplicateNode(nodeId);
+		//		setTrashTreeMenu([...trashTreeData, ...arr]);
+		//		dispatch(setTrash(arr));
+		//		onConfirmDeleteItemHandler();
 	};
 	const onDuplicateItemClickedHandler = ():void => {
 		const arr:NodeModel[] = duplicateNode(nodeId);
