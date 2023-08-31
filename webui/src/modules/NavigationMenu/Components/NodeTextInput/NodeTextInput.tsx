@@ -1,8 +1,8 @@
-import { Box, ClickAwayListener, Icon, Paper, TextField } from '@mui/material';
-import { NodeTextInputProps } from './types';
+import { Box, Icon, Paper, TextField } from '@mui/material';
+import type { NodeTextInputProps } from './types';
 
-const NodeTextInput:React.FC<NodeTextInputProps> = ({ value, onChangeHandler, onBlurHandler, onClosePopperHandler, onSaveHandler, ref }) => {
-	const onKeyDownHandler = (e:React.KeyboardEvent<HTMLDivElement>) => {
+const NodeTextInput: React.FC<NodeTextInputProps> = ({ value, onChangeHandler, onBlurHandler, onClosePopperHandler, onSaveHandler, ref }) => {
+	const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			onSaveHandler();
 		}
@@ -20,8 +20,7 @@ const NodeTextInput:React.FC<NodeTextInputProps> = ({ value, onChangeHandler, on
 				alignItems: 'center',
 				height: '2rem',
 				columnGap: '0.25rem'
-			}}
-		>
+			}}>
 			<TextField
 				onKeyDown={onKeyDownHandler}
 				sx={{ '& .MuiOutlinedInput-root': { height: '2rem' }, background: '#F8F8F8', height: '2rem', width: '20rem' }}
@@ -40,8 +39,7 @@ const NodeTextInput:React.FC<NodeTextInputProps> = ({ value, onChangeHandler, on
 					borderRadius: '0.25rem',
 					border: '1px solid lightgrey',
 					alignItems: 'center'
-				}}
-			>
+				}}>
 				<Icon sx={{ cursor: 'pointer' }} onClick={onSaveHandler}>
 					save_outlined_icon
 				</Icon>

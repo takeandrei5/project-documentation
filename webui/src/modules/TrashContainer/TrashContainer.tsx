@@ -1,73 +1,64 @@
-import { Box, Icon, ListItemIcon, Typography } from '@mui/material';
+import { type NodeModel } from '@minoru/react-dnd-treeview';
+import { Box } from '@mui/material';
 import { useAppSelector } from '../../redux/hooks';
-import { TreeDataValues } from '../NavigationMenu/types';
-import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
-import { DndProvider } from 'react-dnd';
-import { useEffect, useState } from 'react';
+import type { TreeDataValues } from '../NavigationMenu/types';
+import _ from 'lodash';
 
-const TrashContainer:React.FC = () => {
-	const trashData:NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
-	console.log('trashData', trashData);
+const TrashContainer: React.FC = () => {
+	const trashData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
 	return (
 		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF' }}>
 			<TreeView initialData={trashData} />
-
 		</Box>
 	);
 };
 
-export default TrashContainer;
+const TreeView = ({ initialData: data }: { initialData: NodeModel<TreeDataValues>[] }) => {
+	function arrayToTree(data: NodeModel<TreeDataValues>[]) {
+		let tree = [];
+		let map = {};
 
-const TreeNode = ({ node }) => {
-	const { id, text, data, droppable } = node;
+		const temp = _.cloneDeep(data);
 
-	return (
-		<div>
-			<div>
-				<span>{text}</span>
-			</div>
-			{droppable && (
-				<div style={{ marginLeft: '20px' }}>
-					{node.children && node.children.map(child => (
-						<TreeNode key={child.id} node={child} />
-					))}
-				</div>
-			)}
-		</div>
-	);
-};
+		temp.forEach((item) => {
+			// Initialize the children array for the current item
+			item['children'] = [];
 
-const TreeView = ({ initialData: data }) => {
-	// Create a mapping of parent IDs to their respective children
-	const parentToChildrenMap = {};
-	data.forEach(node => {
-		if (!parentToChildrenMap[node.parent]) {
-			parentToChildrenMap[node.parent] = [];
+			// If the map doesn't have the item's id as a key, create it.
+			map[item.id] = item;
+
+			// If the parent is 0, it's a root node, so push it to the tree.
+			// Else, it's a child node, so push it to its parent's children array.
+			if (item.parent === 0) {
+				tree.push(item);
+			} else if (map[item.parent]) {
+				map[item.parent].children.push(item);
+			}
+		});
+
+		return tree;
+	}
+
+	let arr = [];
+	const renderTree = (nodes: any[], margin = 0) => {
+    console.log(nodes);
+		for (const i of nodes) {
+			arr.push(<TreeNode key={i.id} node={i} margin={margin} />);
+
+			if (i.children) {
+				renderTree(i.children, margin + 20);
+			}
 		}
-		parentToChildrenMap[node.parent].push(node);
-	});
-
-	// Create a function to recursively build the tree
-	const buildTree = parentId => {
-		const children = parentToChildrenMap[parentId] || [];
-		return children.map(child => ({
-			...child,
-			children: buildTree(child.id)
-		}));
 	};
+	renderTree(arrayToTree(data));
 
-	// Build the root nodes of the tree (nodes with parent 1)
-//	const rootNodes = buildTree(1);
-	const rootNodes = buildTree(0).concat(buildTree(1));
-
-
-	return (
-		<div>
-			{rootNodes.map(node => (
-				<TreeNode key={node.id} node={node} />
-			))}
-		</div>
-	);
+	return <>{arr.map((node) => node)}</>;
 };
 
+const TreeNode = ({ node, margin }: { node: NodeModel<TreeDataValues>, margin: number }) => {
+	const { text, data } = node;
 
+	return <>{data?.isDeleted && <div style={{ marginLeft: `${margin}px`, width: '100%' }}>{text}</div>}</>;
+};
+
+export default TrashContainer;

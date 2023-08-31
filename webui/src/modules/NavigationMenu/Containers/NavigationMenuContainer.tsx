@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { NavigationMenuBody, NavigationMenuFooter, NavigationMenuHeader } from '../components';
 import type { TreeDataValues } from '../types';
 
-export const initialTreeData:NodeModel<TreeDataValues>[] = [
+export const initialTreeData: NodeModel<TreeDataValues>[] = [
 	{
 		id: 1,
 		parent: 0,
@@ -14,8 +14,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			iconName: 'folder_open',
 			link: '/project-description/1',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		}
 	},
 	{
@@ -27,8 +26,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			iconName: 'folder_open',
 			link: '/project-description/1/project-management',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		}
 	},
 	{
@@ -36,8 +34,10 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 		parent: 2,
 		text: 'Tasks',
 		data: {
-			iconName: 'text_snippet_outlined', link: '/project-description/1/tasks', isEditable: false, isDeletable: false
-
+			iconName: 'text_snippet_outlined',
+			link: '/project-description/1/tasks',
+			isEditable: false,
+			isDeleted: false
 		}
 	},
 	{
@@ -48,8 +48,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			iconName: 'folder_open',
 			link: '/project-description/1/projects',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		},
 		droppable: true
 	},
@@ -61,8 +60,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			iconName: 'text_snippet_outlined',
 			link: '/project-description/1/e-shop',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		}
 	},
 	{
@@ -73,8 +71,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			iconName: 'text_snippet_outlined',
 			link: '/project-description/1/development',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		}
 	},
 	{
@@ -85,7 +82,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			link: '/project-description/1/qa',
 			iconName: 'text_snippet_outlined',
 			isEditable: false,
-			isDeletable: false
+			isDeleted: false
 		}
 	},
 	{
@@ -96,7 +93,7 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			link: '/project-description/1/design',
 			iconName: 'text_snippet_outlined',
 			isEditable: false,
-			isDeletable: false
+			isDeleted: false
 		}
 	},
 	{
@@ -107,23 +104,18 @@ export const initialTreeData:NodeModel<TreeDataValues>[] = [
 			link: '/project-description/1/templates',
 			iconName: 'text_snippet_outlined',
 			isEditable: false,
-			isDeletable: false
-
+			isDeleted: false
 		}
 	}
 ];
 
-const NavigationMenuContainer:React.FC = () => {
+const NavigationMenuContainer: React.FC = () => {
 	const [treeData, setTreeData] = useState<NodeModel<TreeDataValues>[]>(initialTreeData);
-	const [trashTreeData, setTrashTreeData] = useState<NodeModel<TreeDataValues>[]>([]);
-	return (
+
+  return (
 		<Box>
 			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeData} />
-			<NavigationMenuBody treeData={treeData}
-													setTreeData={setTreeData}
-													trashTreeData={trashTreeData}
-													setTrashTreeData={setTrashTreeData}
-			/>
+			<NavigationMenuBody treeData={treeData} setTreeData={setTreeData} />
 			<Divider />
 			<NavigationMenuFooter />
 		</Box>

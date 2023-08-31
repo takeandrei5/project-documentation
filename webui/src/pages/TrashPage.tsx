@@ -1,6 +1,6 @@
 import { TrashContainer } from '../modules/TrashContainer';
 
-const TrashPage:React.FC = () => {
+const TrashPage: React.FC = () => {
 	return <TrashContainer />;
 };
 
