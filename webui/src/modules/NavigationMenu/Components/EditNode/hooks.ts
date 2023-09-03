@@ -1,5 +1,6 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useState, RefObject } from 'react';
 import { NodeModel } from '@minoru/react-dnd-treeview';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const useEditNode = (treeData:NodeModel[], setTreeData:Dispatch<React.SetStateAction<NodeModel[]>>, node:NodeModel) => {
 	const [value, setValue] = useState<string>(node.text);
@@ -41,4 +42,41 @@ const useEditNode = (treeData:NodeModel[], setTreeData:Dispatch<React.SetStateAc
 		onSaveHandler
 	};
 };
-export default useEditNode;
+
+const useShortCommands = (treeData:NodeModel[],
+													setTreeData:Dispatch<React.SetStateAction<NodeModel[]>>,
+													node:NodeModel,
+													nodeRef:RefObject<HTMLInputElement>,
+													openDeleteDialogHandler:() => void,
+													onCopyItemClickedHandler:(link:string) => Promise<void>,
+													onRenameItemClickedHandler:() => void,
+													onDuplicateItemClickedHandler:() => void) => {
+
+	useHotkeys(['ctrl+c', 'meta+c'], async () => {
+		if (nodeRef.current === document.activeElement) {
+			await onCopyItemClickedHandler(node.data.link);
+		}
+	}, [treeData, setTreeData, node]);
+
+	useHotkeys(['ctrl+r', 'meta+r'], (ev) => {
+		if (nodeRef.current === document.activeElement) {
+			ev.preventDefault();
+			ev.stopPropagation();
+			onRenameItemClickedHandler();
+		}
+	}, [treeData, setTreeData, node]);
+
+	useHotkeys(['ctrl+d', 'meta+d'], () => {
+		if (nodeRef.current === document.activeElement) {
+			onDuplicateItemClickedHandler();
+		}
+	}, [treeData, setTreeData, node]);
+
+	useHotkeys(['ctrl+v', 'meta+v'], () => {
+		if (nodeRef.current === document.activeElement) {
+			openDeleteDialogHandler();
+		}
+	}, [treeData, setTreeData, node]);
+};
+export { useEditNode, useShortCommands };
+

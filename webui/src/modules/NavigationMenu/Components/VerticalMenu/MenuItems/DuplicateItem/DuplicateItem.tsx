@@ -9,7 +9,7 @@ const DuplicateItem: React.FC<DuplicateItemProps> = ({ onClickHandler }) => {
 			</ListItemIcon>
 			<ListItemText>Duplicate</ListItemText>
 			<Typography variant='body2' color='text.secondary'>
-				⌘D
+				⌘+D
 			</Typography>
 		</MenuItem>
 	);

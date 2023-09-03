@@ -9,7 +9,7 @@ const DeleteItem: React.FC<DeleteItemProps> = ({ onClickHandler }) => {
 			</ListItemIcon>
 			<ListItemText>Delete</ListItemText>
 			<Typography variant='body2' color='text.secondary'>
-				⌘⌫
+				⌘+⌫
 			</Typography>
 		</MenuItem>
 	);

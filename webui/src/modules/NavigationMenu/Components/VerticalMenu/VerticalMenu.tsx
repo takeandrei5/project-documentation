@@ -1,10 +1,6 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Box, Icon, ListItemButton, Snackbar, Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import useDialogControl from '../../../../hooks/useDialogControl';
 import Dialog from './Dialog/Dialog';
 import { CopyItem, DeleteItem, DuplicateItem } from './MenuItems';
@@ -13,7 +9,7 @@ import { RenameFilePopup } from './RenameFilePopup';
 import { useVerticalMenu } from './hooks';
 import { type VerticalMenuProps } from './types';
 
-const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData }) => {
+const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData,link }) => {
 	const control = useDialogControl();
 	const {
 		anchorEl,
@@ -34,20 +30,12 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		onRenameItemClickedHandler,
 		onSaveHandler,
 		onSnackbarCloseHandler,
-		onSoftDeleteItemHandler
-	} = useVerticalMenu(treeData, setTreeData, text, nodeId);
+		onSoftDeleteItemHandler,
+					deleteDialogContent
 
-	const dialogContent: JSX.Element = (
-		<Box>
-			<Typography variant={'body1'}>
-				If you press <strong>'Confirm'</strong> button the, file will be moved to trash and be permanently deleted in 30 days.
-			</Typography>
-			<br />
-			<Typography variant={'body1'}>
-				If you press <strong>'Permanently delete'</strong> button, you will not be able to recover the file.
-			</Typography>
-		</Box>
-	);
+				} = useVerticalMenu(treeData, setTreeData, text, nodeId);
+
+
 
 	return (
 		<>
@@ -75,7 +63,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 						'aria-labelledby': buttonId
 					}}
 					sx={{ '& .MuiPaper-root': { width: 300 } }}>
-					<CopyItem onClickHandler={onCopyItemClickedHandler} />
+					<CopyItem onClickHandler={() => onCopyItemClickedHandler(link)} />
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
 					<RenameItem onClickHandler={onRenameItemClickedHandler} />
 					<DeleteItem
@@ -84,13 +72,6 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 							onMenuCloseHandler();
 						}}
 					/>
-					<Divider />
-					<MenuItem onClick={onAddNewProjectHandler}>
-						<ListItemIcon>
-							<Icon>cloud</Icon>
-						</ListItemIcon>
-						<ListItemText>Web Clipboard</ListItemText>
-					</MenuItem>
 				</Menu>
 				<Snackbar
 					autoHideDuration={3000}
@@ -102,8 +83,8 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 				/>
 			</Box>
 			<Dialog
-				title={'Delete page'}
-				content={dialogContent}
+				title={'Delete file'}
+				content={deleteDialogContent}
 				onOutlinedButtonClickedHandler={onSoftDeleteItemHandler}
 				onContainedButtonClickedHandler={onPermanentDeleteItemHandler}
 				control={control}

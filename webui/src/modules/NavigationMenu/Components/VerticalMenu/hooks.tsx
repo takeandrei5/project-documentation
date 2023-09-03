@@ -56,7 +56,6 @@ const useVerticalMenu = (
 
     deleteItem(newTreeData, nodeId);
 		setTreeData(newTreeData);
-    console.log(newTreeData);
     dispatch(setTrash(newTreeData));
 	};
 
@@ -158,6 +157,10 @@ const useVerticalMenu = (
 
 		closePopper();
 	};
+	const deleteDialogContent:JSX.Element = <Box>
+		<Typography variant={'body1'}>If you press <strong>'Confirm'</strong> button the, file will be moved to trash and be permanently deleted in 30 days.</Typography><br />
+		<Typography variant={'body1'}>If you press <strong>'Permanently delete'</strong> button, you will not be able to recover the file.</Typography>
+	</Box>;
 
 	return {
 		anchorEl,

@@ -7,4 +7,5 @@ export type VerticalMenuProps = {
 	text: string;
 	treeData: NodeModel<TreeDataValues>[];
 	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>;
+	link:string;
 };

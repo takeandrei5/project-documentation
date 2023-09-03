@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { mainTheme } from './assets/theme';
 import { Auth0LoginProvider, RouterProvider, StoreProvider } from './providers';
 import { store } from './redux';
+import { HotKeysProvider } from './providers/HotKeysProvider';
 
 const App:React.FC = () => {
 	const navigate = useNavigate();
@@ -31,7 +32,9 @@ const App:React.FC = () => {
 				<Auth0LoginProvider>
 					<StoreProvider store={store}>
 						<ThemeProvider theme={mainTheme}>
-							<RouterProvider />
+							<HotKeysProvider>
+								<RouterProvider />
+							</HotKeysProvider>
 						</ThemeProvider>
 					</StoreProvider>
 				</Auth0LoginProvider>

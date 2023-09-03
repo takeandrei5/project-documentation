@@ -1,6 +1,6 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { Box, Divider, Icon, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { Box, Divider, ListItem, ListItemIcon, Typography } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../types';
 import { AddNewFile } from './AddNewFile';
@@ -93,32 +93,28 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 												//												'& #option-menu': {
 												//													visibility: 'visible'
 												//												}
+
 											}
-										}}>
-										<Box
-											sx={{
-												display: 'flex',
-												alignItems: 'center',
-												width: '100%',
-												cursor: 'pointer'
-											}}>
-											{node.droppable && (
-												<ListItemIcon onClick={onToggle} sx={{ minWidth: '0.5rem', cursor: 'pointer' }}>
-													{isOpen ? <Icon>expand_more</Icon> : <Icon>chevron_right</Icon>}
-												</ListItemIcon>
-											)}
-											<ListItemIcon sx={{ minWidth: 0, mr: '0.25rem' }}>
-												<Icon>{node.data!.iconName}</Icon>
-											</ListItemIcon>
-											<EditNode treeData={treeData} setTreeData={setTreeData} node={node} />
-										</Box>
+										}}
+									>
+										<EditNode setTrashTreeData={setTrashTreeData}
+															trashTreeData={trashTreeData}
+															treeData={treeData}
+															setTreeData={setTreeData}
+															node={node}
+															droppable={node.droppable}
+															isOpen={isOpen}
+															onToggle={onToggle}
+										/>
 										<Box id={'option-menu'} sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
 											{node.droppable && <AddNewFile setTreeData={setTreeData} nodeId={node.id as number} treeData={treeData} />}
-											<VerticalMenu
-												nodeId={node.id as number}
-												text={node.text}
-												treeData={treeData}
-												setTreeData={setTreeData}
+											<VerticalMenu nodeId={node.id as number}
+																		text={node.text}
+																		link={node.data?.link}
+																		treeData={treeData}
+																		setTreeData={setTreeData}
+																		trashTreeData={trashTreeData}
+																		setTrashTreeData={setTrashTreeData}
 											/>
 										</Box>
 									</Box>
