@@ -1,10 +1,9 @@
-import { TreeDataProps, TreeDataValues } from '../../types';
-import { NodeModel } from '@minoru/react-dnd-treeview';
+import type { TreeDataProps, TreeDataValues } from '../../types';
+import type { NodeModel } from '@minoru/react-dnd-treeview';
 
 export type EditNodeProps = TreeDataProps & {
-	node:NodeModel<TreeDataValues>;
-	editNodeRef?:any
-	isOpen:boolean
-	onToggle:() => void
-}
-
+	node: NodeModel<TreeDataValues>;
+	editNodeRef?: any;
+	isOpen: boolean;
+	onToggle: () => void;
+};

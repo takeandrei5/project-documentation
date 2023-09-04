@@ -1,45 +1,36 @@
-import React, { useRef } from 'react';
-import { EditNodeProps } from './types';
 import { Box, Icon, ListItemIcon, Popover, Snackbar, Typography } from '@mui/material';
-import NodeTextInput from '../NodeTextInput/NodeTextInput';
-import { useEditNode, useShortCommands } from './hooks';
-import { useVerticalMenu } from '../VerticalMenu/hooks';
+import React, { useRef } from 'react';
 import useDialogControl from '../../../../hooks/useDialogControl';
-import { RenameFilePopup } from '../VerticalMenu/RenameFilePopup';
+import NodeTextInput from '../NodeTextInput/NodeTextInput';
 import Dialog from '../VerticalMenu/Dialog/Dialog';
+import { RenameFilePopup } from '../VerticalMenu/RenameFilePopup';
+import { useVerticalMenu } from '../VerticalMenu/hooks';
+import { useEditNode, useShortCommands } from './hooks';
+import type { EditNodeProps } from './types';
 
-const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node, trashTreeData, setTrashTreeData, onToggle, isOpen }) => {
+const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onToggle, isOpen }) => {
 	const control = useDialogControl();
 	const editNodeRef = useRef(null);
 
 	const {
-					isRenamePopupOpen,
-					isSnackbarOpen,
-					newFileName,
-					onClosePopperHandler,
-					onCopyItemClickedHandler,
-					onConfirmDeleteItemHandler,
-					onPermanentDeleteItemHandler,
-					onDuplicateItemClickedHandler,
-					onRenameFileChangeHandler,
-					onRenameItemClickedHandler,
-					onSnackbarCloseHandler,
-					onSaveHandler: onSaveShortCommandHandler,
-					deleteDialogContent
-				} = useVerticalMenu(treeData, setTreeData, node.text, node.id, control, trashTreeData, setTrashTreeData);
+		deleteDialogContent,
+		isRenamePopupOpen,
+		isSnackbarOpen,
+		newFileName,
+		onClosePopperHandler,
+		onCopyItemClickedHandler,
+		onPermanentDeleteItemHandler,
+		onDuplicateItemClickedHandler,
+		onRenameFileChangeHandler,
+		onRenameItemClickedHandler,
+		onSaveHandler: onSaveShortCommandHandler,
+		onSnackbarCloseHandler,
+    onSoftDeleteItemHandler
+	} = useVerticalMenu(treeData, setTreeData, node.text, +node.id);
 
 	useShortCommands(treeData, setTreeData, node, editNodeRef, control.openHandler, onCopyItemClickedHandler, onRenameItemClickedHandler, onDuplicateItemClickedHandler);
 
-	const {
-					open,
-					onSaveHandler,
-					handleClose,
-					anchorEl,
-					handleClick,
-					value,
-					setValue,
-					id
-				} = useEditNode(treeData, setTreeData, node);
+	const { anchorEl, onCloseHandler, onDoubleClickHandler, onSaveHandler, open, value, setValue } = useEditNode(treeData, setTreeData, node);
 	return (
 		<>
 			<Box
@@ -53,25 +44,22 @@ const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node, trashTr
 					'&:focus': {
 						outline: 'none'
 					}
-				}}
-			>
-				{node.droppable &&
-					<ListItemIcon onClick={onToggle} sx={{ minWidth: '0.5rem', cursor: 'pointer' }}>{isOpen ? <Icon>expand_more</Icon> :
-						<Icon>chevron_right</Icon>}</ListItemIcon>}
+				}}>
+				{node.droppable && (
+					<ListItemIcon onClick={onToggle} sx={{ minWidth: '0.5rem', cursor: 'pointer' }}>
+						{isOpen ? <Icon>expand_more</Icon> : <Icon>chevron_right</Icon>}
+					</ListItemIcon>
+				)}
 				<ListItemIcon sx={{ minWidth: 0, mr: '0.25rem' }}>
 					<Icon>{node.data!.iconName}</Icon>
 				</ListItemIcon>
-				<Popover
-					id={id}
-					open={open}
-					anchorEl={anchorEl}
-					onClose={handleClose}
-				>
-					<NodeTextInput onChangeHandler={(ev) => setValue(ev.target.value)}
-												 onClosePopperHandler={handleClose}
-												 onSaveHandler={onSaveHandler}
-												 value={value}
-												 onBlurHandler={handleClose}
+				<Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
+					<NodeTextInput
+						onChangeHandler={(ev) => setValue(ev.target.value)}
+						onClosePopperHandler={onCloseHandler}
+						onSaveHandler={onSaveHandler}
+						value={value}
+						onBlurHandler={onCloseHandler}
 					/>
 				</Popover>
 				<Box
@@ -79,17 +67,18 @@ const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node, trashTr
 						display: 'flex',
 						alignItems: 'center'
 					}}
-					onDoubleClick={handleClick}
-				>
+					onDoubleClick={onDoubleClickHandler}>
 					<Typography>{node.text}</Typography>
 				</Box>
 				<Box sx={{ zIndex: 1001 }}>
-					{isRenamePopupOpen &&
-						<RenameFilePopup value={newFileName}
-														 onClosePopperHandler={onClosePopperHandler}
-														 onChangeHandler={onRenameFileChangeHandler}
-														 onSaveHandler={onSaveShortCommandHandler}
-						/>}
+					{isRenamePopupOpen && (
+						<RenameFilePopup
+							value={newFileName}
+							onClosePopperHandler={onClosePopperHandler}
+							onChangeHandler={onRenameFileChangeHandler}
+							onSaveHandler={onSaveShortCommandHandler}
+						/>
+					)}
 				</Box>
 				<Snackbar
 					autoHideDuration={3000}
@@ -99,13 +88,14 @@ const EditNode:React.FC<EditNodeProps> = ({ treeData, setTreeData, node, trashTr
 					message='Link copied to clipboard!'
 					key='bottom-center'
 				/>
-				<Dialog title={'Delete page'}
-								content={deleteDialogContent}
-								onConfirm={onConfirmDeleteItemHandler}
-								onPermanentlyDelete={onPermanentDeleteItemHandler}
-								control={control}
-								confirmLabel={'Confirm'}
-								deleteLabel={'Permanently delete'}
+				<Dialog
+					title={'Delete page'}
+					content={deleteDialogContent}
+					onOutlinedButtonClickedHandler={onSoftDeleteItemHandler}
+					onContainedButtonClickedHandler={onPermanentDeleteItemHandler}
+					control={control}
+					outlinedButtonLabel={'Confirm'}
+					containedButtonLabel={'Permanently delete'}
 				/>
 			</Box>
 		</>

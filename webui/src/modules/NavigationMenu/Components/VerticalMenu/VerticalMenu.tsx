@@ -9,7 +9,7 @@ import { RenameFilePopup } from './RenameFilePopup';
 import { useVerticalMenu } from './hooks';
 import { type VerticalMenuProps } from './types';
 
-const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData,link }) => {
+const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData, link }) => {
 	const control = useDialogControl();
 	const {
 		anchorEl,
@@ -19,7 +19,6 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		menuId,
 		menuIsOpen,
 		newFileName,
-		onAddNewProjectHandler,
 		onClosePopperHandler,
 		onCopyItemClickedHandler,
 		onPermanentDeleteItemHandler,
@@ -31,11 +30,8 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		onSaveHandler,
 		onSnackbarCloseHandler,
 		onSoftDeleteItemHandler,
-					deleteDialogContent
-
-				} = useVerticalMenu(treeData, setTreeData, text, nodeId);
-
-
+		deleteDialogContent
+	} = useVerticalMenu(treeData, setTreeData, text, nodeId);
 
 	return (
 		<>

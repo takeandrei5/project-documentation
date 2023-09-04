@@ -1,5 +1,5 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
-import { type SnackbarCloseReason } from '@mui/material';
+import { Typography, type SnackbarCloseReason, Box } from '@mui/material';
 import _ from 'lodash';
 import { useEffect, useState, type Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,12 +8,7 @@ import { useAppDispatch } from '../../../../redux/hooks';
 import { setTrash } from '../../../../redux/slices/trash/trashSlice';
 import type { TreeDataValues } from '../../types';
 
-const useVerticalMenu = (
-	treeData: NodeModel<TreeDataValues>[],
-	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>,
-	text: string,
-	nodeId: number,
-) => {
+const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: number) => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -38,25 +33,25 @@ const useVerticalMenu = (
 	};
 
 	const deleteItem = (data: NodeModel<TreeDataValues>[], nodeId: number): void => {
-    data.forEach((item: NodeModel<TreeDataValues>) => {
-      if (item.id === nodeId && item.data) {
-        const desc = Object.getOwnPropertyDescriptor(item.data, 'isDeleted') || {}
-        console.log(Boolean(desc.writable))
-        item.data.isDeleted = true;
-      }
+		data.forEach((item: NodeModel<TreeDataValues>) => {
+			if (item.id === nodeId && item.data) {
+				const desc = Object.getOwnPropertyDescriptor(item.data, 'isDeleted') || {};
+				console.log(Boolean(desc.writable));
+				item.data.isDeleted = true;
+			}
 
-      if (item.parent === nodeId && item.data) {
-        deleteItem(data, +item.id);
-      }
-    });
+			if (item.parent === nodeId && item.data) {
+				deleteItem(data, +item.id);
+			}
+		});
 	};
 
 	const onSoftDeleteItemHandler = (): void => {
-    const newTreeData: NodeModel<TreeDataValues>[] = _.cloneDeep(treeData);
+		const newTreeData: NodeModel<TreeDataValues>[] = _.cloneDeep(treeData);
 
-    deleteItem(newTreeData, nodeId);
+		deleteItem(newTreeData, nodeId);
 		setTreeData(newTreeData);
-    dispatch(setTrash(newTreeData));
+		dispatch(setTrash(newTreeData));
 	};
 
 	const duplicateNode = (nodeId: number, parentId: number | null = null): NodeModel<TreeDataValues>[] => {
@@ -66,7 +61,7 @@ const useVerticalMenu = (
 			return [];
 		}
 
-		const newSelectedNodeId: number = uuidv4();
+		const newSelectedNodeId: number = +uuidv4();
 		const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
 
 		let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];
@@ -119,7 +114,7 @@ const useVerticalMenu = (
 		const arr: NodeModel<TreeDataValues>[] = duplicateNode(nodeId);
 
 		setTreeData([...treeData, ...arr]);
-    handleClose();
+		handleClose();
 	};
 
 	const onMenuCloseHandler = (): void => {
@@ -157,14 +152,23 @@ const useVerticalMenu = (
 
 		closePopper();
 	};
-	const deleteDialogContent:JSX.Element = <Box>
-		<Typography variant={'body1'}>If you press <strong>'Confirm'</strong> button the, file will be moved to trash and be permanently deleted in 30 days.</Typography><br />
-		<Typography variant={'body1'}>If you press <strong>'Permanently delete'</strong> button, you will not be able to recover the file.</Typography>
-	</Box>;
+
+	const deleteDialogContent: JSX.Element = (
+		<Box>
+			<Typography variant={'body1'}>
+				If you press <strong>'Confirm'</strong> button the, file will be moved to trash and be permanently deleted in 30 days.
+			</Typography>
+			<br />
+			<Typography variant={'body1'}>
+				If you press <strong>'Permanently delete'</strong> button, you will not be able to recover the file.
+			</Typography>
+		</Box>
+	);
 
 	return {
 		anchorEl,
 		buttonId,
+    deleteDialogContent,
 		isRenamePopupOpen,
 		isSnackbarOpen,
 		menuId,
