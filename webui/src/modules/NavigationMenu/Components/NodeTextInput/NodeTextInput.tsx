@@ -7,6 +7,7 @@ const NodeTextInput: React.FC<NodeTextInputProps> = ({ value, onChangeHandler, o
 			onSaveHandler();
 		}
 	};
+
 	return (
 		<Paper
 			elevation={3}

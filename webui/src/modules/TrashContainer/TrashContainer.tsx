@@ -1,8 +1,8 @@
 import { type NodeModel } from '@minoru/react-dnd-treeview';
 import { Box } from '@mui/material';
+import _ from 'lodash';
 import { useAppSelector } from '../../redux/hooks';
 import type { TreeDataValues } from '../NavigationMenu/types';
-import _ from 'lodash';
 
 const TrashContainer: React.FC = () => {
 	const trashData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
