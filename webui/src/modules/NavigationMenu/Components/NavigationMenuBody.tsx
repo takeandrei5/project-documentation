@@ -7,9 +7,9 @@ import { TreeNode } from './TreeNode';
 import { useState } from 'react';
 
 const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
-  const [selectedTreeNode, setSelectedTreeNode] = useState<number | null>(null);
+  const [selectedTreeNode, setSelectedTreeNode] = useState<string | null>(null);
 
-  const handleClick = (nodeId: number): void => {
+  const handleClick = (nodeId: string): void => {
     setSelectedTreeNode(nodeId);
   }
 

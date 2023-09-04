@@ -1,5 +1,5 @@
 import { Box, Icon, List, ListItem, ListItemIcon, Typography } from '@mui/material';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const arr = [
 	{ id: 'item-1', name: 'Create a teamspace', iconName: 'people_alt_outlined_icon', link: '#' },
@@ -8,24 +8,23 @@ const arr = [
 	{ id: 'item-4', name: 'Trash', iconName: 'delete_outline_outlined', link: '/trash' }
 ];
 
-const NavigationMenuFooter:React.FC = () => {
+const NavigationMenuFooter: React.FC = () => {
 	const params = useParams();
 	const currentPath = `/project-documentation/${params.id}`;
-	const renderItems = ():JSX.Element[] => {
+	const renderItems = (): JSX.Element[] => {
 		return arr.map((item) => {
-			const link = `${currentPath}${item.link}`;
+			const link: string = `${currentPath}${item.link}`;
 
 			return (
-				<Box key={item.id} componnet={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
-					<Link  to={link}>
+				<Box key={item.id} component={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
+					<Link to={link}>
 						<ListItem
 							sx={{
 								'&:hover p': {
 									fontWeight: 'bold'
 								},
 								cursor: 'pointer'
-							}}
-						>
+							}}>
 							<ListItemIcon>
 								<Icon>{item.iconName}</Icon>
 							</ListItemIcon>

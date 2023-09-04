@@ -1,4 +1,4 @@
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { CreatePRDPage, HomePage, PRDPage, TrashPage } from '../../pages';
 import { AuthenticationGuard } from '../../components';
 import { MainLayoutOutlet } from '../../layouts/MainLayoutOutlet';

@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../../../redux/hooks';
 import { setTrash } from '../../../../redux/slices/trash/trashSlice';
 import type { TreeDataValues } from '../../types';
 
-const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: number) => {
+const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: string) => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		handleClose();
 	};
 
-	const deleteItem = (data: NodeModel<TreeDataValues>[], nodeId: number): void => {
+	const deleteItem = (data: NodeModel<TreeDataValues>[], nodeId: string): void => {
 		data.forEach((item: NodeModel<TreeDataValues>) => {
 			if (item.id === nodeId && item.data) {
 				const desc = Object.getOwnPropertyDescriptor(item.data, 'isDeleted') || {};
@@ -41,7 +41,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 			}
 
 			if (item.parent === nodeId && item.data) {
-				deleteItem(data, +item.id);
+				deleteItem(data, item.id.toString());
 			}
 		});
 	};
@@ -54,21 +54,21 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		dispatch(setTrash(newTreeData));
 	};
 
-	const duplicateNode = (nodeId: number, parentId: number | null = null): NodeModel<TreeDataValues>[] => {
+	const duplicateNode = (nodeId: string, parentId: string | null = null): NodeModel<TreeDataValues>[] => {
 		const selectedNode: NodeModel<TreeDataValues> | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
 
 		if (!selectedNode) {
 			return [];
 		}
 
-		const newSelectedNodeId: number = +uuidv4();
+		const newSelectedNodeId: string = uuidv4().toString();
 		const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
 
 		let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];
 		treeData
 			.filter((item: NodeModel<TreeDataValues>) => item.parent === selectedNode.id)
 			.forEach((item: NodeModel<TreeDataValues>) => {
-				newNodes = [...newNodes, ...duplicateNode(+item.id, newSelectedNodeId)];
+				newNodes = [...newNodes, ...duplicateNode(item.id.toString(), newSelectedNodeId.toString())];
 			});
 
 		return newNodes;

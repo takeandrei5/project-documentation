@@ -1,5 +1,5 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Box, Icon, ListItemButton, Snackbar, Typography } from '@mui/material';
+import { Box, ListItemButton, Snackbar } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import useDialogControl from '../../../../hooks/useDialogControl';
 import Dialog from './Dialog/Dialog';

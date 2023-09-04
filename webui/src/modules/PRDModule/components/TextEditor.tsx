@@ -9,7 +9,7 @@ const TextEditor = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
 	const currentFocusedElement = useRef<Element | null>(null);
 
-	const { getQuickToolbarElement, getTinyMceBodyElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } = useTextEditor();
+	const { getQuickToolbarElement, getTinyMceFirstLineNode, getTinyMceFirstLineElement, isCharacterInsertedInFirstLineElement } = useTextEditor();
 
 	const log = () => {
 		if (editorRef.current) {

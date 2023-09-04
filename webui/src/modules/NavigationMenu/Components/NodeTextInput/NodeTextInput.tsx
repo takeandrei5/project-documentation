@@ -1,7 +1,7 @@
 import { Box, Icon, Paper, TextField } from '@mui/material';
 import type { NodeTextInputProps } from './types';
 
-const NodeTextInput: React.FC<NodeTextInputProps> = ({ value, onChangeHandler, onBlurHandler, onClosePopperHandler, onSaveHandler, ref }) => {
+const NodeTextInput: React.FC<NodeTextInputProps> = ({ value, onChangeHandler, onBlurHandler, onSaveHandler }) => {
 	const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			onSaveHandler();

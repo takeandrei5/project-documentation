@@ -1,8 +1,7 @@
-import { StoreProps } from './types';
-import { FC } from 'react';
+import type { StoreProps } from './types';
 import { Provider } from 'react-redux';
 
-const StoreProvider:FC<StoreProps> = ({ store, children }) => {
+const StoreProvider: React.FC<StoreProps> = ({ store, children }) => {
 	return <Provider store={store}>{children}</Provider>;
 };
 export default StoreProvider;

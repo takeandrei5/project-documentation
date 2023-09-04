@@ -26,7 +26,7 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 		onSaveHandler: onSaveShortCommandHandler,
 		onSnackbarCloseHandler,
     onSoftDeleteItemHandler
-	} = useVerticalMenu(treeData, setTreeData, node.text, +node.id);
+	} = useVerticalMenu(treeData, setTreeData, node.text, node.id.toString());
 
 	useShortCommands(treeData, setTreeData, node, editNodeRef, control.openHandler, onCopyItemClickedHandler, onRenameItemClickedHandler, onDuplicateItemClickedHandler);
 
@@ -56,7 +56,6 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 				<Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
 					<NodeTextInput
 						onChangeHandler={(ev) => setValue(ev.target.value)}
-						onClosePopperHandler={onCloseHandler}
 						onSaveHandler={onSaveHandler}
 						value={value}
 						onBlurHandler={onCloseHandler}

@@ -1,5 +1,6 @@
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import type { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 
 export type StoreProps = {
-	store:ToolkitStore;
-}
+	store: ToolkitStore;
+  children: React.ReactNode;
+};

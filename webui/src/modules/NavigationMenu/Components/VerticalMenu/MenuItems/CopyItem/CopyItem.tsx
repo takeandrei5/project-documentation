@@ -1,7 +1,7 @@
 import { Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material';
 import { type CopyItemProps } from './types';
 
-const CopyItem: React.FC<CopyItemProps> = ({onClickHandler}) => {
+const CopyItem: React.FC<CopyItemProps> = ({ onClickHandler }) => {
 	return (
 		<MenuItem onClick={onClickHandler}>
 			<ListItemIcon>
