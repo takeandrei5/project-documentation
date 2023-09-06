@@ -35,7 +35,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 			<Box sx={{ position: 'relative' }}>
 				<DndProvider backend={MultiBackend} options={getBackendOptions()}>
 					<Tree<TreeDataValues>
-						tree={treeData.filter((node: NodeModel<TreeDataValues>) => !node.data?.isDeleted)}
+						tree={treeData.filter((node: NodeModel<TreeDataValues>) => !node.data || !node.data.isDeleted)}
 						dragPreviewRender={(monitorProps: DragLayerMonitorProps<TreeDataValues>) => {
 							const item = monitorProps.item;
 							return (
@@ -53,7 +53,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 								</Box>
 							);
 						}}
-						rootId={0}
+						rootId={'0'}
 						classes={{
 							root: 'Root',
 							listItem: 'ListItem',

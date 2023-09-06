@@ -6,8 +6,8 @@ import type { TreeDataValues } from '../types';
 
 export const initialTreeData: NodeModel<TreeDataValues>[] = [
 	{
-		id: 1,
-		parent: 0,
+		id: '1',
+		parent: '0',
 		droppable: true,
 		text: 'AI Story Builder',
 		data: {
@@ -18,8 +18,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 2,
-		parent: 1,
+		id: '2',
+		parent: '1',
 		text: 'Project Management',
 		droppable: true,
 		data: {
@@ -30,8 +30,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 22,
-		parent: 2,
+		id: '22',
+		parent: '2',
 		text: 'Tasks',
 		data: {
 			iconName: 'text_snippet_outlined',
@@ -41,8 +41,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 222,
-		parent: 2,
+		id: '222',
+		parent: '2',
 		text: 'Projects',
 		data: {
 			iconName: 'folder_open',
@@ -53,8 +53,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		droppable: true
 	},
 	{
-		id: 3333,
-		parent: 222,
+		id: '3333',
+		parent: '222',
 		text: 'Eshop',
 		data: {
 			iconName: 'text_snippet_outlined',
@@ -64,8 +64,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 3,
-		parent: 1,
+		id: '3',
+		parent: '1',
 		text: 'Development',
 		data: {
 			iconName: 'text_snippet_outlined',
@@ -75,8 +75,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 4,
-		parent: 1,
+		id: '4',
+		parent: '1',
 		text: 'QA',
 		data: {
 			link: '/project-description/1/qa',
@@ -86,8 +86,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 5,
-		parent: 1,
+		id: '5',
+		parent: '1',
 		text: 'Design',
 		data: {
 			link: '/project-description/1/design',
@@ -97,8 +97,8 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 		}
 	},
 	{
-		id: 6,
-		parent: 1,
+		id: '6',
+		parent: '1',
 		text: 'Templates',
 		data: {
 			link: '/project-description/1/templates',
@@ -112,7 +112,7 @@ export const initialTreeData: NodeModel<TreeDataValues>[] = [
 const NavigationMenuContainer: React.FC = () => {
 	const [treeData, setTreeData] = useState<NodeModel<TreeDataValues>[]>(initialTreeData);
 
-  return (
+	return (
 		<Box>
 			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeData} />
 			<NavigationMenuBody treeData={treeData} setTreeData={setTreeData} />

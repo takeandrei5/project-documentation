@@ -44,7 +44,7 @@ const useShortCommands = (
 	treeData: NodeModel<TreeDataValues>[],
 	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>,
 	node: NodeModel<TreeDataValues>,
-	nodeRef: RefObject<HTMLInputElement>,
+	nodeRef: RefObject<HTMLElement>,
 	openDeleteDialogHandler: () => void,
 	onCopyItemClickedHandler: (link: string) => Promise<void>,
 	onRenameItemClickedHandler: () => void,

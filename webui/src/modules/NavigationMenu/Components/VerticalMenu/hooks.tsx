@@ -35,8 +35,6 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 	const deleteItem = (data: NodeModel<TreeDataValues>[], nodeId: string): void => {
 		data.forEach((item: NodeModel<TreeDataValues>) => {
 			if (item.id === nodeId && item.data) {
-				const desc = Object.getOwnPropertyDescriptor(item.data, 'isDeleted') || {};
-				console.log(Boolean(desc.writable));
 				item.data.isDeleted = true;
 			}
 

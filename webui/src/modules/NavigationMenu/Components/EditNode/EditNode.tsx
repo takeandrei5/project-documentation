@@ -10,7 +10,7 @@ import type { EditNodeProps } from './types';
 
 const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onToggle, isOpen }) => {
 	const control = useDialogControl();
-	const editNodeRef = useRef(null);
+	const editNodeRef = useRef<HTMLElement | null>(null);
 
 	const {
 		deleteDialogContent,
@@ -25,7 +25,7 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 		onRenameItemClickedHandler,
 		onSaveHandler: onSaveShortCommandHandler,
 		onSnackbarCloseHandler,
-    onSoftDeleteItemHandler
+		onSoftDeleteItemHandler
 	} = useVerticalMenu(treeData, setTreeData, node.text, node.id.toString());
 
 	useShortCommands(treeData, setTreeData, node, editNodeRef, control.openHandler, onCopyItemClickedHandler, onRenameItemClickedHandler, onDuplicateItemClickedHandler);
@@ -50,16 +50,13 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 						{isOpen ? <Icon>expand_more</Icon> : <Icon>chevron_right</Icon>}
 					</ListItemIcon>
 				)}
-				<ListItemIcon sx={{ minWidth: 0, mr: '0.25rem' }}>
-					<Icon>{node.data!.iconName}</Icon>
-				</ListItemIcon>
+				{node.data && (
+					<ListItemIcon sx={{ minWidth: 0, mr: '0.25rem' }}>
+						<Icon>{node.data.iconName}</Icon>
+					</ListItemIcon>
+				)}
 				<Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
-					<NodeTextInput
-						onChangeHandler={(ev) => setValue(ev.target.value)}
-						onSaveHandler={onSaveHandler}
-						value={value}
-						onBlurHandler={onCloseHandler}
-					/>
+					<NodeTextInput onChangeHandler={(ev) => setValue(ev.target.value)} onSaveHandler={onSaveHandler} value={value} onBlurHandler={onCloseHandler} />
 				</Popover>
 				<Box
 					style={{

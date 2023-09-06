@@ -13,7 +13,7 @@ const NavigationMenuFooter: React.FC = () => {
 	const currentPath = `/project-documentation/${params.id}`;
 	const renderItems = (): JSX.Element[] => {
 		return arr.map((item) => {
-			const link: string = `${currentPath}${item.link}`;
+			const link = `${currentPath}${item.link}`;
 
 			return (
 				<Box key={item.id} component={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
