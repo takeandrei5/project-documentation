@@ -1,31 +1,32 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
-import { Typography, type SnackbarCloseReason, Box } from '@mui/material';
+import { Box, Typography, type SnackbarCloseReason } from '@mui/material';
 import _ from 'lodash';
 import { useEffect, useState, type Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCopyToClipboard } from '../../../../hooks';
 import { useAppDispatch } from '../../../../redux/hooks';
 import { setTrash } from '../../../../redux/slices/trash/trashSlice';
+import { DialogControlProps } from '../../../../utils/types';
 import type { TreeDataValues } from '../../types';
+import { snackbarMessages } from './constants';
 
 const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: string) => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
 
-	//open state
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 	const [isRenamePopupOpen, setIsRenamePopupOpen] = useState<boolean>(false);
-
-	//value state
-	useEffect(() => {
-		setNewFileName(text);
-	}, [text]);
+	const [snackbarMessage, setSnackbarMessage] = useState<string>('');
 	const [newFileName, setNewFileName] = useState<string>(text);
 	const { copyToClipboard } = useCopyToClipboard();
 
 	const menuId = 'basic-menu';
 	const buttonId = 'basic-button';
+
+	useEffect(() => {
+		setNewFileName(text);
+	}, [text]);
 
 	const closePopper = (): void => {
 		setIsRenamePopupOpen(false);
@@ -99,6 +100,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		const response = await copyToClipboard(link);
 
 		if (response) {
+			setSnackbarMessage(snackbarMessages.copy);
 			setIsSnackbarOpen(true);
 		}
 		handleClose();
@@ -111,6 +113,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 	const onDuplicateItemClickedHandler = (): void => {
 		const arr: NodeModel<TreeDataValues>[] = duplicateNode(nodeId);
 
+		setSnackbarMessage(snackbarMessages.duplicate);
 		setTreeData([...treeData, ...arr]);
 		handleClose();
 	};
@@ -131,12 +134,19 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 	const onRenameItemClickedHandler = (): void => {
 		setIsRenamePopupOpen(!isRenamePopupOpen);
 		handleClose();
+		setSnackbarMessage(snackbarMessages.rename);
 	};
 
 	const onSnackbarCloseHandler = (_: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason): void => {
 		if (reason === 'escapeKeyDown' || reason === 'clickaway') {
 			setIsSnackbarOpen(false);
 		}
+	};
+
+	const onDeleteItemClickedHandler = (control: DialogControlProps): void => {
+		control.openHandler();
+		handleClose();
+    setSnackbarMessage(snackbarMessages.delete);
 	};
 
 	const onSaveHandler = (): void => {
@@ -166,7 +176,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 	return {
 		anchorEl,
 		buttonId,
-    deleteDialogContent,
+		deleteDialogContent,
 		isRenamePopupOpen,
 		isSnackbarOpen,
 		menuId,
@@ -175,6 +185,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		onAddNewProjectHandler,
 		onCopyItemClickedHandler,
 		onClosePopperHandler,
+		onDeleteItemClickedHandler,
 		onDuplicateItemClickedHandler,
 		onPermanentDeleteItemHandler,
 		onMenuItemClickedHandler,
@@ -183,7 +194,8 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		onRenameItemClickedHandler,
 		onSaveHandler,
 		onSnackbarCloseHandler,
-		onSoftDeleteItemHandler
+		onSoftDeleteItemHandler,
+		snackbarMessage
 	};
 };
 

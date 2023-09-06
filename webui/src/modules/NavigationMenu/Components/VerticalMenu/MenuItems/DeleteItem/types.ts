@@ -1,3 +1,5 @@
+import type { DialogControlProps } from '../../../../../../utils/types';
+
 export type DeleteItemProps = {
-  onClickHandler: () => void;
-}
+	onClickHandler: (control: DialogControlProps) => void;
+};

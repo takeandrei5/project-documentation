@@ -14,6 +14,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 	const {
 		anchorEl,
 		buttonId,
+		deleteDialogContent,
 		isRenamePopupOpen,
 		isSnackbarOpen,
 		menuId,
@@ -21,6 +22,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		newFileName,
 		onClosePopperHandler,
 		onCopyItemClickedHandler,
+    onDeleteItemClickedHandler,
 		onPermanentDeleteItemHandler,
 		onDuplicateItemClickedHandler,
 		onMenuItemClickedHandler,
@@ -30,7 +32,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 		onSaveHandler,
 		onSnackbarCloseHandler,
 		onSoftDeleteItemHandler,
-		deleteDialogContent
+    snackbarMessage
 	} = useVerticalMenu(treeData, setTreeData, text, nodeId);
 
 	return (
@@ -63,10 +65,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
 					<RenameItem onClickHandler={onRenameItemClickedHandler} />
 					<DeleteItem
-						onClickHandler={() => {
-							control.openHandler();
-							onMenuCloseHandler();
-						}}
+						onClickHandler={onDeleteItemClickedHandler}
 					/>
 				</Menu>
 				<Snackbar
