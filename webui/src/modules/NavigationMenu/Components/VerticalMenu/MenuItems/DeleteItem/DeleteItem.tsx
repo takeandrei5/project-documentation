@@ -1,9 +1,9 @@
 import { Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material';
 import { type DeleteItemProps } from './types';
 
-const DeleteItem: React.FC<DeleteItemProps> = ({ onClickHandler }) => {
+const DeleteItem: React.FC<DeleteItemProps> = ({ control, onClickHandler }) => {
 	return (
-		<MenuItem onClick={onClickHandler}>
+		<MenuItem onClick={() => onClickHandler(control)}>
 			<ListItemIcon>
 				<Icon>delete</Icon>
 			</ListItemIcon>

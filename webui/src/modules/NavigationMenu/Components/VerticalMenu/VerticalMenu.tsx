@@ -65,6 +65,7 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
 					<RenameItem onClickHandler={onRenameItemClickedHandler} />
 					<DeleteItem
+          control={control}
 						onClickHandler={onDeleteItemClickedHandler}
 					/>
 				</Menu>
