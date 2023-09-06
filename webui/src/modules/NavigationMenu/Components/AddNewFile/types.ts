@@ -4,6 +4,6 @@ import type { TreeDataValues } from '../../types';
 
 export type AddNewFileProps = {
 	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>;
-	nodeId: number;
+	nodeId: string;
 	treeData: NodeModel<TreeDataValues>[];
 };

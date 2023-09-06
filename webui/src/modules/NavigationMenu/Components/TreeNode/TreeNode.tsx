@@ -31,7 +31,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 			{...dragOverProps}>
 			<EditNode treeData={treeData} setTreeData={setTreeData} node={node} onToggle={onToggle} isOpen={isOpen} />
 			<Box id={'option-menu'} sx={{ display: 'none', maxHeight: '100%', alignItems: 'center', flex: 1 }}>
-				{node.droppable && <AddNewFile setTreeData={setTreeData} nodeId={node.id as number} treeData={treeData} />}
+				{node.droppable && <AddNewFile setTreeData={setTreeData} nodeId={node.id} treeData={treeData} />}
 				{node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={node.data.link} />}
 			</Box>
 		</Box>
