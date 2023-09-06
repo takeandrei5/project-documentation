@@ -1,9 +1,9 @@
-async function copyTextToClipboard(text) {
-  if ('clipboard' in navigator) {
-    return await navigator.clipboard.writeText(text)
-  } else {
-    return document.execCommand('copy', true, text)
-  }
+async function copyTextToClipboard(text: string) {
+	if ('clipboard' in navigator) {
+		return await navigator.clipboard.writeText(text);
+	} else {
+		return document.execCommand('copy', true, text);
+	}
 }
 
-export {copyTextToClipboard}
+export { copyTextToClipboard };

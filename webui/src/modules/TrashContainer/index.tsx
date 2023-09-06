@@ -1,0 +1,1 @@
+export { default as TrashContainer } from './TrashContainer';

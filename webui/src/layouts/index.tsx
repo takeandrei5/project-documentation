@@ -1,2 +1,2 @@
-export { MainLayout } from './MainLayout';
-export { NavbarLayout } from './NavbarLayout';
+export { MainLayoutOutlet } from './MainLayoutOutlet';
+export { NavigationLayoutOutlet } from './NavigationLayoutOutlet';

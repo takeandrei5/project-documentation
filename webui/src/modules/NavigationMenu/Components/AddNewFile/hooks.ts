@@ -3,7 +3,7 @@ import { useState, type Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { TreeDataValues } from '../../types';
 
-const useAddNewFileComponent = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, nodeId: number) => {
+const useAddNewFileComponent = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, nodeId: string) => {
 	const [newFileName, setNewFileName] = useState<string>('');
 	const [isNewFileOpen, setIsNewFileOpen] = useState<boolean>(false);
 
@@ -24,10 +24,7 @@ const useAddNewFileComponent = (treeData: NodeModel<TreeDataValues>[], setTreeDa
 			parent: nodeId,
 			id: uuidv4(),
 			text: newFileName,
-			data: {
-				iconName: 'text_snippet_outlined',
-				link: `/project-description/2/${newFileName}`
-			}
+			data: { iconName: 'text_snippet_outlined', link: `/project-description/2/${newFileName}`, isDeleted: false }
 		};
 
 		const newTreeDataArr = [...treeData, newTreeData];

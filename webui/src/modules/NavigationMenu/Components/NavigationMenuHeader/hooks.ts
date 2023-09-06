@@ -17,10 +17,7 @@ const useNavigationMenuHeader = (setTreeData: Dispatch<SetStateAction<NodeModel<
 			id: uuidv4(),
 			text: projectName,
 			droppable: true,
-			data: {
-				iconName: 'folder_open',
-				link: '/project-description/2'
-			}
+			data: { iconName: 'folder_open', link: '/project-description/2', isDeleted: false }
 		};
 		setTreeData([...treeData, newTreeData]);
 		changeModalState(false);

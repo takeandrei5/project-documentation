@@ -1,2 +1,1 @@
-export { default as NavbarLayoutLeftSide } from './NavbarLayoutLeftSide';
-export { default as NavbarLayoutRightSide } from './NavbarLayoutRightSide';
+export { TextEditor as TextEditor } from './TextEditor';

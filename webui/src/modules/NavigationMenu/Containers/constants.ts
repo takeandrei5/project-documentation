@@ -9,7 +9,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'AI Story Builder',
 		data: {
 			iconName: 'folder_open',
-			link: '/project-description/1'
+			link: '/project-description/1',
+			isDeleted: false
 		}
 	},
 	{
@@ -17,19 +18,19 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		parent: 1,
 		text: 'Project Management',
 		droppable: true,
-		data: { iconName: 'folder_open', link: '/project-description/1/project-management' }
+		data: { iconName: 'folder_open', link: '/project-description/1/project-management', isDeleted: false }
 	},
 	{
 		id: 22,
 		parent: 2,
 		text: 'Tasks',
-		data: { iconName: 'text_snippet_outlined', link: '/project-description/1/tasks' }
+		data: { iconName: 'text_snippet_outlined', link: '/project-description/1/tasks', isDeleted: false }
 	},
 	{
 		id: 222,
 		parent: 2,
 		text: 'Projects',
-		data: { iconName: 'folder_open', link: '/project-description/1/projects' },
+		data: { iconName: 'folder_open', link: '/project-description/1/projects', isDeleted: false },
 		droppable: true
 	},
 	{
@@ -38,7 +39,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'Eshop',
 		data: {
 			iconName: 'text_snippet_outlined',
-			link: '/project-description/1/e-shop'
+			link: '/project-description/1/e-shop',
+			isDeleted: false
 		}
 	},
 	{
@@ -47,7 +49,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'Development',
 		data: {
 			iconName: 'text_snippet_outlined',
-			link: '/project-description/1/development'
+			link: '/project-description/1/development',
+			isDeleted: false
 		}
 	},
 	{
@@ -56,7 +59,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'QA',
 		data: {
 			link: '/project-description/1/qa',
-			iconName: 'text_snippet_outlined'
+			iconName: 'text_snippet_outlined',
+			isDeleted: false
 		}
 	},
 	{
@@ -65,7 +69,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'Design',
 		data: {
 			link: '/project-description/1/design',
-			iconName: 'text_snippet_outlined'
+			iconName: 'text_snippet_outlined',
+			isDeleted: false
 		}
 	},
 	{
@@ -74,7 +79,8 @@ const initialTreeData: NodeModel<TreeDataValues>[] = [
 		text: 'Templates',
 		data: {
 			link: '/project-description/1/templates',
-			iconName: 'text_snippet_outlined'
+			iconName: 'text_snippet_outlined',
+			isDeleted: false
 		}
 	}
 ];
