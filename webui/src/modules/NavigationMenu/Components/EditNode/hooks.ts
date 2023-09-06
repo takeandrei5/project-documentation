@@ -75,8 +75,11 @@ const useShortCommands = (
 
 	useHotkeys(
 		['ctrl+d', 'meta+d'],
-		() => {
+		(e: KeyboardEvent) => {
 			if (nodeRef.current === document.activeElement) {
+        e.preventDefault();
+				e.stopPropagation();
+
 				onDuplicateItemClickedHandler();
 			}
 		},
@@ -84,9 +87,11 @@ const useShortCommands = (
 	);
 
 	useHotkeys(
-		['ctrl+v', 'meta+v'],
-		() => {
+		['ctrl+backspace', 'meta+backspace'],
+		(e: KeyboardEvent) => {
 			if (nodeRef.current === document.activeElement) {
+        e.stopPropagation();
+
 				openDeleteDialogHandler();
 			}
 		},
