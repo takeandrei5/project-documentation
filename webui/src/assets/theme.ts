@@ -96,7 +96,10 @@ export const mainTheme = createTheme({
 		common: {
 			white: '#FFFFFF',
 			black: '#2B283D'
-		}
+		},
+    disabled: {
+      default: '#E3E4E8'
+    }
 	},
 	typography: {
 		fontFamily: 'Inter, sans-serif',

@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
+import { ButtonC } from '../components';
 
 const HomePage: React.FC = () => {
 	const { isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0();
