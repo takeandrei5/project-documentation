@@ -102,7 +102,7 @@ export const mainTheme = createTheme({
     }
 	},
 	typography: {
-		fontFamily: 'Inter, sans-serif',
+		fontFamily: 'Manrope, sans-serif',
 		subtitle1: {
 			fontSize: '1.25rem'
 		},
