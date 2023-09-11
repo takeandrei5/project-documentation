@@ -1,6 +1,6 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { Box, Divider, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { Box, Divider, ListItem, ListItemIcon, type Theme, Typography, useTheme } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../types';
 import { TreeNode } from './TreeNode';
