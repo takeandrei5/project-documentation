@@ -1,14 +1,14 @@
-import { Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material';
+import { Icon, ListItemIcon, ListItemText, MenuItem, Theme, Typography } from '@mui/material';
 import { type DuplicateItemProps } from './types';
 
 const DuplicateItem:React.FC<DuplicateItemProps> = ({ onClickHandler }) => {
 	return (
 		<MenuItem onClick={onClickHandler}>
 			<ListItemIcon>
-				<Icon sx={{ color: (theme) => theme.palette.common.black }}>content_paste</Icon>
+				<Icon sx={(theme:Theme) => ({ color: theme.palette.textColor[60] })}>content_paste</Icon>
 			</ListItemIcon>
-			<ListItemText><Typography variant='body2'>Duplicate</Typography></ListItemText>
-			<Typography variant='body2' color='text.secondary'>
+			<ListItemText><Typography sx={(theme:Theme) => ({ color: theme.palette.textColor[60] })} variant='smallRegular'>Duplicate</Typography></ListItemText>
+			<Typography variant='smallRegular' sx={(theme:Theme) => ({ color: theme.palette.textColor[20] })}>
 				⌘+D
 			</Typography>
 		</MenuItem>

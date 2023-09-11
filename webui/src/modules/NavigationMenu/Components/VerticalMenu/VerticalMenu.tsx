@@ -1,5 +1,5 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Box, ListItemButton, Snackbar } from '@mui/material';
+import { Box, ListItemButton, Snackbar, Theme } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import useDialogControl from '../../../../hooks/useDialogControl';
 import Dialog from './Dialog/Dialog';
@@ -61,17 +61,18 @@ const VerticalMenu:React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, t
 					MenuListProps={{
 						'aria-labelledby': buttonId
 					}}
-					sx={{
+					sx={(theme:Theme) => ({
 						'& .MuiPaper-root': { width: 200, borderRadius: '0.5rem' },
-						'& .MuiList-root': { padding: '0.25rem 0.5rem', borderRadius: '1rem' },
-						'& .MuiList-root li': { padding: '0.25rem 0.50rem', '&:hover': { borderRadius: '0.25rem', backgroundColor: '#EDEDF0' } },
+						'& .MuiList-root': { padding: '0.5rem' },
+						'& .MuiList-root li': { padding: '0.25rem 0.5rem', '&:hover': { borderRadius: '0.25rem', backgroundColor: theme.palette.background.default } },
 						'& .MuiListItemIcon-root ': {
-							minWidth: '1.4rem',
+							minWidth: '0 !important',
+							marginRight: '0.3rem',
 							'& span': {
 								fontSize: '1rem'
 							}
 						}
-					}}
+					})}
 				>
 					<CopyItem onClickHandler={() => onCopyItemClickedHandler(link)} />
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
