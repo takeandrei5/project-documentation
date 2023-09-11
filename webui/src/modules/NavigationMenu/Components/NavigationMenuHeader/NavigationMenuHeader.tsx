@@ -3,6 +3,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import { Button, List, ListItem, ListItemIcon, Modal, Paper, TextField, Typography } from '@mui/material';
 import { useNavigationMenuHeader } from './hooks';
 import type { NavigationMenuHeaderProps } from './types';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 
 const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData, treeData }) => {
 	const { isModalOpen, onClickHandler, onCloseHandler, onCreateProjectButtonClickedHandler, onProjectNameChangeHandler, onProjectNameKeyPressedHandler, projectName } =
@@ -10,19 +11,9 @@ const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData
 
 	return (
 		<>
-			<List>
-				<ListItem sx={{ minWidth: '0' }}>
-					<ListItemIcon>
-						<FaceIcon />
-					</ListItemIcon>
-					<Typography variant='body1'>Alin's Notion</Typography>
-				</ListItem>
-				<ListItem onClick={onClickHandler} sx={{ '&:hover p': { fontWeight: 'bold' }, cursor: 'pointer' }}>
-					<ListItemIcon>
-						<AddCircleOutlineIcon />
-					</ListItemIcon>
-					<Typography variant='body1'>New project</Typography>
-				</ListItem>
+			<List sx={{ padding: 0 }}>
+				<NavigationMenuItem icon={<FaceIcon />} onClick={onClickHandler} text={"Alin's Notion"} />
+				<NavigationMenuItem icon={<AddCircleOutlineIcon />} onClick={onClickHandler} text={'New project'} />
 			</List>
 			<Modal open={isModalOpen} onClose={onCloseHandler} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
 				<Paper

@@ -1,303 +1,285 @@
-import type { PaletteOptions, Palette } from "@mui/material/styles/createPalette";
-import type { TypographyVariants, CSSProperties } from "@mui/material/styles/styles";
-import type { TypographyPropsVariantOverrides } from "@mui/material/Typography";
+import type { PaletteOptions, Palette } from '@mui/material/styles/createPalette';
+import type { TypographyVariants, CSSProperties } from '@mui/material/styles/styles';
+import type { TypographyPropsVariantOverrides } from '@mui/material/Typography';
 
 type TypographyVariantsOptions = {
-  regular: React.CSSProperties;
-  medium: React.CSSProperties;
-  semiBold: React.CSSProperties;
-  bold: React.CSSProperties;
+	regular: React.CSSProperties;
+	medium: React.CSSProperties;
+	semiBold: React.CSSProperties;
+	bold: React.CSSProperties;
+};
+
+declare module '@mui/material/styles/createPalette' {
+	export interface Palette {
+		purple: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		blue: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		cyan: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		greenLight: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		greenDark: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		yellow: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		orange: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		red: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		magenta: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		lightPurple: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		textColor: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			0: string;
+		};
+		disabled: {
+			default: string;
+		};
+	}
+
+	export interface PaletteOptions {
+		purple: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		blue: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		cyan: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		greenLight: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		greenDark: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		yellow: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		orange: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		red: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		magenta: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		lightPurple: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			10: string;
+		};
+		textColor: {
+			100: string;
+			80: string;
+			60: string;
+			40: string;
+			20: string;
+			0: string;
+		};
+		disabled: {
+			default: string;
+		};
+	}
 }
 
-declare module "@mui/material/styles/createPalette" {
-  export interface Palette {
-    purple: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    blue: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    cyan: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    greenLight: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    greenDark: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    yellow: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    orange: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    red: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    magenta: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    lightPurple: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    textColor: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      0: string;
-    },
-    disabled: {
-      default: string;
-    }
-  }
+declare module '@mui/material/styles' {
+	export interface TypographyVariants {
+		extraSmallRegular: React.CSSProperties;
+		extraSmallMedium: React.CSSProperties;
+		extraSmallSemiBold: React.CSSProperties;
+		extraSmallBold: React.CSSProperties;
 
-  export interface PaletteOptions {
-    purple: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    blue: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    cyan: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    greenLight: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    greenDark: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    yellow: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    orange: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    red: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    magenta: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    lightPurple: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      10: string;
-    },
-    textColor: {
-      100: string;
-      80: string;
-      60: string;
-      40: string;
-      20: string;
-      0: string;
-    },
-    disabled: {
-      default: string;
-    }
-  }
+		smallRegular: React.CSSProperties;
+		smallMedium: React.CSSProperties;
+		smallSemiBold: React.CSSProperties;
+		smallBold: React.CSSProperties;
+
+		mediumRegular: React.CSSProperties;
+		mediumMedium: React.CSSProperties;
+		mediumSemiBold: React.CSSProperties;
+		mediumBold: React.CSSProperties;
+
+		largeRegular: React.CSSProperties;
+		largeMedium: React.CSSProperties;
+		largeSemiBold: React.CSSProperties;
+		largeBold: React.CSSProperties;
+
+		extraLargeRegular: React.CSSProperties;
+		extraLargeMedium: React.CSSProperties;
+		extraLargeSemiBold: React.CSSProperties;
+		extraLargeBold: React.CSSProperties;
+	}
+
+	export interface TypographyVariantsOptions {
+		extraSmallRegular?: React.CSSProperties;
+		extraSmallMedium?: React.CSSProperties;
+		extraSmallSemiBold?: React.CSSProperties;
+		extraSmallBold?: React.CSSProperties;
+
+		smallRegular?: React.CSSProperties;
+		smallMedium?: React.CSSProperties;
+		smallSemiBold?: React.CSSProperties;
+		smallBold?: React.CSSProperties;
+
+		mediumRegular?: React.CSSProperties;
+		mediumMedium?: React.CSSProperties;
+		mediumSemiBold?: React.CSSProperties;
+		mediumBold?: React.CSSProperties;
+
+		largeRegular?: React.CSSProperties;
+		largeMedium?: React.CSSProperties;
+		largeSemiBold?: React.CSSProperties;
+		largeBold?: React.CSSProperties;
+
+		extraLargeRegular?: React.CSSProperties;
+		extraLargeMedium?: React.CSSProperties;
+		extraLargeSemiBold?: React.CSSProperties;
+		extraLargeBold?: React.CSSProperties;
+	}
 }
 
-declare module "@mui/material/styles" {
-  export interface TypographyVariants {
-    extraSmall: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    small: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    medium: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    large: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    extraLarge: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    }
-  }
+declare module '@mui/material/Typography' {
+	interface TypographyPropsVariantOverrides {
+		extraSmallRegular: true;
+		extraSmallMedium: true;
+		extraSmallSemiBold: true;
+		extraSmallBold: true;
 
-  export interface TypographyVariantsOptions {
-    extraSmall?: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    small?: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    medium?: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    large?: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    },
-    extraLarge?: {
-      regular: React.CSSProperties;
-      medium: React.CSSProperties;
-      semiBold: React.CSSProperties;
-      bold: React.CSSProperties;
-    }
-  }
-}
+		smallRegular: true;
+		smallMedium: true;
+		smallSemiBold: true;
+		smallBold: true;
 
-declare module "@mui/material/Typography" {
-  export interface TypographyPropsVariantOverrides {
-    extraSmall: {
-      regular: true;
-      medium: true;
-      semiBold: true;
-      bold: true;
-    },
-    small: {
-      regular: true;
-      medium: true;
-      semiBold: true;
-      bold: true;
-    },
-    medium: {
-      regular: true;
-      medium: true;
-      semiBold: true;
-      bold: true;
-    },
-    large: {
-      regular: true;
-      medium: true;
-      semiBold: true;
-      bold: true;
-    },
-    extraLarge: {
-      regular: true;
-      medium: true;
-      semiBold: true;
-      bold: true;
-    }
-  }
+		mediumRegular: true;
+		mediumMedium: true;
+		mediumSemiBold: true;
+		mediumBold: true;
+
+		largeRegular: true;
+		largeMedium: true;
+		largeSemiBold: true;
+		largeBold: true;
+
+		extraLargeRegular: true;
+		extraLargeMedium: true;
+		extraLargeSemiBold: true;
+		extraLargeBold: true;
+	}
 }

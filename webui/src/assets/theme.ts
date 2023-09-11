@@ -103,133 +103,123 @@ export const mainTheme = createTheme({
 	},
 	typography: {
 		fontFamily: 'Manrope, sans-serif',
-		extraSmall: {
-			regular: {
-				color: '#2B283D',
-				fontSize: '0.75rem',
-				fontStyle: 'normal',
-				fontWeight: 400,
-				lineHeight: '1.125rem',
-				letterSpacing: '0.015rem'
-			},
-			medium: {
-				color: '#2B283D',
-				fontSize: '0.75rem',
-				fontStyle: 'normal',
-				fontWeight: 500,
-				lineHeight: '1.125rem',
-				letterSpacing: '0.015rem'
-			},
-			semiBold: {
-				color: '#2B283D',
-				fontSize: '0.75rem',
-				fontStyle: 'normal',
-				fontWeight: 600,
-				lineHeight: '1.125rem',
-				letterSpacing: '0.015rem'
-			},
-			bold: {
-				color: '#2B283D',
-				fontSize: '0.75rem',
-				fontStyle: 'normal',
-				fontWeight: 700,
-				lineHeight: '1.125rem',
-				letterSpacing: '0.015rem'
-			}
+		extraSmallRegular: {
+			color: '#2B283D',
+			fontSize: '0.75rem',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: '1.125rem',
+			letterSpacing: '0.015rem'
 		},
-		small: {
-			regular: {
-				color: '#2B283D',
-				fontSize: '0.875rem',
-				fontStyle: 'normal',
-				fontWeight: 400,
-				lineHeight: '1.3125rem',
-				letterSpacing: '0.0175rem'
-			},
-			medium: {
-				color: '#2B283D',
-				fontSize: '0.875rem',
-				fontStyle: 'normal',
-				fontWeight: 500,
-				lineHeight: '1.3125rem',
-				letterSpacing: '0.0175rem'
-			},
-			semiBold: {
-				color: '#2B283D',
-				fontSize: '0.875rem',
-				fontStyle: 'normal',
-				fontWeight: 600,
-				lineHeight: '1.3125rem',
-				letterSpacing: '0.0175rem'
-			},
-			bold: {
-				color: '#2B283D',
-				fontSize: '0.875rem',
-				fontStyle: 'normal',
-				fontWeight: 700,
-				lineHeight: '1.3125rem',
-				letterSpacing: '0.0175rem'
-			}
+		extraSmallMedium: {
+			color: '#2B283D',
+			fontSize: '0.75rem',
+			fontStyle: 'normal',
+			fontWeight: 500,
+			lineHeight: '1.125rem',
+			letterSpacing: '0.015rem'
 		},
-		medium: {
-			regular: {
-				color: '#2B283D',
-				fontSize: '1rem',
-				fontStyle: 'normal',
-				fontWeight: 400,
-				lineHeight: '1.3rem',
-				letterSpacing: '0.02rem'
-			},
-			medium: {
-				color: '#2B283D',
-				fontSize: '1rem',
-				fontStyle: 'normal',
-				fontWeight: 500,
-				lineHeight: '1.3rem',
-				letterSpacing: '0.02rem'
-			},
-			semiBold: {
-				color: '#2B283D',
-				fontSize: '1rem',
-				fontStyle: 'normal',
-				fontWeight: 600,
-				lineHeight: '1.3rem',
-				letterSpacing: '0.02rem'
-			},
-			bold: {
-				color: '#2B283D',
-				fontSize: '1rem',
-				fontStyle: 'normal',
-				fontWeight: 700,
-				lineHeight: '1.3rem',
-				letterSpacing: '0.02rem'
-			}
+		extraSmallSemiBold: {
+			color: '#2B283D',
+			fontSize: '0.75rem',
+			fontStyle: 'normal',
+			fontWeight: 600,
+			lineHeight: '1.125rem',
+			letterSpacing: '0.015rem'
 		},
-		large: {
-			regular: {
-				color: '#2B283D',
-				fontSize: '1.25rem',
-				fontStyle: 'normal',
-				fontWeight: 400,
-				lineHeight: '1.5rem',
-				letterSpacing: '0.025rem'
-			},
-			medium: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 500, lineHeight: '1.5rem', letterSpacing: '0.025rem' },
-			semiBold: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 600, lineHeight: '1.5rem', letterSpacing: '0.025rem' },
-			bold: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 700, lineHeight: '1.5rem', letterSpacing: '0.025rem' }
+		extraSmallBold: {
+			color: '#2B283D',
+			fontSize: '0.75rem',
+			fontStyle: 'normal',
+			fontWeight: 700,
+			lineHeight: '1.125rem',
+			letterSpacing: '0.015rem'
 		},
-		extraLarge: {
-			regular: {
-				color: '#2B283D',
-				fontSize: '1.625rem',
-				fontStyle: 'normal',
-				fontWeight: 400,
-				lineHeight: '1.95rem',
-				letterSpacing: '0.0325rem'
-			},
-			medium: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 500, lineHeight: '1.95rem', letterSpacing: '0.0325rem' },
-			semiBold: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 600, lineHeight: '1.95rem', letterSpacing: '0.0325rem' },
-			bold: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 700, lineHeight: '1.95rem', letterSpacing: '0.0325rem' }
-		}
-	}
+		smallRegular: {
+			color: '#2B283D',
+			fontSize: '0.875rem',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: '1.3125rem',
+			letterSpacing: '0.0175rem'
+		},
+		smallMedium: {
+			color: '#2B283D',
+			fontSize: '0.875rem',
+			fontStyle: 'normal',
+			fontWeight: 500,
+			lineHeight: '1.3125rem',
+			letterSpacing: '0.0175rem'
+		},
+		smallSemiBold: {
+			color: '#2B283D',
+			fontSize: '0.875rem',
+			fontStyle: 'normal',
+			fontWeight: 600,
+			lineHeight: '1.3125rem',
+			letterSpacing: '0.0175rem'
+		},
+		smallBold: {
+			color: '#2B283D',
+			fontSize: '0.875rem',
+			fontStyle: 'normal',
+			fontWeight: 700,
+			lineHeight: '1.3125rem',
+			letterSpacing: '0.0175rem'
+		},
+		mediumRegular: {
+			color: '#2B283D',
+			fontSize: '1rem',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: '1.3rem',
+			letterSpacing: '0.02rem'
+		},
+		mediumMedium: {
+			color: '#2B283D',
+			fontSize: '1rem',
+			fontStyle: 'normal',
+			fontWeight: 500,
+			lineHeight: '1.3rem',
+			letterSpacing: '0.02rem'
+		},
+		mediumSemiBold: {
+			color: '#2B283D',
+			fontSize: '1rem',
+			fontStyle: 'normal',
+			fontWeight: 600,
+			lineHeight: '1.3rem',
+			letterSpacing: '0.02rem'
+		},
+		mediumBold: {
+			color: '#2B283D',
+			fontSize: '1rem',
+			fontStyle: 'normal',
+			fontWeight: 700,
+			lineHeight: '1.3rem',
+			letterSpacing: '0.02rem'
+		},
+		largeRegular: {
+			color: '#2B283D',
+			fontSize: '1.25rem',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: '1.5rem',
+			letterSpacing: '0.025rem'
+		},
+		largeMedium: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 500, lineHeight: '1.5rem', letterSpacing: '0.025rem' },
+		largeSemiBold: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 600, lineHeight: '1.5rem', letterSpacing: '0.025rem' },
+		largeBold: { color: '#2B283D', fontSize: '1.25rem', fontStyle: 'normal', fontWeight: 700, lineHeight: '1.5rem', letterSpacing: '0.025rem' },
+		extraLargeRegular: {
+			color: '#2B283D',
+			fontSize: '1.625rem',
+			fontStyle: 'normal',
+			fontWeight: 400,
+			lineHeight: '1.95rem',
+			letterSpacing: '0.0325rem'
+		},
+		extraLargeMedium: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 500, lineHeight: '1.95rem', letterSpacing: '0.0325rem' },
+		extraLargeSemiBold: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 600, lineHeight: '1.95rem', letterSpacing: '0.0325rem' },
+		extraLargeBold: { color: '#2B283D', fontSize: '1.625rem', fontStyle: 'normal', fontWeight: 700, lineHeight: '1.95rem', letterSpacing: '0.0325rem' }
+	},
 });
