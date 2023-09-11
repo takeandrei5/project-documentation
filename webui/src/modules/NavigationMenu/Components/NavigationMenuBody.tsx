@@ -1,17 +1,17 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { Box, Divider, ListItem, ListItemIcon, type Theme, Typography, useTheme } from '@mui/material';
+import { Box, Divider, ListItem, Typography } from '@mui/material';
+import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../types';
+import { NavigationMenuItem } from './NavigationMenuItem';
 import { TreeNode } from './TreeNode';
-import { useState } from 'react';
 
 const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
-  const [selectedTreeNode, setSelectedTreeNode] = useState<string | null>(null);
+	const [selectedTreeNode, setSelectedTreeNode] = useState<string | null>(null);
 
-  const handleClick = (nodeId: string): void => {
-    setSelectedTreeNode(nodeId);
-  }
+	const handleClick = (nodeId: string): void => {
+		setSelectedTreeNode(nodeId);
+	};
 
 	const handleDrop = (newTreeData: NodeModel<TreeDataValues>[]): void => {
 		setTreeData(newTreeData);
@@ -26,11 +26,8 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 				'& .Root ul': { padding: 0 }
 			}}>
 			<Divider />
-			<ListItem>
-				<ListItemIcon>
-					<FolderOpenIcon />
-				</ListItemIcon>
-				<Typography>Shared</Typography>
+			<ListItem sx={{ padding: 0 }}>
+				<NavigationMenuItem icon={'folder_open'} onClick={console.log} text={'Shared'} />
 			</ListItem>
 			<Box sx={{ position: 'relative' }}>
 				<DndProvider backend={MultiBackend} options={getBackendOptions()}>
@@ -81,7 +78,18 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 							);
 						}}
 						render={(node, { depth, isOpen, onToggle }) => {
-							return <TreeNode node={node} treeData={treeData} setTreeData={setTreeData} onClickHandler={handleClick} onToggle={onToggle} depth={depth} isOpen={isOpen} isSelected={selectedTreeNode === node.id} />;
+							return (
+								<TreeNode
+									node={node}
+									treeData={treeData}
+									setTreeData={setTreeData}
+									onClickHandler={handleClick}
+									onToggle={onToggle}
+									depth={depth}
+									isOpen={isOpen}
+									isSelected={selectedTreeNode === node.id}
+								/>
+							);
 						}}
 					/>
 				</DndProvider>

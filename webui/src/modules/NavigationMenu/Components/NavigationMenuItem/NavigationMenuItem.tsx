@@ -1,4 +1,4 @@
-import { ListItem, ListItemIcon, type Theme, Typography, useTheme } from '@mui/material';
+import { ListItem, ListItemIcon, type Theme, Typography, useTheme, Icon } from '@mui/material';
 import type { NavigationMenuItemProps } from './types';
 
 const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, text }) => {
@@ -18,7 +18,7 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 				justifyContent: 'flex-start',
 				gap: '1rem',
 				padding: '0.75rem 0.5rem 0.75rem 0.75rem',
-				'& path': {
+				'& span': {
 					fill: theme.palette.cyan[40]
 				},
 				'&:hover': {
@@ -29,7 +29,7 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 					},
 					'& span': {
 						color: theme.palette.purple[100],
-            fontWeight: 700
+						fontWeight: 700
 					}
 				},
 				'&:active': {
@@ -46,10 +46,9 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 						color: theme.palette.purple[100]
 					},
 					minWidth: 'fit-content',
-					width: 'fit-content',
-					'& > svg': { width: '1.25rem !important', height: '1.25rem !important' }
+					width: 'fit-content'
 				}}>
-				{icon}
+				<Icon sx={{ color: theme.palette.cyan[40], fontSize: '1.25rem' }}>{icon}</Icon>
 			</ListItemIcon>
 			<Typography variant={'smallMedium'} color={theme.palette.textColor[60]}>
 				{text}

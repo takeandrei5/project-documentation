@@ -1,5 +1,5 @@
 export type NavigationMenuItemProps = {
-  icon: React.ReactNode;
+  icon: string;
   onClick: () => void;
   text: string;
 }

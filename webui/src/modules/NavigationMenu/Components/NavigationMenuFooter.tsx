@@ -1,5 +1,6 @@
-import { Box, Icon, List, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { Box, Icon, List } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
+import { NavigationMenuItem } from './NavigationMenuItem';
 
 const arr = [
 	{ id: 'item-1', name: 'Create a teamspace', iconName: 'people_alt_outlined_icon', link: '#' },
@@ -18,18 +19,7 @@ const NavigationMenuFooter: React.FC = () => {
 			return (
 				<Box key={item.id} component={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
 					<Link to={link}>
-						<ListItem
-							sx={{
-								'&:hover p': {
-									fontWeight: 'bold'
-								},
-								cursor: 'pointer'
-							}}>
-							<ListItemIcon>
-								<Icon>{item.iconName}</Icon>
-							</ListItemIcon>
-							<Typography>{item.name}</Typography>
-						</ListItem>
+						<NavigationMenuItem icon={item.iconName} onClick={console.log} text={item.name} />
 					</Link>
 				</Box>
 			);
