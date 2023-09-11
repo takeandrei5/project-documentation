@@ -1,6 +1,5 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FaceIcon from '@mui/icons-material/Face';
-import { Button, List, ListItem, ListItemIcon, Modal, Paper, TextField, Typography } from '@mui/material';
+import { Button, List, Modal, Paper, TextField, Typography } from '@mui/material';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 import { useNavigationMenuHeader } from './hooks';
 import type { NavigationMenuHeaderProps } from './types';
 
@@ -10,19 +9,9 @@ const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData
 
 	return (
 		<>
-			<List>
-				<ListItem sx={{ minWidth: '0' }}>
-					<ListItemIcon>
-						<FaceIcon />
-					</ListItemIcon>
-					<Typography variant='body1'>Alin's Notion</Typography>
-				</ListItem>
-				<ListItem onClick={onClickHandler} sx={{ '&:hover p': { fontWeight: 'bold' }, cursor: 'pointer' }}>
-					<ListItemIcon>
-						<AddCircleOutlineIcon />
-					</ListItemIcon>
-					<Typography variant='body1'>New project</Typography>
-				</ListItem>
+			<List sx={{ paddingTop: 0 }}>
+				<NavigationMenuItem icon='face' onClick={onClickHandler} text="Alin's Notion" />
+				<NavigationMenuItem icon='add_circle_outline' onClick={onClickHandler} text='New project' />
 			</List>
 			<Modal open={isModalOpen} onClose={onCloseHandler} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
 				<Paper

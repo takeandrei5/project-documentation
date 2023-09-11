@@ -1,5 +1,6 @@
-import { Box, Icon, List, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 
 const arr = [
 	{ id: 'item-1', name: 'Create a teamspace', iconName: 'people_alt_outlined_icon', link: '#' },
@@ -8,34 +9,25 @@ const arr = [
 	{ id: 'item-4', name: 'Trash', iconName: 'delete_outline_outlined', link: '/trash' }
 ];
 
-const NavigationMenuFooter: React.FC = () => {
+const useNavigationMenuFooter = () => {
 	const params = useParams();
 	const currentPath = `/project-documentation/${params.id}`;
-	const renderItems = (): JSX.Element[] => {
+
+  const renderItems = (): JSX.Element[] => {
 		return arr.map((item) => {
 			const link = `${currentPath}${item.link}`;
 
 			return (
-				<Box key={item.id} component={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
+				<Box key={item.id} component='span' sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
 					<Link to={link}>
-						<ListItem
-							sx={{
-								'&:hover p': {
-									fontWeight: 'bold'
-								},
-								cursor: 'pointer'
-							}}>
-							<ListItemIcon>
-								<Icon>{item.iconName}</Icon>
-							</ListItemIcon>
-							<Typography>{item.name}</Typography>
-						</ListItem>
+						<NavigationMenuItem icon={item.iconName} onClick={console.log} text={item.name} />
 					</Link>
 				</Box>
 			);
 		});
 	};
-	return <List>{renderItems()}</List>;
+
+	return renderItems;
 };
 
-export default NavigationMenuFooter;
+export { useNavigationMenuFooter };

@@ -1,21 +1,13 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { Box, Divider, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { Box, Divider, ListItem, Typography } from '@mui/material';
 import { DndProvider } from 'react-dnd';
-import type { TreeDataProps, TreeDataValues } from '../types';
-import { TreeNode } from './TreeNode';
-import { useState } from 'react';
+import type { TreeDataProps, TreeDataValues } from '../../types';
+import { NavigationMenuItem } from '../NavigationMenuItem';
+import { TreeNode } from '../TreeNode';
+import { useNavigationMenuBody } from './hooks';
 
 const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
-  const [selectedTreeNode, setSelectedTreeNode] = useState<string | null>(null);
-
-  const handleClick = (nodeId: string): void => {
-    setSelectedTreeNode(nodeId);
-  }
-
-	const handleDrop = (newTreeData: NodeModel<TreeDataValues>[]): void => {
-		setTreeData(newTreeData);
-	};
+	const { onClickHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(setTreeData);
 
 	return (
 		<Box
@@ -26,11 +18,8 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 				'& .Root ul': { padding: 0 }
 			}}>
 			<Divider />
-			<ListItem>
-				<ListItemIcon>
-					<FolderOpenIcon />
-				</ListItemIcon>
-				<Typography>Shared</Typography>
+			<ListItem sx={{ padding: 0 }}>
+				<NavigationMenuItem icon={'folder_open'} onClick={console.log} text={'Shared'} />
 			</ListItem>
 			<Box sx={{ position: 'relative' }}>
 				<DndProvider backend={MultiBackend} options={getBackendOptions()}>
@@ -59,7 +48,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 							listItem: 'ListItem',
 							container: 'Container'
 						}}
-						onDrop={handleDrop}
+						onDrop={onDropHandler}
 						canDrop={(_, { dragSource, dropTargetId }) => {
 							if (dragSource?.parent === dropTargetId) return true;
 						}}
@@ -81,7 +70,18 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 							);
 						}}
 						render={(node, { depth, isOpen, onToggle }) => {
-							return <TreeNode node={node} treeData={treeData} setTreeData={setTreeData} onClickHandler={handleClick} onToggle={onToggle} depth={depth} isOpen={isOpen} isSelected={selectedTreeNode === node.id} />;
+							return (
+								<TreeNode
+									node={node}
+									treeData={treeData}
+									setTreeData={setTreeData}
+									onClickHandler={onClickHandler}
+									onToggle={onToggle}
+									depth={depth}
+									isOpen={isOpen}
+									isSelected={selectedTreeNode === node.id}
+								/>
+							);
 						}}
 					/>
 				</DndProvider>
