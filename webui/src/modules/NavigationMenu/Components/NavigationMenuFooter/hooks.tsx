@@ -1,6 +1,6 @@
-import { Box, Icon, List } from '@mui/material';
+import { Box } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
-import { NavigationMenuItem } from './NavigationMenuItem';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 
 const arr = [
 	{ id: 'item-1', name: 'Create a teamspace', iconName: 'people_alt_outlined_icon', link: '#' },
@@ -9,10 +9,11 @@ const arr = [
 	{ id: 'item-4', name: 'Trash', iconName: 'delete_outline_outlined', link: '/trash' }
 ];
 
-const NavigationMenuFooter: React.FC = () => {
+const useNavigationMenuFooter = () => {
 	const params = useParams();
 	const currentPath = `/project-documentation/${params.id}`;
-	const renderItems = (): JSX.Element[] => {
+
+  const renderItems = (): JSX.Element[] => {
 		return arr.map((item) => {
 			const link = `${currentPath}${item.link}`;
 
@@ -25,7 +26,8 @@ const NavigationMenuFooter: React.FC = () => {
 			);
 		});
 	};
-	return <List>{renderItems()}</List>;
+
+	return renderItems;
 };
 
-export default NavigationMenuFooter;
+export { useNavigationMenuFooter };

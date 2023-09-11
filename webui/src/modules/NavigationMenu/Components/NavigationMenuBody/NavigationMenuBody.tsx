@@ -1,21 +1,13 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
 import { Box, Divider, ListItem, Typography } from '@mui/material';
-import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
-import type { TreeDataProps, TreeDataValues } from '../types';
-import { NavigationMenuItem } from './NavigationMenuItem';
-import { TreeNode } from './TreeNode';
+import type { TreeDataProps, TreeDataValues } from '../../types';
+import { NavigationMenuItem } from '../NavigationMenuItem';
+import { TreeNode } from '../TreeNode';
+import { useNavigationMenuBody } from './hooks';
 
 const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
-	const [selectedTreeNode, setSelectedTreeNode] = useState<string | null>(null);
-
-	const handleClick = (nodeId: string): void => {
-		setSelectedTreeNode(nodeId);
-	};
-
-	const handleDrop = (newTreeData: NodeModel<TreeDataValues>[]): void => {
-		setTreeData(newTreeData);
-	};
+	const { onClickHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(setTreeData);
 
 	return (
 		<Box
@@ -56,7 +48,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 							listItem: 'ListItem',
 							container: 'Container'
 						}}
-						onDrop={handleDrop}
+						onDrop={onDropHandler}
 						canDrop={(_, { dragSource, dropTargetId }) => {
 							if (dragSource?.parent === dropTargetId) return true;
 						}}
@@ -83,7 +75,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 									node={node}
 									treeData={treeData}
 									setTreeData={setTreeData}
-									onClickHandler={handleClick}
+									onClickHandler={onClickHandler}
 									onToggle={onToggle}
 									depth={depth}
 									isOpen={isOpen}
