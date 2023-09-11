@@ -43,6 +43,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 				},
 				'&:hover ': {
 					backgroundColor: theme.palette.cyan[10],
+          // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
 					'& p ': {
 						fontWeight: 700
 					},
@@ -63,7 +64,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 			})}
 			{...dragOverProps}>
 			<EditNode treeData={treeData} setTreeData={setTreeData} node={node} onToggle={onToggle} isOpen={isOpen} />
-			<Box id='option-menu' sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+			<Box id='option-menu' sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem', maxHeight: '1.25rem' }}>
 				{node.droppable && <AddNewFile setTreeData={setTreeData} nodeId={node.id.toString()} treeData={treeData} />}
 				{node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={node.data.link} />}
 			</Box>

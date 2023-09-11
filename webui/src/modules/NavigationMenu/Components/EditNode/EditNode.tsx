@@ -67,7 +67,7 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 				<Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
 					<NodeTextInput onChangeHandler={(ev) => setValue(ev.target.value)} onSaveHandler={onSaveHandler} value={value} onBlurHandler={onCloseHandler} />
 				</Popover>
-				<Tooltip placement='top' title={node.text} onDoubleClick={onDoubleClickHandler}>
+				<Tooltip enterDelay={1200} enterNextDelay={1200} enterTouchDelay={1200} placement='top' title={node.text} onDoubleClick={onDoubleClickHandler}>
 					<Typography
 						noWrap
 						variant='smallMedium'
