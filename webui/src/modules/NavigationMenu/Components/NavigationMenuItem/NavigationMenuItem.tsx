@@ -1,13 +1,11 @@
-import { ListItem, ListItemIcon, type Theme, Typography, useTheme, Icon } from '@mui/material';
+import { ListItem, ListItemIcon, Typography, Icon, type Theme } from '@mui/material';
 import type { NavigationMenuItemProps } from './types';
 
 const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, text }) => {
-	const theme: Theme = useTheme();
-
 	return (
 		<ListItem
 			onClick={onClick}
-			sx={{
+			sx={(theme: Theme) => ({
 				backgroundColor: 'inherit',
 				borderRadius: '0.5rem',
 				color: theme.palette.textColor[60],
@@ -36,9 +34,9 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 					backgroundColor: theme.palette.cyan[20],
 					color: theme.palette.purple[100]
 				}
-			}}>
+			})}>
 			<ListItemIcon
-				sx={{
+				sx={(theme: Theme) => ({
 					'&:hover': {
 						color: theme.palette.purple[100]
 					},
@@ -47,10 +45,10 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 					},
 					minWidth: 'fit-content',
 					width: 'fit-content'
-				}}>
-				<Icon sx={{ color: theme.palette.cyan[40], fontSize: '1.25rem' }}>{icon}</Icon>
+				})}>
+				<Icon sx={(theme: Theme) => ({ color: theme.palette.cyan[40], fontSize: '1.25rem' })}>{icon}</Icon>
 			</ListItemIcon>
-			<Typography variant={'smallMedium'} color={theme.palette.textColor[60]}>
+			<Typography variant={'smallMedium'} sx={(theme: Theme) => ({ color: theme.palette.textColor[60] })}>
 				{text}
 			</Typography>
 		</ListItem>

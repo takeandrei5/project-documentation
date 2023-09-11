@@ -4,6 +4,7 @@ import type { Editor as TinyMCEEditor } from 'tinymce';
 
 import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, usePlaceholder, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
 import './tinyMce.css';
+import { type Theme, useTheme } from '@mui/material';
 
 const TextEditor: React.FC = () => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
@@ -19,6 +20,8 @@ const TextEditor: React.FC = () => {
 	const initializeQuickToolbar = useQuickToolbar();
 	const initializeSelectAllBlock = useSelectAllBlock();
 	const initializeSlashCommand = useSlashCommand();
+
+  const theme: Theme = useTheme();
 
 	const log = function () {
 		if (editorRef.current) {
@@ -49,7 +52,8 @@ const TextEditor: React.FC = () => {
 					content_style: `
           * {
             box-sizing: border-box !important;
-            font-family: Manrope, sans-serif;
+            font-family: ${theme.typography.fontFamily} !important;
+            color: ${theme.palette.textColor[80]} !important;
           }
 
           html {
@@ -80,7 +84,7 @@ const TextEditor: React.FC = () => {
             font-size: 2.5rem;
             line-height: 1.2;
             font-weight: 700;
-            color: #37352F;
+            color: ${theme.palette.textColor[100]} !important;
           }
 
           body[aria-placeholder="Untitled"] {

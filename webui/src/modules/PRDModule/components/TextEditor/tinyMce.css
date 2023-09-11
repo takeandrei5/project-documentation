@@ -1,3 +1,34 @@
+div.tox * {
+  font-family: Manrope, sans-serif !important;
+}
+
+div.tox input[placeholder="Ask AI to edit or generate..."] {
+  color: #4C4958 !important;
+}
+
+div.tox input[placeholder="Ask AI to edit or generate..."]:focus {
+  border-color: #D5ECF5 !important;
+  box-shadow: 0 0 0 2px rgba(213, 236, 245, 1)
+}
+
+div.tox div.tox-dialog__title {
+  color: #2B283D !important;
+  font-weight: 500 !important;
+}
+
+div.tox button[aria-label="Close"] {
+  color: #2B283D !important;
+}
+
+div.tox button[title="Generate"] {
+  background-color: #D5ECF5 !important;
+  border-color: #D5ECF5 !important;
+}
+
+div.tox button[title="Generate"] path {
+  fill: #110D59 !important;
+}
+
 div.tox.tox-tinymce {
 	border: 0 !important;
 	border-radius: 0 !important;
