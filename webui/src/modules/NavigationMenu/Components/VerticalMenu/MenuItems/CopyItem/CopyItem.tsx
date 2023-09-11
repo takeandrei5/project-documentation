@@ -1,14 +1,14 @@
-import { Icon, ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material';
+import { Icon, ListItemIcon, ListItemText, MenuItem, Theme, Typography } from '@mui/material';
 import { type CopyItemProps } from './types';
 
-const CopyItem: React.FC<CopyItemProps> = ({ onClickHandler }) => {
+const CopyItem:React.FC<CopyItemProps> = ({ onClickHandler }) => {
 	return (
 		<MenuItem onClick={onClickHandler}>
 			<ListItemIcon>
-				<Icon>content_copy</Icon>
+				<Icon sx={{ color: (theme:Theme) => theme.palette.textColor[60] }}>content_copy</Icon>
 			</ListItemIcon>
-			<ListItemText>Copy</ListItemText>
-			<Typography variant='body2' color='text.secondary'>
+			<ListItemText><Typography sx={(theme:Theme) => ({ color: theme.palette.textColor[60] })} variant='smallRegular'>Copy</Typography></ListItemText>
+			<Typography variant='smallRegular' sx={(theme:Theme) => ({ color: theme.palette.textColor[20] })}>
 				⌘+C
 			</Typography>
 		</MenuItem>
