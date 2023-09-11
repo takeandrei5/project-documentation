@@ -10,13 +10,15 @@ const NavigationMenuContainer: React.FC = () => {
 	const theme: Theme = useTheme();
 
 	return (
-		<Box sx={{
-      backgroundColor: theme.palette.common.white,
-      padding: '0.94rem 1rem'
-    }}>
+		<Box
+			sx={{
+				backgroundColor: theme.palette.common.white,
+				padding: '0.94rem 1rem'
+			}}>
 			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeData} />
+			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
 			<NavigationMenuBody treeData={treeData} setTreeData={setTreeData} />
-			<Divider />
+			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
 			<NavigationMenuFooter />
 		</Box>
 	);

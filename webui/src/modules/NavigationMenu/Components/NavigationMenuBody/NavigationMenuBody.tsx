@@ -1,8 +1,7 @@
-import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel } from '@minoru/react-dnd-treeview';
-import { Box, Divider, ListItem, Typography } from '@mui/material';
+import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel, type RenderParams } from '@minoru/react-dnd-treeview';
+import { Box, Theme, Typography } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../../types';
-import { NavigationMenuItem } from '../NavigationMenuItem';
 import { TreeNode } from '../TreeNode';
 import { useNavigationMenuBody } from './hooks';
 
@@ -12,64 +11,83 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 	return (
 		<Box
 			sx={{
-				'& .Root': { mt: '0.75rem', mb: '1rem', pl: '1rem' },
-				'& li': { listStyleType: 'none' },
-				'&  ul.Root': { padding: 0 },
-				'& .Root ul': { padding: 0 }
+				'& .Placeholder': {
+					position: 'relative'
+				},
+				'& .DraggingSource': {
+					opacity: 0.3
+				},
+				'& .Container': {
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '0.1rem',
+					margin: 0,
+					paddingLeft: 0,
+					'& ul': {
+						marginTop: '0.1rem'
+					}
+				},
+				'& li': { listStyleType: 'none' }
 			}}>
-			<Divider />
-			<ListItem sx={{ padding: 0 }}>
-				<NavigationMenuItem icon={'folder_open'} onClick={console.log} text={'Shared'} />
-			</ListItem>
 			<Box sx={{ position: 'relative' }}>
 				<DndProvider backend={MultiBackend} options={getBackendOptions()}>
 					<Tree<TreeDataValues>
-						tree={treeData.filter((node: NodeModel<TreeDataValues>) => !node.data || !node.data.isDeleted)}
-						dragPreviewRender={(monitorProps: DragLayerMonitorProps<TreeDataValues>) => {
-							const item = monitorProps.item;
-							return (
-								<Box
-									id={'list-id'}
-									component={'div'}
-									sx={{
-										position: 'absolute',
-										top: 0,
-										p: '0.25rem 0.75rem 0 0',
-										backgroundColor: 'rgba(0, 0, 0, 0.06)',
-										width: '60%'
-									}}>
-									<Typography sx={{ fontSize: '0.75rem', fontWeight: 'bold', pl: '1rem', color: 'black', opacity: 0.7 }}>{item.text}</Typography>
-								</Box>
-							);
-						}}
 						rootId={'0'}
+						enableAnimateExpand
+						insertDroppableFirst={false}
+						sort={false}
+						dropTargetOffset={5}
+						tree={treeData.filter((node: NodeModel<TreeDataValues>) => !node.data || !node.data.isDeleted)}
 						classes={{
 							root: 'Root',
+							draggingSource: 'DraggingSource',
 							listItem: 'ListItem',
-							container: 'Container'
+							container: 'Container',
+							placeholder: 'Placeholder'
 						}}
 						onDrop={onDropHandler}
 						canDrop={(_, { dragSource, dropTargetId }) => {
-							if (dragSource?.parent === dropTargetId) return true;
+							if (dragSource && dragSource.parent === dropTargetId) {
+								return true;
+							}
 						}}
-						sort={false}
-						insertDroppableFirst
+						dragPreviewRender={(monitorProps: DragLayerMonitorProps<TreeDataValues>) => {
+							return (
+								<Box sx={{width: '16.875rem', '& div#option-menu': {
+                  display: 'none'
+                }}}>
+									<TreeNode
+										node={monitorProps.item}
+										treeData={treeData}
+										setTreeData={setTreeData}
+										onClickHandler={onClickHandler}
+										onToggle={() => {
+                      return;
+										}}
+										depth={0}
+                    isSelected
+										isOpen={false}
+									/>
+								</Box>
+							);
+						}}
 						placeholderRender={(_, { depth }) => {
-							const left = depth * 4;
+							const left = depth * 2;
+
 							return (
 								<Box
-									sx={{
-										backgroundColor: 'red',
-										height: '2px',
+									sx={(theme: Theme) => ({
+										backgroundColor: theme.palette.purple[100],
+										height: '0.125rem',
 										position: 'absolute',
 										right: 0,
 										top: 0,
+										left,
 										transform: 'translateY(-50%)'
-									}}
-									style={{ left }}></Box>
+									})}></Box>
 							);
 						}}
-						render={(node, { depth, isOpen, onToggle }) => {
+						render={(node: NodeModel<TreeDataValues>, { depth, isOpen, onToggle }: RenderParams) => {
 							return (
 								<TreeNode
 									node={node}

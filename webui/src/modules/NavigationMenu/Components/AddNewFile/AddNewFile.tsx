@@ -2,7 +2,6 @@ import { Box, Icon, IconButton } from '@mui/material';
 import { useAddNewFileComponent } from './hooks';
 import type { AddNewFileProps } from './types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { TextInputPopup } from '../VerticalMenu/TextInputPopup';
 
 const AddNewFileComponent: React.FC<AddNewFileProps> = ({ setTreeData, nodeId, treeData }) => {
@@ -12,14 +11,10 @@ const AddNewFileComponent: React.FC<AddNewFileProps> = ({ setTreeData, nodeId, t
 		nodeId
 	);
 
-	// const TextInputPopupPortal = ReactDOM.createPortal(
-	//   <TextInputPopup value={newFileName} onChangeHandler={onChangeFileNameHandler} onClosePopperHandler={onClosePopperHandler} onSaveHandler={onAddNewFileHandler} />
-	// , document.getElementById('text-input-popup')!);
-
 	return (
 		<Box sx={{ position: 'relative' }}>
-			<IconButton disableRipple={false} disableFocusRipple={false} disableTouchRipple={false} onClick={onOpenPopperHandler} size='small'>
-				<Icon>add</Icon>
+			<IconButton onClick={onOpenPopperHandler} size='small' sx={{ height: '1.25rem', width: '1.25rem' }}>
+				<Icon sx={{ fontSize: '1.25rem' }}>add</Icon>
 			</IconButton>
 			<Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 1000 }}>
 				{isNewFileOpen && (

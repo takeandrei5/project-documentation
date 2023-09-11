@@ -1,4 +1,4 @@
-import { Box, Icon, ListItemIcon, Popover, Snackbar, Typography } from '@mui/material';
+import { Box, Icon, ListItemIcon, Popover, Snackbar, type Theme, Typography, IconButton, Tooltip } from '@mui/material';
 import React, { useRef } from 'react';
 import useDialogControl from '../../../../hooks/useDialogControl';
 import NodeTextInput from '../NodeTextInput/NodeTextInput';
@@ -39,33 +39,42 @@ const EditNode: React.FC<EditNodeProps> = ({ treeData, setTreeData, node, onTogg
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
-					width: '100%',
-					cursor: 'pointer',
+					width: 'calc(100% - 3rem)',
+					gap: '0.25rem',
 					'&:focus': {
 						outline: 'none'
 					}
 				}}>
 				{node.droppable && (
-					<ListItemIcon onClick={onToggle} sx={{ minWidth: '0.5rem', cursor: 'pointer' }}>
-						{isOpen ? <Icon>expand_more</Icon> : <Icon>chevron_right</Icon>}
-					</ListItemIcon>
+					<IconButton onClick={onToggle} size='small' sx={{ height: '1.25rem', width: '1.25rem' }}>
+						{isOpen ? (
+							<Icon sx={(theme: Theme) => ({ color: theme.palette.purple[100], fontSize: '1.25rem' })}>expand_more</Icon>
+						) : (
+							<Icon
+								sx={(theme: Theme) => ({
+									color: theme.palette.cyan[40],
+									fontSize: '1.25rem',
+									'&:hover': {
+										color: theme.palette.purple[100]
+									}
+								})}>
+								chevron_right
+							</Icon>
+						)}
+					</IconButton>
 				)}
-				{node.data && (
-					<ListItemIcon sx={{ minWidth: 0, mr: '0.25rem' }}>
-						<Icon>{node.data.iconName}</Icon>
-					</ListItemIcon>
-				)}
+				{node.data && <Icon sx={{ fontSize: '1.25rem' }}>{node.data.iconName}</Icon>}
 				<Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
 					<NodeTextInput onChangeHandler={(ev) => setValue(ev.target.value)} onSaveHandler={onSaveHandler} value={value} onBlurHandler={onCloseHandler} />
 				</Popover>
-				<Box
-					style={{
-						display: 'flex',
-						alignItems: 'center'
-					}}
-					onDoubleClick={onDoubleClickHandler}>
-					<Typography>{node.text}</Typography>
-				</Box>
+				<Tooltip placement='top' title={node.text} onDoubleClick={onDoubleClickHandler}>
+					<Typography
+						noWrap
+						variant='smallMedium'
+						sx={(theme: Theme) => ({ color: theme.palette.textColor[60], overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 'calc(100% - 1.5rem)' })}>
+						{node.text}
+					</Typography>
+				</Tooltip>
 				<Box sx={{ zIndex: 1001 }}>
 					{isRenamePopupOpen && (
 						<RenameFilePopup

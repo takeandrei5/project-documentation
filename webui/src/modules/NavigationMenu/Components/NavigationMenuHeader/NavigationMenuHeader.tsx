@@ -9,9 +9,10 @@ const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData
 
 	return (
 		<>
-			<List sx={{ paddingTop: 0 }}>
+			<List sx={{ padding: 0 }}>
 				<NavigationMenuItem icon='face' onClick={onClickHandler} text="Alin's Notion" />
 				<NavigationMenuItem icon='add_circle_outline' onClick={onClickHandler} text='New project' />
+				<NavigationMenuItem icon='folder_open' onClick={onClickHandler} text='Shared' />
 			</List>
 			<Modal open={isModalOpen} onClose={onCloseHandler} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
 				<Paper

@@ -15,7 +15,7 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 				alignItems: 'center',
 				justifyContent: 'flex-start',
 				gap: '1rem',
-				padding: '0.75rem 0.5rem 0.75rem 0.75rem',
+				padding: '0.5rem',
 				'& span': {
 					fill: theme.palette.cyan[40]
 				},
@@ -48,7 +48,7 @@ const NavigationMenuItem: React.FC<NavigationMenuItemProps> = ({ icon, onClick, 
 				})}>
 				<Icon sx={(theme: Theme) => ({ color: theme.palette.cyan[40], fontSize: '1.25rem' })}>{icon}</Icon>
 			</ListItemIcon>
-			<Typography variant={'smallMedium'} sx={(theme: Theme) => ({ color: theme.palette.textColor[60] })}>
+			<Typography variant='smallMedium' sx={(theme: Theme) => ({ color: theme.palette.textColor[60] })}>
 				{text}
 			</Typography>
 		</ListItem>

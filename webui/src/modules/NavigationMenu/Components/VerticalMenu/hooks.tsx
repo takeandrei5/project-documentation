@@ -122,7 +122,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dis
 		handleClose();
 	};
 
-	const onMenuItemClickedHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const onMenuItemClickedHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setAnchorEl(e.currentTarget);
 		setMenuIsOpen(!menuIsOpen);
 	};
