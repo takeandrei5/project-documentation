@@ -5,9 +5,9 @@ const RenameItem:React.FC<RenameItemProps> = ({ onClickHandler }) => {
 	return (
 		<MenuItem onClick={onClickHandler}>
 			<ListItemIcon>
-				<Icon>drive_file_rename_outline</Icon>
+				<Icon sx={{ color: (theme) => theme.palette.common.black }}>drive_file_rename_outline</Icon>
 			</ListItemIcon>
-			<ListItemText>Rename</ListItemText>
+			<ListItemText><Typography variant='body2'>Rename</Typography></ListItemText>
 			<Typography variant='body2' color='text.secondary'>
 				⌘+R
 			</Typography>

@@ -9,31 +9,31 @@ import { RenameFilePopup } from './RenameFilePopup';
 import { useVerticalMenu } from './hooks';
 import { type VerticalMenuProps } from './types';
 
-const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData, link }) => {
+const VerticalMenu:React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData, link }) => {
 	const control = useDialogControl();
 	const {
-		anchorEl,
-		buttonId,
-		deleteDialogContent,
-		isRenamePopupOpen,
-		isSnackbarOpen,
-		menuId,
-		menuIsOpen,
-		newFileName,
-		onClosePopperHandler,
-		onCopyItemClickedHandler,
-    onDeleteItemClickedHandler,
-		onPermanentDeleteItemHandler,
-		onDuplicateItemClickedHandler,
-		onMenuItemClickedHandler,
-		onMenuCloseHandler,
-		onRenameFileChangeHandler,
-		onRenameItemClickedHandler,
-		onSaveHandler,
-		onSnackbarCloseHandler,
-		onSoftDeleteItemHandler,
-    snackbarMessage
-	} = useVerticalMenu(treeData, setTreeData, text, nodeId);
+					anchorEl,
+					buttonId,
+					deleteDialogContent,
+					isRenamePopupOpen,
+					isSnackbarOpen,
+					menuId,
+					menuIsOpen,
+					newFileName,
+					onClosePopperHandler,
+					onCopyItemClickedHandler,
+					onDeleteItemClickedHandler,
+					onPermanentDeleteItemHandler,
+					onDuplicateItemClickedHandler,
+					onMenuItemClickedHandler,
+					onMenuCloseHandler,
+					onRenameFileChangeHandler,
+					onRenameItemClickedHandler,
+					onSaveHandler,
+					onSnackbarCloseHandler,
+					onSoftDeleteItemHandler,
+					snackbarMessage
+				} = useVerticalMenu(treeData, setTreeData, text, nodeId);
 
 	return (
 		<>
@@ -44,7 +44,8 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 					aria-haspopup='true'
 					aria-expanded={menuIsOpen ? 'true' : undefined}
 					onClick={onMenuItemClickedHandler}
-					sx={{ p: '0.4rem' }}>
+					sx={{ p: '0.4rem' }}
+				>
 					<MoreHorizIcon />
 				</ListItemButton>
 				<Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 1000 }}>
@@ -60,12 +61,23 @@ const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, 
 					MenuListProps={{
 						'aria-labelledby': buttonId
 					}}
-					sx={{ '& .MuiPaper-root': { width: 300 } }}>
+					sx={{
+						'& .MuiPaper-root': { width: 200, borderRadius: '0.5rem' },
+						'& .MuiList-root': { padding: '0.25rem 0.5rem', borderRadius: '1rem' },
+						'& .MuiList-root li': { padding: '0.25rem 0.50rem', '&:hover': { borderRadius: '0.25rem', backgroundColor: '#EDEDF0' } },
+						'& .MuiListItemIcon-root ': {
+							minWidth: '1.4rem',
+							'& span': {
+								fontSize: '1rem'
+							}
+						}
+					}}
+				>
 					<CopyItem onClickHandler={() => onCopyItemClickedHandler(link)} />
 					<DuplicateItem onClickHandler={onDuplicateItemClickedHandler} />
 					<RenameItem onClickHandler={onRenameItemClickedHandler} />
 					<DeleteItem
-          control={control}
+						control={control}
 						onClickHandler={onDeleteItemClickedHandler}
 					/>
 				</Menu>
