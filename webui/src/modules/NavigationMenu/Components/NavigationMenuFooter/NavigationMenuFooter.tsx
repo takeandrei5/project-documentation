@@ -4,7 +4,7 @@ import { useNavigationMenuFooter } from './hooks';
 const NavigationMenuFooter: React.FC = () => {
 	const renderItems = useNavigationMenuFooter();
 
-	return <List>{renderItems()}</List>;
+	return <List sx={{paddingBottom: 0}}>{renderItems()}</List>;
 };
 
 export default NavigationMenuFooter;

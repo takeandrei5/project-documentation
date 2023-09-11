@@ -18,7 +18,7 @@ const useNavigationMenuFooter = () => {
 			const link = `${currentPath}${item.link}`;
 
 			return (
-				<Box key={item.id} component={'span'} sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
+				<Box key={item.id} component='span' sx={{ '& a': { textDecoration: 'none', color: 'inherit' } }}>
 					<Link to={link}>
 						<NavigationMenuItem icon={item.iconName} onClick={console.log} text={item.name} />
 					</Link>
