@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import useButtonC from './hooks';
 import type { ButtonCProps } from './types';
 
-const ButtonC: React.FC<ButtonCProps> = ({ size, variant, children, onClick }) => {
+const ButtonC: React.FC<ButtonCProps> = ({ size, variant, children, onClick, type }) => {
 	const { sizeStyles, variantStyles } = useButtonC();
 
 	return (
@@ -11,6 +11,7 @@ const ButtonC: React.FC<ButtonCProps> = ({ size, variant, children, onClick }) =
 			disableFocusRipple
 			disableTouchRipple
 			onClick={onClick}
+			type={type}
 			sx={{
 				...sizeStyles[size],
 				...variantStyles[variant],

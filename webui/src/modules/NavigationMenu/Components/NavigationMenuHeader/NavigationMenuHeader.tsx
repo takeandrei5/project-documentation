@@ -1,11 +1,15 @@
-import { Button, List, Modal, Paper, TextField, Typography } from '@mui/material';
+import { Box, Icon, InputLabel, List, Modal, Paper, TextField, Typography } from '@mui/material';
 import { NavigationMenuItem } from '../NavigationMenuItem';
 import { useNavigationMenuHeader } from './hooks';
 import type { NavigationMenuHeaderProps } from './types';
+import { ButtonC } from '../../../../components';
+import CloseIcon from '@mui/icons-material/Close';
+import TextFieldC from '../../../../components/TextFieldC/TextFieldC';
+import { CREATE_PROJECT_INPUT } from '../../../CreatePRDModule/components/config';
 
-const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData, treeData }) => {
+const NavigationMenuHeader:React.FC<NavigationMenuHeaderProps> = ({ setTreeData, treeData }) => {
 	const { isModalOpen, onClickHandler, onCloseHandler, onCreateProjectButtonClickedHandler, onProjectNameChangeHandler, onProjectNameKeyPressedHandler, projectName } =
-		useNavigationMenuHeader(setTreeData, treeData);
+					useNavigationMenuHeader(setTreeData, treeData);
 
 	return (
 		<>
@@ -18,7 +22,6 @@ const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData
 				<Paper
 					sx={{
 						display: 'flex',
-						alignItems: 'center',
 						justifyContent: 'center',
 						flexDirection: 'column',
 						gap: '0.75rem',
@@ -26,49 +29,39 @@ const NavigationMenuHeader: React.FC<NavigationMenuHeaderProps> = ({ setTreeData
 						top: '50%',
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
-						width: 250,
+						width: 500,
 						bgcolor: 'background.paper',
 						boxShadow: 5,
-						p: 4,
-						outline: 0
-					}}>
-					<Typography variant='h6' component='h1' fontWeight={600}>
-						Enter project name
-					</Typography>
-					<TextField
-						placeholder='Type your project name'
-						variant='outlined'
-						size='small'
-						InputProps={{
-							sx: {
-								borderRadius: '0.75rem',
-								border: '1px solid #000000',
-								outline: 0,
-								width: '12rem',
-								'& > fieldset': {
-									border: 'none'
-								}
-							}
-						}}
-						onKeyPress={onProjectNameKeyPressedHandler}
-						onChange={onProjectNameChangeHandler}
-						value={projectName}
+						p: '1.5rem 2rem',
+						borderRadius: '0.5rem',
+						outline: 0,
+						'& > button': {
+							padding: '0.75rem 1rem',
+							width: '100%',
+							mt: '1rem'
+						}
+					}}
+				>
+					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+						<Typography variant='largeBold' sx={(theme) => ({ color: theme.palette.textColor[100] })} fontWeight={600}>
+							New project
+						</Typography>
+						<Icon sx={{ cursor: 'pointer' }} onClick={onCloseHandler}>close_icon</Icon>
+					</Box>
+					<TextFieldC id={CREATE_PROJECT_INPUT.id}
+											name={CREATE_PROJECT_INPUT.name}
+											label={CREATE_PROJECT_INPUT.label}
+											type={CREATE_PROJECT_INPUT.type}
+											value={projectName}
+											onChange={onProjectNameChangeHandler}
+											onKeyPress={onProjectNameKeyPressedHandler}
 					/>
-					<Button
-						variant='contained'
+					<ButtonC
+						variant='primary'
 						onClick={onCreateProjectButtonClickedHandler}
-						sx={{
-							borderRadius: '0.5rem',
-							boxShadow: 0,
-							backgroundColor: '#8FD14F',
-							color: '#000000',
-							mt: '1rem',
-							':hover': {
-								backgroundColor: '#8FD14F'
-							}
-						}}>
+					>
 						Create project
-					</Button>
+					</ButtonC>
 				</Paper>
 			</Modal>
 		</>

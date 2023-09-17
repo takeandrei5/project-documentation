@@ -1,45 +1,46 @@
-import { Dialog as MuiDialog } from '@mui/material';
+import { Dialog as MuiDialog, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import type { DialogProps } from './types';
+import { ButtonC } from '../../../../../components/ButtonC';
 
-const Dialog: React.FC<DialogProps> = ({
-	title,
-	control,
-	outlinedButtonLabel,
-	containedButtonLabel,
-	content,
-	onOutlinedButtonClickedHandler,
-	onContainedButtonClickedHandler,
-	description
-}) => {
+const Dialog:React.FC<DialogProps> = ({
+																				title,
+																				control,
+																				outlinedButtonLabel,
+																				containedButtonLabel,
+																				content,
+																				onOutlinedButtonClickedHandler,
+																				onContainedButtonClickedHandler,
+																				description
+																			}) => {
 	const { isOpen, closeHandler } = control;
 
-	const onClickHandler = (callback: (() => void) | undefined) => {
+	const onClickHandler = (callback:(() => void) | undefined) => {
 		!!callback && callback();
 		closeHandler();
 	};
 
 	return (
 		<MuiDialog open={isOpen} onClose={closeHandler}>
-			<DialogTitle>{title}</DialogTitle>
+			<DialogTitle><Typography variant={'largeBold'} sx={(theme) => ({ color: theme.palette.textColor[100] })}>{title}</Typography></DialogTitle>
 			<DialogContent>
 				{description && <DialogContentText>{description}</DialogContentText>}
 				{content}
 			</DialogContent>
 			<DialogActions>
 				{outlinedButtonLabel && (
-					<Button size={'small'} color={'error'} variant={'outlined'} onClick={() => onClickHandler(onOutlinedButtonClickedHandler)}>
+					<ButtonC size={'small'} variant={'primary'} onClick={() => onClickHandler(onOutlinedButtonClickedHandler)}>
 						{outlinedButtonLabel}
-					</Button>
+					</ButtonC>
 				)}
 				{containedButtonLabel && (
-					<Button size={'small'} color={'error'} variant={'contained'} onClick={() => onClickHandler(onContainedButtonClickedHandler)}>
+					<ButtonC size={'small'} variant={'secondary'} onClick={() => onClickHandler(onContainedButtonClickedHandler)}>
 						{containedButtonLabel}
-					</Button>
+					</ButtonC>
 				)}
 			</DialogActions>
 		</MuiDialog>
