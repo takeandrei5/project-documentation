@@ -50,10 +50,13 @@ const TextEditor: React.FC = () => {
 					quickbars_insert_toolbar: false,
 					noneditable_noneditable_class: 'callout',
 					content_style: `
+          * :not(p#content-paragraph) {
+            color: ${theme.palette.textColor[80]} !important;
+          }
+
           * {
             box-sizing: border-box !important;
             font-family: ${theme.typography.fontFamily} !important;
-            color: ${theme.palette.textColor[80]} !important;
           }
 
           html {
@@ -100,28 +103,27 @@ const TextEditor: React.FC = () => {
           .callout {
             margin: 1rem 0;
             padding: .5rem 1rem .5rem 1.5rem;
-            background: #EEF4F8;
-            border-left: 3px solid #9FCCE9;
-            color: #5D7F95;
+            background: #CFE8FF;
+            border-left: 3px solid #3F9CF2;
             font-size: 14px;
           }
 
           .callout.yellow {
-              background: #FCF8F0;
-              border-left-color: #F9DDA4;
-              color: #B49A64;
+              background: #FCE9C0;
+              border-left-color: #FFCC5A;
+              color: #4C4958;
           }
 
           .callout.red {
-              background: #FCF0F0;
-              border-left-color: #FFABAB;
-              color: #AA6464;
+              background: #FCDBDB;
+              border-left-color: #FF7878;
+              color: #4C4958;
           }
 
           .callout.orange {
-            background: #FCF5F0;
-            border-left-color: #FFd2ab;
-            color: #AA8664;
+            background: #FFECDC;
+            border-left-color: #F9BC87;
+            color: #4C4958;
           }
 
           .callout div {
@@ -136,9 +138,8 @@ const TextEditor: React.FC = () => {
           .component {
             padding: .5rem 1rem .5rem 1.5rem;
             background: transparent;
-            border: 3px solid #ff9494;
+            border: 3px solid #D5ECF5;
             border-radius:4px;
-            color: #5D7F95;
             font-size: 14px;
           }
 
@@ -206,6 +207,14 @@ const TextEditor: React.FC = () => {
 
           div#drag-element-hook:hover {
             background: rgba(55, 53, 47, 0.08);
+          }
+
+          div.mce-resizehandle {
+            background-color: #6AB8D6 !important;
+          }
+
+          table {
+            outline: 3px solid #D5ECF5 !important;
           }
           `,
 					icons: 'material',

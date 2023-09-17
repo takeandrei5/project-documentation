@@ -113,6 +113,7 @@ const useCallout = () => {
 				}
 
 				callout.remove();
+        editor.execCommand('delete');
 			}
 		});
 
@@ -137,7 +138,7 @@ const useCallout = () => {
 						onAction: function () {
 							editor.insertContent(`
                 <div class="callout">
-                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                    <div class="content"><p id="content-paragraph">${editor.selection.getContent()}</p></div>
                 </div>
               `);
 						}
@@ -149,7 +150,7 @@ const useCallout = () => {
 						onAction: function () {
 							editor.insertContent(`
                 <div class="callout yellow">
-                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                    <div class="content"><p id="content-paragraph">${editor.selection.getContent()}</p></div>
                 </div>
               `);
 						}
@@ -161,7 +162,7 @@ const useCallout = () => {
 						onAction: function () {
 							editor.insertContent(`
                 <div class="callout red">
-                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                    <div class="content"><p id="content-paragraph">${editor.selection.getContent()}</p></div>
                 </div>
               `);
 						}
@@ -173,7 +174,7 @@ const useCallout = () => {
 						onAction: function () {
 							editor.insertContent(`
                 <div class="callout orange">
-                    <div class="content"><p>${editor.selection.getContent()}</p></div>
+                    <div class="content"><p id="content-paragraph">${editor.selection.getContent()}</p></div>
                 </div>
               `);
 						}

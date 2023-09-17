@@ -94,7 +94,8 @@ const useSlashCommand = () => {
               <div class="content"><p>Callout</p></div>
           </div>
         `);
-				editor.selection.select(editor.dom.select('div#newly_added_callout')[0]);
+				editor.selection.select(editor.dom.select('div#newly_added_callout')[0], true);
+        editor.selection.collapse(false);
 				editor.dom.setAttrib(editor.dom.select('div#newly_added_callout')[0], 'id', '');
 			}
 		},
@@ -104,14 +105,16 @@ const useSlashCommand = () => {
 			icon: 'component',
 			meta: function (editor: TinyMCEEditor) {
 				editor.insertContent(`
-        <div id="component-wrapper">
+        <div class="component-wrapper">
           <h3>Add title component</h3>
           <div class="component" id="newly_added_component">
             <div class="content"><p>Create component</p></div>
           </div>
         </div>
         `);
-				editor.selection.select(editor.dom.select('div#newly_added_component')[0]);
+
+        editor.selection.select(editor.dom.select('div#newly_added_component')[0], true);
+        editor.selection.collapse(false);
 				editor.dom.setAttrib(editor.dom.select('div#newly_added_component')[0], 'id', '');
 			}
 		},

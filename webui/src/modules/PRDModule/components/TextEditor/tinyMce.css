@@ -6,6 +6,10 @@ div.tox input[placeholder="Ask AI to edit or generate..."] {
   color: #4C4958 !important;
 }
 
+*.tox-label {
+  color: #4C4958 !important;
+}
+
 div.tox input[placeholder="Ask AI to edit or generate..."]:focus {
   border-color: #D5ECF5 !important;
   box-shadow: 0 0 0 2px rgba(213, 236, 245, 1)
@@ -20,13 +24,17 @@ div.tox button[aria-label="Close"] {
   color: #2B283D !important;
 }
 
-div.tox button[title="Generate"] {
+div.tox button[title="Generate"], button[title="Insert"] {
   background-color: #D5ECF5 !important;
   border-color: #D5ECF5 !important;
 }
 
 div.tox button[title="Generate"] path {
   fill: #110D59 !important;
+}
+
+button[title="Insert"].tox-button {
+  color: #110D59 !important;
 }
 
 div.tox.tox-tinymce {
@@ -39,7 +47,7 @@ div.tox.tox-tinymce-aux button[aria-label="Toggle accordion"]{
 }
 
 div.tox.tox-tinymce-aux div.tox-toolbar__group:first-child{
-  display: none !important;
+  /* display: none !important; */
 }
 
 div.tox-dialog--width-md {
@@ -50,4 +58,32 @@ div.tox-editor-header {
   display: none !important;
   position: absolute !important;
   top: -9000px !important;
+}
+
+div.tox-collection__item--active {
+  background-color: #D5ECF5 !important;
+}
+
+div.tox-collection__item-icon {
+  color: #6AB8D6 !important;
+}
+
+div.tox-collection__item-icon path {
+  fill: #6AB8D6 !important;
+}
+
+div.tox-collection__item-label {
+  color: #55555F !important;
+}
+
+div.tox-collection__item--active div.tox-collection__item-icon {
+  color: #110D59 !important;
+}
+
+div.tox-collection__item--active div.tox-collection__item-label {
+  color: #110D59 !important;
+}
+
+div.tox-collection__item--active path {
+  fill: #110D59 !important;
 }
