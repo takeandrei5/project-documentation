@@ -1,11 +1,10 @@
-import { Box, Icon, InputLabel, List, Modal, Paper, TextField, Typography } from '@mui/material';
+import { Box, Icon, List, Modal, Paper, Typography } from '@mui/material';
+import { ButtonC } from '../../../../components';
+import TextFieldC from '../../../../components/TextFieldC/TextFieldC';
+import { CREATE_PROJECT_INPUT } from '../../../CreatePRDModule/components/config';
 import { NavigationMenuItem } from '../NavigationMenuItem';
 import { useNavigationMenuHeader } from './hooks';
 import type { NavigationMenuHeaderProps } from './types';
-import { ButtonC } from '../../../../components';
-import CloseIcon from '@mui/icons-material/Close';
-import TextFieldC from '../../../../components/TextFieldC/TextFieldC';
-import { CREATE_PROJECT_INPUT } from '../../../CreatePRDModule/components/config';
 
 const NavigationMenuHeader:React.FC<NavigationMenuHeaderProps> = ({ setTreeData, treeData }) => {
 	const { isModalOpen, onClickHandler, onCloseHandler, onCreateProjectButtonClickedHandler, onProjectNameChangeHandler, onProjectNameKeyPressedHandler, projectName } =
@@ -48,15 +47,16 @@ const NavigationMenuHeader:React.FC<NavigationMenuHeaderProps> = ({ setTreeData,
 						</Typography>
 						<Icon sx={{ cursor: 'pointer' }} onClick={onCloseHandler}>close_icon</Icon>
 					</Box>
-					<TextFieldC id={CREATE_PROJECT_INPUT.id}
-											name={CREATE_PROJECT_INPUT.name}
-											label={CREATE_PROJECT_INPUT.label}
-											type={CREATE_PROJECT_INPUT.type}
+					<TextFieldC id={CREATE_PROJECT_INPUT.Id}
+											name={CREATE_PROJECT_INPUT.Name}
+											label={CREATE_PROJECT_INPUT.Label}
+											type={CREATE_PROJECT_INPUT.Type}
 											value={projectName}
 											onChange={onProjectNameChangeHandler}
 											onKeyPress={onProjectNameKeyPressedHandler}
 					/>
 					<ButtonC
+            size='medium'
 						variant='primary'
 						onClick={onCreateProjectButtonClickedHandler}
 					>

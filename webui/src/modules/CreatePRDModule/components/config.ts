@@ -1,10 +1,7 @@
-import { InputFieldProps } from '../../../utils/types';
-
-export const CREATE_PROJECT_INPUT:InputFieldProps = {
-	id: 'create-project',
-	name: 'projectName',
-	label: 'Create project',
-	type: 'text',
-	placeholder: 'Type your project name'
-};
-
+export enum CREATE_PROJECT_INPUT {
+	Id = 'create-project',
+	Name = 'projectName',
+	Label = 'Create project',
+	Type = 'text',
+	Placeholder = 'Type your project name'
+}

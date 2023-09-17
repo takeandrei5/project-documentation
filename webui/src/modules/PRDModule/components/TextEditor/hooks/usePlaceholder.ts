@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
 import { useTextEditor } from '.';
-import parse from 'node-html-parser';
 
 const usePlaceholder = () => {
 	const currentFocusedElement = useRef<HTMLElement | null>(null);

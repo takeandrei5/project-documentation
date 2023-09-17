@@ -17,7 +17,7 @@ const CreatePRDContainer:React.FC = () => {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 350,
+					width: 500,
 					bgcolor: 'background.paper',
 					boxShadow: 5,
 					p: '1.5rem 2rem',

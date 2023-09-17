@@ -1,5 +1,5 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel, type RenderParams } from '@minoru/react-dnd-treeview';
-import { Box, Theme, Typography } from '@mui/material';
+import { Box, type Theme } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../../types';
 import { TreeNode } from '../TreeNode';

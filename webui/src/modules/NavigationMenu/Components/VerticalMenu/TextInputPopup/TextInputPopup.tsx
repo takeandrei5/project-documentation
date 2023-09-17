@@ -1,4 +1,4 @@
-import { Box, ClickAwayListener, Icon, Paper, TextField, Theme } from '@mui/material';
+import { ClickAwayListener, Icon, Paper, TextField, Theme } from '@mui/material';
 import type { TextInputPopupProps } from './types';
 
 const TextInputPopup: React.FC<TextInputPopupProps> = ({ onChangeHandler, onClosePopperHandler, onSaveHandler, value }) => {
@@ -42,9 +42,7 @@ const TextInputPopup: React.FC<TextInputPopupProps> = ({ onChangeHandler, onClos
               height: '1rem !important',
 							'& fieldset': {
 								borderColor: `${theme.palette.cyan[20]} !important`
-							},
-              '& fieldset:active': {
-              }
+							}
 						})
 					}}
 					type={'text'}

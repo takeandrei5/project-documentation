@@ -1,5 +1,4 @@
 import { Dialog as MuiDialog, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';

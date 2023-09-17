@@ -1,23 +1,31 @@
-import { Box, InputLabel, TextField, Typography } from '@mui/material';
-import { TextFieldCProps } from './types';
-import { FC } from 'react';
+import { Box, InputLabel, TextField, type Theme, Typography } from '@mui/material';
+import type { TextFieldCProps } from './types';
 
-const TextFieldC:FC<TextFieldCProps> = ({ name, id, value, hasError, label, onChange, placeholder = undefined, onKeyPress }) => {
+const TextFieldC: React.FC<TextFieldCProps> = ({ name, id, value, hasError, label, onChange, placeholder = undefined, onKeyPress }) => {
 	return (
 		<Box id={`wrapper_${id}`}>
-			<InputLabel htmlFor={id}><Typography variant={'smallRegular'}>{label}</Typography></InputLabel>
+			<InputLabel htmlFor={id}>
+				<Typography variant={'smallRegular'}>{label}</Typography>
+			</InputLabel>
 			<TextField
 				id={id}
 				name={name}
-				shrink={false}
+        variant='outlined'
 				placeholder={placeholder}
-				sx={(theme) => ({
+				InputLabelProps={{
+					shrink: false
+				}}
+				sx={(theme: Theme) => ({
 					width: '100%',
 					mt: '0.25rem',
-					background: theme.palette.blue[10],
-					'& input': {
-						padding: '1.5rem 1rem'
-					}
+					'& .MuiInputBase-input': {
+            background: '#F8F8F8',
+            borderRadius: '0.25rem',
+						padding: '1.5rem 1rem',
+					},
+          '& fieldset': {
+            borderColor: `${theme.palette.blue[80]} !important`
+          }
 				})}
 				onKeyPress={onKeyPress}
 				onChange={onChange}

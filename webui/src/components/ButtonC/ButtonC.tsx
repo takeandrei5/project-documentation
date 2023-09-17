@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import useButtonC from './hooks';
 import type { ButtonCProps } from './types';
 
-const ButtonC: React.FC<ButtonCProps> = ({ size, variant, children, onClick, type }) => {
+const ButtonC: React.FC<ButtonCProps> = ({ size, variant, children, onClick, type = 'button' }) => {
 	const { sizeStyles, variantStyles } = useButtonC();
 
 	return (

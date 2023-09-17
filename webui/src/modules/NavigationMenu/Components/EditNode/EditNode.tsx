@@ -1,4 +1,4 @@
-import { Box, Icon, ListItemIcon, Popover, Snackbar, type Theme, Typography, IconButton, Tooltip } from '@mui/material';
+import { Box, Icon, IconButton, Popover, Snackbar, Tooltip, Typography, type Theme } from '@mui/material';
 import React, { useRef } from 'react';
 import useDialogControl from '../../../../hooks/useDialogControl';
 import NodeTextInput from '../NodeTextInput/NodeTextInput';
