@@ -1,0 +1,19 @@
+modules:
+  jira:issuePanel:
+    - key: project-documentation-jira-hello-world-panel
+      function: main
+      title: Project Documentation
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  function:
+    - key: main
+      handler: index.run
+app:
+  id: ari:cloud:ecosystem::app/5e9c3521-a639-4588-9028-064f9b9ef412
+
+permissions:
+  scopes:
+    - 'read:jira-work'
+  external:
+    fetch:
+      backend:
+        - '*'
