@@ -1,7 +1,24 @@
-import ForgeUI, { Checkbox, CheckboxGroup, Form, Fragment, IssuePanel, render, useProductContext } from '@forge/ui';
+import ForgeUI, { Checkbox, CheckboxGroup, Form, Fragment, IssuePanel, render, useProductContext, useState } from '@forge/ui';
 import api, { fetch, route } from '@forge/api';
 
 const App = () => {
+  const [data] = useState(async () => {
+    const google = api.asUser().withProvider('auth0', 'auth0-apis')
+    if (!await google.hasCredentials()) {
+      await google.requestCredentials()
+    }
+    const response = await google.fetch('/userinfo');
+    if (response.ok) {
+      return response.json()
+    }
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      text: await response.text(),
+    }
+  })
+
+  console.log(data);
 	const {
 		platformContext: { issueKey }
 	} = useProductContext();
@@ -45,6 +62,18 @@ const App = () => {
 
 		const response = await api.asUser().requestJira(route`/rest/api/2/issue/${issueKey}?fields=${issueFields}`);
 		const issueData = await response.json();
+    console.log('before');
+		const user = api.asUser().withProvider('auth0', 'auth0-apis');
+      await user.requestCredentials();
+
+    console.log('after');
+
+    console.log('user', await user.hasCredentials())
+		// const res = await user.fetch('/userinfo');
+		console.log('res from user?', res);
+		if (res.ok) {
+			console.log(await res.json());
+		}
 
 		const bodyData = {
 			summary: issueData.fields.summary,
@@ -61,13 +90,13 @@ const App = () => {
 		};
 
 		try {
-			const response = await fetch('https://ptsv3.com/t/hello-123-test-pd/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(bodyData)
-			});
+			// const response = await fetch('https://ptsv3.com/t/hello-123-test-pd/', {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Content-Type': 'application/json'
+			// 	},
+			// 	body: JSON.stringify(bodyData)
+			// });
 
 			if (!response.ok) {
 				const text = await response.text();

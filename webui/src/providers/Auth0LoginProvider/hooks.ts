@@ -18,6 +18,7 @@ const useAuth0LoginProvider = () => {
 		const getAccessToken = async () => {
 			try {
 				const token = await getAccessTokenSilently();
+        console.log('token', token)
 				setAccessToken(token);
 			} catch (error) {
 				console.log(error);
