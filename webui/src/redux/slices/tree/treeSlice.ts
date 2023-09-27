@@ -2,7 +2,7 @@ import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { TreeDataValues } from '../../../modules/NavigationMenu/types';
 
-const initialState:NodeModel<TreeDataValues>[] = [
+const initialState: NodeModel<TreeDataValues>[] = [
 	{
 		id: '1',
 		parent: '0',
@@ -111,7 +111,7 @@ const treeSlice = createSlice({
 	name: 'tree',
 	initialState,
 	reducers: {
-		setTree: (state, action:PayloadAction<NodeModel<TreeDataValues>[]>) => {
+		setTree: (state, action: PayloadAction<NodeModel<TreeDataValues>[]>) => {
 			state.splice(0, state.length, ...action.payload);
 		}
 	}

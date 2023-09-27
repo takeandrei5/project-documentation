@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import type { TreeNodeProps } from './types';
 
 const TreeNode:React.FC<TreeNodeProps> = ({ treeNode }) => {

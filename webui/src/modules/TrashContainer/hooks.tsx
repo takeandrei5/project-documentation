@@ -1,29 +1,26 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
-import { Box, Icon } from '@mui/material';
+import { Box, Icon, Theme } from '@mui/material';
 import _ from 'lodash';
+import { setTrash } from '../../redux/slices/trash/trashSlice';
+import { setTree } from '../../redux/slices/tree/treeSlice';
 import type { TreeDataValues } from '../NavigationMenu/types';
 import TreeNode from './TreeNode/TreeNode';
 import type { TrashTreeDataValues } from './types';
-import UndoIcon from '@mui/icons-material/Undo';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { setTrash } from '../../redux/slices/trash/trashSlice';
-import { setTree } from '../../redux/slices/tree/treeSlice';
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const useTrashContainer = () => {
-
 	const dispatch = useAppDispatch();
-	const trashData:NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
+	const trashData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
 
-	const arrayToTree = (data:NodeModel<TreeDataValues>[]):TrashTreeDataValues[] => {
-		const tree:TrashTreeDataValues[] = [];
-		const map:{ [key:string | number]:TrashTreeDataValues } = {};
+	const arrayToTree = (data: NodeModel<TreeDataValues>[]): TrashTreeDataValues[] => {
+		const tree: TrashTreeDataValues[] = [];
+		const map: { [key: string | number]: TrashTreeDataValues } = {};
 
-		const clonedTree:NodeModel<TreeDataValues>[] = _.cloneDeep(data);
+		const clonedTree: NodeModel<TreeDataValues>[] = _.cloneDeep(data);
 
-		clonedTree.forEach((treeItem:NodeModel<TreeDataValues>) => {
-			const newTrashItem:TrashTreeDataValues = { ...treeItem, children: [] };
+		clonedTree.forEach((treeItem: NodeModel<TreeDataValues>) => {
+			const newTrashItem: TrashTreeDataValues = { ...treeItem, children: [] };
 
 			map[newTrashItem.id] = newTrashItem;
 
@@ -37,20 +34,19 @@ const useTrashContainer = () => {
 		return tree;
 	};
 
-	const onRecoveryFilesHandler = (node:NodeModel<TreeDataValues>) => {
-		const recoveredFiles:NodeModel<TreeDataValues>[] = [];
+	const onRecoveryFilesHandler = (item: TrashTreeDataValues) => {
+		const recoveredFiles: TrashTreeDataValues[] = [];
 
-		function recoveredRecursiveHandler(item) {
+		const recoveredRecursiveHandler = (item: TrashTreeDataValues) => {
 			recoveredFiles.push(item);
 			if (item.children && item.children.length > 0) {
 				for (const child of item.children) {
 					recoveredRecursiveHandler(child);
 				}
 			}
-			delete item.children;
-		}
+		};
 
-		recoveredRecursiveHandler(node);
+		recoveredRecursiveHandler(item);
 		const ids = recoveredFiles.map((item) => item.id);
 		const newTree = _.cloneDeep(trashData);
 
@@ -64,34 +60,37 @@ const useTrashContainer = () => {
 		dispatch(setTree(newTree));
 		dispatch(setTrash(newTree));
 	};
-	const renderTree = (nodes:TrashTreeDataValues[], level = 0):JSX.Element[] => {
-		const treeArrayNodes:JSX.Element[] = [];
+	const renderTree = (nodes: TrashTreeDataValues[], level = 0): JSX.Element[] => {
+		const treeArrayNodes: JSX.Element[] = [];
 
-		const renderTreeRecursive = (nodes:TrashTreeDataValues[], level = 0) => {
+		const renderTreeRecursive = (nodes: TrashTreeDataValues[], level = 0) => {
 			for (const node of nodes) {
-				const nodeComponent = <Box key={node.id} sx={{ marginLeft: `${20 * level}px`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<TreeNode treeNode={node} />
-					{node.data.isDeleted && <Box component={'span'}>
-						<Icon sx={(theme) => ({
-							color: theme.palette.greenDark[80],
-							cursor: 'pointer',
-							'&:hover': { color: theme.palette.greenDark[100] }
-						})}
-									onClick={() => onRecoveryFilesHandler(node)}
-						>
-							undo
-						</Icon>
-						<Icon sx={(theme) => ({
-							color: theme.palette.red[60],
-							cursor: 'pointer',
-							'&:hover': { color: theme.palette.red[80] }
-						})}
-						>
-							<DeleteForeverOutlinedIcon />
-						</Icon>
+				const nodeComponent = (
+					<Box key={node.id} sx={{ marginLeft: `${20 * level}px`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+						<TreeNode treeNode={node} />
+						{node.data && node.data.isDeleted && (
+							<Box component={'span'}>
+								<Icon
+									sx={(theme: Theme) => ({
+										color: theme.palette.greenDark[80],
+										cursor: 'pointer',
+										'&:hover': { color: theme.palette.greenDark[100] }
+									})}
+									onClick={() => onRecoveryFilesHandler(node)}>
+									undo
+								</Icon>
+								<Icon
+									sx={(theme: Theme) => ({
+										color: theme.palette.red[60],
+										cursor: 'pointer',
+										'&:hover': { color: theme.palette.red[80] }
+									})}>
+									<Icon>delete_forever_outlined</Icon>
+								</Icon>
+							</Box>
+						)}
 					</Box>
-					}
-				</Box>;
+				);
 				treeArrayNodes.push(nodeComponent);
 				if (node.children) {
 					renderTreeRecursive(node.children, level + 1);
