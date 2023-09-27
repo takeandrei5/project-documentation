@@ -1,6 +1,7 @@
-using Giveaway.Chat.Domain.Users;
 using ProjectDocumentation.Web.Common.Interfaces;
+using ProjectDocumentation.Web.Domain.Entities;
 using ProjectDocumentation.Web.Domain.Entities.Users;
+using ProjectDocumentation.Web.Domain.Errors;
 using ProjectDocumentation.Web.Domain.Interfaces;
 using SoftwareCraft.Functional;
 
@@ -17,24 +18,20 @@ public sealed class Command
         _userRepository = userRepository;
     }
 
-    public async Task<Maybe<User>> ExecuteAsync(CancellationToken cancellationToken)
+    public async Task<Result<ConflictError>> ExecuteAsync(CancellationToken cancellationToken)
     {
         var email = _loggedUser.GetEmailFromClaims();
         var name = _loggedUser.GetNameFromClaims();
         var image = _loggedUser.GetImageFromClaims();
 
-        var userResult = await _userRepository.FindUserByEmailAsync(email, cancellationToken);
+        var newUser = new User(new Id(),
+            new UserEmail(email),
+            new UserName(name),
+            new UserImage(image),
+            new UserOrganization(null));
 
-        return await userResult.MatchAsync(_ => Task.FromResult(Maybe.None<User>()),
-            async _ =>
-            {
-                var newUser = new User(new UserId(Guid.NewGuid()),
-                    new UserEmail(email),
-                    new UserName(name),
-                    new UserImage(image));
-                await _userRepository.CreateUserAsync(newUser, cancellationToken);
+        var result = await _userRepository.CreateAsync(newUser, cancellationToken);
 
-                return Maybe.Some(newUser);
-            });
+        return result;
     }
 }

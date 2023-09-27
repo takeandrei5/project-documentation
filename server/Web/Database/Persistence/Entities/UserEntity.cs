@@ -1,22 +1,40 @@
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using ProjectDocumentation.Web.Common.Attributes;
+using MongoDB.Entities;
+using ProjectDocumentation.Web.Domain.Entities.Organizations;
+using ProjectDocumentation.Web.Domain.Entities.Users;
 
 namespace ProjectDocumentation.Web.Database.Persistence.Entities;
 
-[BsonCollection("users")]
-public sealed record UserEntity
+[Collection("users")]
+public sealed record UserEntity : IEntity
 {
     [BsonId]
-    [BsonElement("_id")]
-    public Guid Id { get; init; }
+    [ObjectId]
+    [Field("_id")]
+    public string ID { get; set; }
 
-    [BsonElement("email")]
+    [Field("email")]
     public string Email { get; init; } = null!;
 
-    [BsonElement("name")]
+    [Field("name")]
     public string Name { get; init; } = null!;
 
-    [BsonElement("image")]
+    [Field("image")]
     public string Image { get; init; } = null!;
+
+    [Field("organization")]
+    public One<OrganizationEntity>? Organization { get; set; }
+
+    public string GenerateNewID()
+    {
+        return ID;
+    }
+
+    static UserEntity()
+    {
+        DB.Index<UserEntity>()
+           .Key(user => user.Email, KeyType.Ascending)
+           .Option(o => o.Unique = true)
+           .CreateAsync();
+    }
 }

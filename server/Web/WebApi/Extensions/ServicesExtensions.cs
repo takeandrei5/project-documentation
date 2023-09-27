@@ -4,42 +4,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using ProjectDocumentation.Web.Common.Interfaces;
-using ProjectDocumentation.Web.Domain.Interfaces;
 using ProjectDocumentation.Web.WebApi.Models;
 using ProjectDocumentation.Web.WebApi.Services;
-using ProjectRepository = ProjectDocumentation.Web.Database.DataAccess.ProjectDbOperations.Repository;
-using UserRepository = ProjectDocumentation.Web.Database.DataAccess.UserDbOperations.Repository;
 
 namespace ProjectDocumentation.Web.WebApi.Extensions;
 
-public static partial class ServicesExtensions
+public static class ServicesExtensions
 {
-    public static void AddAutoMapperProfiles(this IServiceCollection services)
+    public static void AddApplicationServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddScoped<ILoggedUser, HttpContextLoggedUser>();
     }
     
-    public static void AddApplicationServices(this IServiceCollection services) =>
-        services.AddScoped<ILoggedUser, HttpContextLoggedUser>();
-
-    public static void AddApplicationUseCases(this IServiceCollection services)
-    {
-        // Projects
-        services.AddCreateProjectUseCase();
-
-        // Users
-        services.AddCreateUserUseCase();
-    }
-
-    //public static void AddReaders(this IServiceCollection services) =>
-    //    services.AddScoped<IProject, ProjectR>();
-
-    public static void AddRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<IProjectRepository, ProjectRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-    }
-
     public static void AddAuthenticationAndAuthorization(this IServiceCollection serviceCollection, string domain,
         string audience)
     {
@@ -59,8 +35,8 @@ public static partial class ServicesExtensions
             {
                 options.Authority = domain;
                 options.Audience = audience;
-#if DEBUG 
-                options.RequireHttpsMetadata = false; 
+#if DEBUG
+                options.RequireHttpsMetadata = false;
 #endif
                 options.SaveToken = true;
 

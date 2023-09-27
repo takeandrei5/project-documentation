@@ -9,7 +9,7 @@ public sealed record UserImage
         @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
         RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
-    internal UserImage(string value)
+    public UserImage(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new DomainRuleException("User image cannot be an empty url.");

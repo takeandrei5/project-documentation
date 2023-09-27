@@ -14,13 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="SoftwareCraft.Maybe">
       <HintPath>..\..\..\..\..\.nuget\packages\softwarecraft.maybe\2.0.3\lib\netstandard2.1\SoftwareCraft.Maybe.dll</HintPath>
     </Reference>
+
+
+
+
+
+
   </ItemGroup>
+
+
+
+
 
 </Project>

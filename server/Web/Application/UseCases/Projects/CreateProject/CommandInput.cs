@@ -1,9 +1,10 @@
-using ProjectDocumentation.Web.Domain.Entities.Projects;
-using ProjectDocumentation.Web.Domain.Entities.Users;
-
 namespace ProjectDocumentation.Web.Application.UseCases.Projects.CreateProject;
 
 public sealed record CommandInput
 {
-    public ProjectName ProjectName { get; init; } = null!;
+    public string OrganizationId { get; init; } = null!;
+
+    public string Name { get; init; } = null!;
+    
+    public string? IconName { get; init; }
 }

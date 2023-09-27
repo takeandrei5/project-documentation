@@ -1,4 +1,5 @@
-using ProjectDocumentation.Web.Common.Interfaces;
+using ProjectDocumentation.Web.Application.Interfaces;
+using ProjectDocumentation.Web.Domain.Entities;
 using ProjectDocumentation.Web.Domain.Entities.Projects;
 using ProjectDocumentation.Web.Domain.Errors;
 using ProjectDocumentation.Web.Domain.Interfaces;
@@ -8,32 +9,51 @@ namespace ProjectDocumentation.Web.Application.UseCases.Projects.CreateProject;
 
 public sealed class Command
 {
-    private readonly ILoggedUser _loggedUser;
+    private readonly IOrganizationRepository _organizationRepository;
+    private readonly IOrganizationValidations _organizationValidations;
     private readonly IProjectRepository _projectRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IUserValidations _userValidations;
 
-    public Command(ILoggedUser loggedUser, IProjectRepository projectRepository, IUserRepository userRepository)
+    public Command(IOrganizationRepository organizationRepository,
+        IOrganizationValidations organizationValidations,
+        IProjectRepository projectRepository, IUserValidations userValidations)
     {
-        _loggedUser = loggedUser;
+        _organizationRepository = organizationRepository;
+        _organizationValidations = organizationValidations;
         _projectRepository = projectRepository;
-        _userRepository = userRepository;
+        _userValidations = userValidations;
     }
 
-    public async Task<Result<ProjectId, ForbiddenError>> ExecuteAsync(CommandInput commandInput,
+    public async Task<Result<Id, BaseError>> ExecuteAsync(CommandInput commandInput,
         CancellationToken cancellationToken)
     {
-        var email = _loggedUser.GetEmailFromClaims();
-        
-        var userResult = await 
-            _userRepository.FindUserByEmailAsync(email, cancellationToken);
+        var organizationId = new Id(commandInput.OrganizationId);
+        var projectName = new ProjectName(commandInput.Name);
+        var projectIconName = new ProjectIconName(commandInput.IconName);
 
-        return await userResult.SelectManyAsync(async user =>
-        {
-            var newProject = user.CreateProject(commandInput.ProjectName);
+        var userVerificationResult = await _userValidations.VerifyUserExists(cancellationToken);
 
-            await _projectRepository.CreateAsync(newProject, cancellationToken);
+        var createProjectResult = await userVerificationResult.SelectManyAsync(async user =>
+            {
+                var organizationVerificationResult =
+                    await _organizationValidations.VerifyOrganizationExists(organizationId, user, cancellationToken);
 
-            return newProject.ProjectId.AsSuccess<ProjectId, ForbiddenError>();
-        });
+                var createProjectResult = await organizationVerificationResult.SelectManyAsync(
+                    async _ =>
+                    {
+                        var newProject = user.CreateProject(projectName, projectIconName);
+                        
+                        await _projectRepository.CreateAsync(newProject, cancellationToken);
+                        await _organizationRepository.UpdateOrganization(user.UserOrganization.Value!, cancellationToken);
+
+                        return newProject.Id.AsSuccess<Id, BaseError>();
+                    },
+                    error => Task.FromResult(error.AsError<Id, BaseError>()));
+
+                return createProjectResult;
+            },
+            error => Task.FromResult(error.AsError<Id, BaseError>()));
+
+        return createProjectResult;
     }
 }

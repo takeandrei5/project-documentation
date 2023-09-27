@@ -1,15 +1,32 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using ProjectDocumentation.Web.Common.Attributes;
+using MongoDB.Entities;
 
 namespace ProjectDocumentation.Web.Database.Persistence.Entities;
 
-[BsonCollection("projects")]
-public sealed record ProjectEntity
+[Collection("projects")]
+public sealed record ProjectEntity : IEntity
 {
-    [BsonId]
-    [BsonElement("_id")]
-    public Guid Id { get; init; }
+    public ProjectEntity()
+    {
+        this.InitOneToMany(() => Pages);
+    }
 
-    [BsonElement("projectName")]
-    public string ProjectName { get; init; } = null!;
+    [Field("iconName")]
+    public string? IconName { get; init; }
+
+    [Field("name")]
+    public string Name { get; init; } = null!;
+
+    [Field("pages")]
+    public Many<PageEntity> Pages { get; set; }
+
+    [BsonId]
+    [ObjectId]
+    [Field("_id")]
+    public string ID { get; set; }
+
+    public string GenerateNewID()
+    {
+        return ID;
+    }
 }

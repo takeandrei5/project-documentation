@@ -1,4 +1,4 @@
-namespace ProjectDocumentation.Web.Common.Attributes;
+namespace Database.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class BsonCollectionAttribute : Attribute

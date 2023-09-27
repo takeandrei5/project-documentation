@@ -1,4 +1,7 @@
 using Microsoft.Net.Http.Headers;
+using MongoDB.Driver;
+using MongoDB.Entities;
+using ProjectDocumentation.Web.CompositionRoot;
 using ProjectDocumentation.Web.Database;
 using ProjectDocumentation.Web.WebApi.Extensions;
 
@@ -26,12 +29,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<DatabaseSettings>(options =>
 {
     options.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+    options.DatabaseName = "project-documentation";
 });
 
-builder.Services.AddApplicationUseCases();
+builder.Services.AddIoC();
 builder.Services.AddApplicationServices();
-builder.Services.AddRepositories();
-builder.Services.AddAutoMapperProfiles();
 builder.Services.AddSwagger(configuration["ASPNETCORE_AUTH0_DOMAIN"]!, configuration["ASPNETCORE_AUTH0_AUDIENCE"]!);
 
 var app = builder.Build();

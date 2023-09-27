@@ -62,18 +62,6 @@ const App = () => {
 
 		const response = await api.asUser().requestJira(route`/rest/api/2/issue/${issueKey}?fields=${issueFields}`);
 		const issueData = await response.json();
-    console.log('before');
-		const user = api.asUser().withProvider('auth0', 'auth0-apis');
-      await user.requestCredentials();
-
-    console.log('after');
-
-    console.log('user', await user.hasCredentials())
-		// const res = await user.fetch('/userinfo');
-		console.log('res from user?', res);
-		if (res.ok) {
-			console.log(await res.json());
-		}
 
 		const bodyData = {
 			summary: issueData.fields.summary,
@@ -98,11 +86,11 @@ const App = () => {
 			// 	body: JSON.stringify(bodyData)
 			// });
 
-			if (!response.ok) {
-				const text = await response.text();
-				// TODO: handle error
-				console.log(text);
-			}
+			// if (!response.ok) {
+			// 	const text = await response.text();
+			// 	// TODO: handle error
+			// 	console.log(text);
+			// }
 		} catch (error) {
 			// TODO: handle error
 			console.log(error);

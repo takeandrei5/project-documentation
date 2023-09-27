@@ -12,4 +12,22 @@
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Attributes\BsonCollectionAttribute.cs" />
+      <Compile Remove="Attributes\**" />
+      <Compile Remove="Extensions\StringExtensions.cs" />
+      <Compile Remove="Extensions\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Attributes\**" />
+      <EmbeddedResource Remove="Extensions\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Attributes\**" />
+      <None Remove="Extensions\**" />
+    </ItemGroup>
+
+
 </Project>
