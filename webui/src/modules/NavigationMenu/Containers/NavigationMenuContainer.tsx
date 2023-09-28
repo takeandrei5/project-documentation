@@ -1,13 +1,17 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { Box, Divider, useTheme, type Theme } from '@mui/material';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { setTree } from '../../../redux/slices/tree/treeSlice';
 import { NavigationMenuBody, NavigationMenuFooter, NavigationMenuHeader } from '../components';
 import type { TreeDataValues } from '../types';
-import { initialTreeData } from './constants';
 
 const NavigationMenuContainer: React.FC = () => {
-	const [treeData, setTreeData] = useState<NodeModel<TreeDataValues>[]>(initialTreeData);
+	const treeData = useAppSelector((state) => state.tree);
 	const theme: Theme = useTheme();
+	const dispatch = useAppDispatch();
+	const setTreeDataHandler = (treeData: NodeModel<TreeDataValues>[]): void => {
+		dispatch(setTree(treeData));
+	};
 
 	return (
 		<Box
@@ -15,9 +19,9 @@ const NavigationMenuContainer: React.FC = () => {
 				backgroundColor: theme.palette.common.white,
 				padding: '0.94rem 1rem'
 			}}>
-			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeData} />
+			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeDataHandler} />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-			<NavigationMenuBody treeData={treeData} setTreeData={setTreeData} />
+			<NavigationMenuBody treeData={treeData} setTreeData={setTreeDataHandler} />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
 			<NavigationMenuFooter />
 		</Box>

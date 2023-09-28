@@ -1,14 +1,14 @@
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import type { TreeNodeProps } from './types';
 
-const TreeNode: React.FC<TreeNodeProps> = ({ treeNode }) => {
+const TreeNode:React.FC<TreeNodeProps> = ({ treeNode }) => {
 	const { text, data } = treeNode;
 
-  if (!data || !data.isDeleted) {
-    return null;
-  }
+	if (!data || !data.isDeleted) {
+		return null;
+	}
 
-	return <Box sx={{ width: '100%' }}>{text}</Box>;
+	return <Typography variant={'smallRegular'}>{text}</Typography>;
 };
 
 export default TreeNode;
