@@ -1,5 +1,5 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
-import { Box, Icon, Theme } from '@mui/material';
+import { Box, Icon, type Theme } from '@mui/material';
 import _ from 'lodash';
 import { setTrash } from '../../redux/slices/trash/trashSlice';
 import { setTree } from '../../redux/slices/tree/treeSlice';
@@ -34,32 +34,45 @@ const useTrashContainer = () => {
 		return tree;
 	};
 
-	const onRecoveryFilesHandler = (item: TrashTreeDataValues) => {
-		const recoveredFiles: TrashTreeDataValues[] = [];
+	const treeToArray = (data: TrashTreeDataValues): NodeModel<TreeDataValues>[] => {
+		const recoveredTree: NodeModel<TreeDataValues>[] = [];
 
-		const recoveredRecursiveHandler = (item: TrashTreeDataValues) => {
-			recoveredFiles.push(item);
-			if (item.children && item.children.length > 0) {
-				for (const child of item.children) {
-					recoveredRecursiveHandler(child);
-				}
+		const recoverTreeRecursive = (data: TrashTreeDataValues): void => {
+			if (!data.children || data.children.length === 0) {
+				const { children, ...rest } = data;
+				recoveredTree.push(rest);
+				return;
 			}
+
+			data.children.forEach((node: TrashTreeDataValues) => {
+				recoverTreeRecursive(node);
+			});
+
+			recoveredTree.push(data);
 		};
 
-		recoveredRecursiveHandler(item);
-		const ids = recoveredFiles.map((item) => item.id);
-		const newTree = _.cloneDeep(trashData);
+		recoverTreeRecursive(data);
 
-		newTree.forEach((item) => {
-			if (ids.includes(item.id) && item.data && item.data.isDeleted) {
-				item.data.isDeleted = false;
-				item.parent = '0';
+		return recoveredTree;
+	};
+
+	const onRecoveryFilesHandler = (item: TrashTreeDataValues) => {
+		const recoveredNodes: NodeModel<TreeDataValues>[] = treeToArray(item);
+
+		const ids = recoveredNodes.map((node: NodeModel<TreeDataValues>) => node.id as string);
+		const newTree: NodeModel<TreeDataValues>[] = _.cloneDeep(trashData);
+
+		newTree.forEach((treeItem: NodeModel<TreeDataValues>) => {
+			if (ids.includes(treeItem.id as string) && treeItem.data && treeItem.data.isDeleted) {
+				treeItem.data.isDeleted = false;
+				treeItem.parent = '0';
 			}
 		});
 
 		dispatch(setTree(newTree));
 		dispatch(setTrash(newTree));
 	};
+
 	const renderTree = (nodes: TrashTreeDataValues[], level = 0): JSX.Element[] => {
 		const treeArrayNodes: JSX.Element[] = [];
 
