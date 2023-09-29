@@ -35,8 +35,10 @@ services:
     networks:
       - project-documentation-network
     environment:
+      - VITE_BASE_URL=${VITE_BASE_URL}
       - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
       - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
+      - VITE_OPEN_AI_API_KEY=${VITE_OPEN_AI_API_KEY}
       - VITE_TINY_MCE_API_KEY=${VITE_TINY_MCE_API_KEY}
     depends_on:
       - webapi
