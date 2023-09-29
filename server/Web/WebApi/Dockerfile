@@ -5,6 +5,8 @@ EXPOSE 81
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
+COPY ./Common ./Common
+COPY ./CompositionRoot ./CompositionRoot
 COPY ./Web ./Web
 
 RUN dotnet restore "Web/WebApi/WebApi.csproj"
