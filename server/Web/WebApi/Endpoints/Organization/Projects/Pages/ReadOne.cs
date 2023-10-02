@@ -16,7 +16,7 @@ public sealed class ReadOne : EndpointBaseAsync.WithRequest<ReadOneRequest>.With
 
     [HttpPost]
     [Produces("application/json")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

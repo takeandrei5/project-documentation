@@ -1,6 +1,4 @@
 using Microsoft.Net.Http.Headers;
-using MongoDB.Driver;
-using MongoDB.Entities;
 using ProjectDocumentation.Web.CompositionRoot;
 using ProjectDocumentation.Web.Database;
 using ProjectDocumentation.Web.WebApi.Extensions;

@@ -1,8 +1,10 @@
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDB.Entities;
 using ProjectDocumentation.Web.Database.Extensions;
 using ProjectDocumentation.Web.Database.Persistence.Entities;
 using ProjectDocumentation.Web.Domain.Entities;
+using ProjectDocumentation.Web.Domain.Entities.Organizations;
 using ProjectDocumentation.Web.Domain.Entities.Projects;
 using ProjectDocumentation.Web.Domain.Errors;
 using ProjectDocumentation.Web.Domain.Interfaces;
@@ -37,6 +39,21 @@ public sealed class ProjectRepository : IProjectRepository
 
         return projectEntity.ToDomain()
            .AsSuccess<Project, NotFoundError>();
+    }
+
+    public async Task<IEnumerable<Project>> FindProjectsByOrganizationAsync(Organization organization,
+        CancellationToken cancellationToken)
+    {
+        var projectEntities = await DB.Entity<OrganizationEntity>()
+           .Projects.JoinQueryable()
+           .Where(join => join.ParentID == organization.Id.Value)
+           .Join(DB.Collection<ProjectEntity>(),
+                join => join.ChildID,
+                project => project.ID,
+                (_, project) => project)
+           .ToListAsync(cancellationToken);
+
+        return projectEntities.Select(project => project.ToDomain());
     }
 
     public async Task UpdateAsync(Project project, CancellationToken cancellationToken)

@@ -7,4 +7,5 @@ export type TextFieldCProps = {
 	placeholder?: string;
 	onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 	hasError?: boolean;
+  errorMessage?: string;
 };

@@ -1,3 +1,4 @@
+using System.Net.Security;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectDocumentation.Web.Application.Interfaces;
 using ProjectDocumentation.Web.Application.UseCases.Users.CreateUser;
@@ -12,6 +13,7 @@ public static class ServiceCollectionExtensions
         AddCreateUseCases(services);
         AddDeleteUseCases(services);
         AddReadOneUseCases(services);
+        AddReadAllUseCases(services);
         AddUpdateUseCases(services);
         AddValidations(services);
     }
@@ -34,8 +36,14 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UseCases.Organizations.ReadOneOrganization.Command>();
         services.AddScoped<UseCases.Pages.ReadOnePage.Command>();
         services.AddScoped<UseCases.Projects.ReadOneProject.Command>();
+        services.AddScoped<UseCases.Users.ReadOneUser.Command>();
     }
 
+    private static void AddReadAllUseCases(IServiceCollection services)
+    {
+        services.AddScoped<UseCases.Projects.ReadAllProjects.Command>();
+    }
+    
     private static void AddUpdateUseCases(IServiceCollection services)
     {
         services.AddScoped<UseCases.Pages.UpdatePage.Command>();

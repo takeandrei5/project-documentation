@@ -1,5 +1,5 @@
 import { type AxiosResponse } from 'axios';
-import { axiosInstance } from '../../../utils/axios';
+import axiosInstance from '../../../utils/axios';
 import { USERS_API_URI } from '../routes';
 
 const createUserApi = async (): Promise<void> => {

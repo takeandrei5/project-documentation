@@ -5,16 +5,11 @@ const axiosInstance: AxiosInstance = axios.create({
 	validateStatus: (status: number) => status < 500
 });
 
-export const injectAccessToken = (accessToken: string): void => {
-	axiosInstance.interceptors.request.use(
-		(config) => {
-			config.headers.Authorization = `Bearer ${accessToken}`;
-			return config;
-		},
-		(error) => {
-			return Promise.reject(error);
-		}
-	);
+const injectAccessToken = (accessToken: string): void => {
+  axiosInstance.defaults.headers.get.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.put.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.post.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.delete.Authorization = `Bearer ${accessToken}`;
 };
 
 axiosInstance.interceptors.response.use((response: AxiosResponse) => {
@@ -28,7 +23,7 @@ function isIsoDateString(value: unknown): boolean {
 	return !!value && typeof value === 'string' && isoDateFormat.test(value);
 }
 
-export function handleDates(body: any): void {
+function handleDates(body: any): void {
 	if (!body || typeof body !== 'object') return;
 
 	for (const key of Object.keys(body)) {
@@ -44,4 +39,5 @@ export function handleDates(body: any): void {
 	}
 }
 
-export { axiosInstance };
+export { injectAccessToken };
+export default axiosInstance;

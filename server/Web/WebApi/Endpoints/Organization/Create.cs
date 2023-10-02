@@ -15,7 +15,7 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public override async Task<ActionResult> HandleAsync([FromBody] CreateRequest createRequest,

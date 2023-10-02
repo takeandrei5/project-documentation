@@ -6,4 +6,10 @@ async function copyTextToClipboard(text: string) {
 	}
 }
 
-export { copyTextToClipboard };
+function stringFormat(template: string, data: { [key: string]: string }) {
+	const pattern = /{\s*(\w+?)\s*}/g; // {property}
+
+	return template.replace(pattern, (_, token) => data[token] || '');
+}
+
+export { copyTextToClipboard, stringFormat };

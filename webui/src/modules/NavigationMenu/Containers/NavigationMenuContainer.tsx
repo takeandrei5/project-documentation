@@ -19,7 +19,7 @@ const NavigationMenuContainer: React.FC = () => {
 				backgroundColor: theme.palette.common.white,
 				padding: '0.94rem 1rem'
 			}}>
-			<NavigationMenuHeader treeData={treeData} setTreeData={setTreeDataHandler} />
+			<NavigationMenuHeader />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
 			<NavigationMenuBody treeData={treeData} setTreeData={setTreeDataHandler} />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />

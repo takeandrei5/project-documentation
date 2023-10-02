@@ -1,5 +1,5 @@
 import { type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import { axiosInstance } from '../../../utils/axios';
+import axiosInstance from '../../../utils/axios';
 import { PROJECTS_API_URI } from '../routes';
 import { type CreateProjectRequest } from './types';
 

@@ -1,0 +1,1 @@
+export { ProjectSelectionContainer as ProjectSelectionModule } from './container';
