@@ -1,9 +1,10 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel, type RenderParams } from '@minoru/react-dnd-treeview';
-import { Box, type Theme } from '@mui/material';
+import { Box, Icon, Typography, type Theme } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataProps, TreeDataValues } from '../../types';
 import { TreeNode } from '../TreeNode';
 import { useNavigationMenuBody } from './hooks';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 
 const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
 	const { onClickHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(setTreeData);
@@ -26,6 +27,9 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 					'& ul': {
 						marginTop: '0.1rem'
 					}
+				},
+				'& .Container > .ListItem': {
+					marginBottom: '0.25rem'
 				},
 				'& li': { listStyleType: 'none' }
 			}}>
@@ -108,58 +112,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 						}}
 					/>
 				</DndProvider>
-				<Box
-					sx={(theme: Theme) => ({
-						// backgroundColor: isSelected ? `${hexToRgba(theme.palette.cyan[10], 0.5)} !important` : 'transparent',
-						borderRadius: '0.5rem',
-						cursor: 'pointer',
-						display: 'flex',
-						flexDirection: 'row',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						paddingTop: '0.5rem',
-						paddingBottom: '0.5rem',
-						paddingRight: '0.5rem',
-						// 'svg.MuiSvgIcon-root path': {
-						// 	fill: true === false ? theme.palette.purple[100] : theme.palette.cyan[40]
-						// },
-						// 'span.material-icons': {
-						// 	color: 2 === 1 ? theme.palette.purple[100] : theme.palette.cyan[40]
-						// },
-						// 'span.MuiTypography-root': {
-						// 	color: !1 ? theme.palette.purple[100] : theme.palette.textColor[60],
-						// 	fontWeight: 700
-						// },
-						'&:active': {
-							backgroundColor: theme.palette.cyan[20],
-							color: theme.palette.purple[100],
-							'& span.material-icons': {
-								color: theme.palette.purple[100]
-							}
-						},
-						'&:hover ': {
-							backgroundColor: theme.palette.cyan[10],
-							// boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
-							'& p ': {
-								fontWeight: 700
-							},
-							'& span.material-icons': {
-								color: theme.palette.purple[100]
-							},
-							'svg.MuiSvgIcon-root path': {
-								fill: theme.palette.purple[100]
-							},
-							'& div#option-menu': {
-								display: 'flex'
-							},
-							'span.MuiTypography-root': {
-								color: theme.palette.purple[100],
-								fontWeight: 700
-							}
-						}
-					})}>
-					hello23
-				</Box>
+				<NavigationMenuItem icon='add' onClick={console.log} text='Add new page' />
 			</Box>
 		</Box>
 	);

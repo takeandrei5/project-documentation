@@ -14,6 +14,10 @@ const App: React.FC = () => {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: true,
+        cacheTime: 5 * 60 * 1000,
+        retry: 3
       }
     }
   });

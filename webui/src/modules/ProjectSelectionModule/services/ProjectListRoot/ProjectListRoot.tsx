@@ -5,9 +5,10 @@ import { PROJECT_SELECTION_LABELS } from './config';
 import useProjectListRoot from './hooks';
 
 const ProjectListRoot: React.FC = () => {
-	const { projectList, onCreateNewProjectClickedHandler, onProjectClickedHandler, isFetching } = useProjectListRoot();
+	const { projectList, onCreateNewProjectClickedHandler, onProjectClickedHandler, isLoading } = useProjectListRoot();
 
-  if (isFetching) {
+  console.log('isLoading', isLoading);
+  if (isLoading) {
     return null;
   }
 
