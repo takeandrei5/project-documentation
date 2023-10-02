@@ -15,7 +15,7 @@ public sealed class ReadOne : EndpointBaseAsync.WithRequest<ReadOneRequest>.With
         _command = command;
     }
 
-    [HttpPost]
+    [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
