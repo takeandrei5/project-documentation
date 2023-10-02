@@ -35,7 +35,7 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
 
         return commandResult.Match<ActionResult>(pageId =>
                 Created(
-                    $"/project-documentation/organization/{request.OrganizationId}/projects/{request.ProjectId}/pages/{pageId.Value}",
+                    $"/organizations/{request.OrganizationId}/projects/{request.ProjectId}/pages/{pageId.Value}",
                     null),
             error => Problem(error.Message, HttpContext.Request.Path, error.Status, error.Title, error.Type));
     }

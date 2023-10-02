@@ -1,7 +1,7 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { Box, Typography, type SnackbarCloseReason } from '@mui/material';
 import _ from 'lodash';
-import { useEffect, useState, type Dispatch } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCopyToClipboard } from '../../../../hooks';
 import { useAppDispatch } from '../../../../redux/hooks';
@@ -10,7 +10,7 @@ import { type DialogControlProps } from '../../../../utils/types';
 import type { TreeDataValues } from '../../types';
 import { snackbarMessages } from './constants';
 
-const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, text: string, nodeId: string) => {
+const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, text: string, nodeId: string) => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);

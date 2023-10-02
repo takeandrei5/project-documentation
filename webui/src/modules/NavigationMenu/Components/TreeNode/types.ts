@@ -4,7 +4,7 @@ import type { TreeDataValues } from '../../types';
 export type TreeNodeProps = {
 	node: NodeModel<TreeDataValues>;
 	treeData: NodeModel<TreeDataValues>[];
-	setTreeData: React.Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>;
+	setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void;
 	onClickHandler: (id: string) => void;
 	onToggle: () => void;
 	depth: number;

@@ -7,7 +7,7 @@ const useProjectListRoot = () => {
 	const params = useParams();
   const navigate = useNavigate();
 
-	const { data: projectList, isError, error } = useQuery(['projects_list', params['organizationId']], () => readAllProjectsApi(params['organizationId'] as string));
+	const { data: projectList, isError, error, isFetching } = useQuery(['projects_list', params['organizationId']], () => readAllProjectsApi(params['organizationId'] as string));
 
 	useEffect(() => {
 		if (isError || !!error) {
@@ -15,11 +15,15 @@ const useProjectListRoot = () => {
 		}
 	}, [isError, error]);
 
-  const onClickHandler = (id: string) => {
-    navigate(`/organizations/${params['organizationId']}/projects/${id}`);
+  const onProjectClickedHandler = (id: string) => {
+    navigate(`/organizations/${params['organizationId']}/projects/${id}/project-documentation`);
   };
 
-	return { projectList: projectList?.data.projects || [], onClickHandler };
+  const onCreateNewProjectClickedHandler = (): void => {
+    navigate(`/organizations/${params['organizationId']}/create-project`);
+  };
+
+	return { projectList: projectList?.data.projects || [], onCreateNewProjectClickedHandler, onProjectClickedHandler, isFetching };
 };
 
 export default useProjectListRoot;

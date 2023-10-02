@@ -33,7 +33,7 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
             cancellationToken);
 
         return commandResult.Match<ActionResult>(projectId =>
-                Created($"/project-documentation/organization/{request.OrganizationId}/projects/{projectId.Value}",
+                Created($"/organizations/{request.OrganizationId}/projects/{projectId.Value}",
                     null),
             error => Problem(error.Message, HttpContext.Request.Path, error.Status, error.Title, error.Type));
     }

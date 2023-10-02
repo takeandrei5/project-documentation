@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Navigate } from 'react-router-dom';
 import { readOneUserApi } from '../api';
 
-const useOrganizationGuard = () => {
+const useCreateOrganizationGuard = () => {
 	const { data: organizationData, isError, error } = useQuery(['organization_info'], readOneUserApi);
 
 	const guard = (Component: React.ComponentType) => {
@@ -24,4 +24,4 @@ const useOrganizationGuard = () => {
 	return guard;
 };
 
-export default useOrganizationGuard;
+export default useCreateOrganizationGuard;

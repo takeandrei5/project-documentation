@@ -1,7 +1,7 @@
 import type { PageDto } from '../pages/types';
 
 export type CreateProjectRequest = {
-	projectName: string;
+	name: string;
 };
 
 export type ProjectListDto = {

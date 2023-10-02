@@ -1,8 +1,8 @@
 import { CreateOrganizationModule } from '../modules';
-import { useOrganizationGuard } from '../routing';
+import { useCreateOrganizationGuard } from '../routing';
 
 const CreateOrganizationPage: React.FC = () => {
-  const guard = useOrganizationGuard();
+  const guard = useCreateOrganizationGuard();
 
 	return guard(CreateOrganizationModule);
 };

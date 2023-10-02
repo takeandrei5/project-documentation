@@ -1,10 +1,10 @@
 import { useDragOver } from '@minoru/react-dnd-treeview';
 import { Box, type Theme } from '@mui/material';
+import hexToRgba from 'hex-to-rgba';
 import { AddNewFile } from '../AddNewFile';
 import EditNode from '../EditNode/EditNode';
 import { VerticalMenu } from '../VerticalMenu';
 import type { TreeNodeProps } from './types';
-import hexToRgba from 'hex-to-rgba';
 
 const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClickHandler, onToggle, depth, isOpen, isSelected }: TreeNodeProps) => {
 	const dragOverProps = useDragOver(node.id, isOpen, onToggle);
@@ -43,7 +43,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 				},
 				'&:hover ': {
 					backgroundColor: theme.palette.cyan[10],
-          // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+					// boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
 					'& p ': {
 						fontWeight: 700
 					},

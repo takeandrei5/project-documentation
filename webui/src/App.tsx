@@ -1,17 +1,22 @@
-import { type AppState, Auth0Provider, User } from '@auth0/auth0-react';
+import { Auth0Provider, type AppState } from '@auth0/auth0-react';
 import { ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useNavigate } from 'react-router-dom';
 import { mainTheme } from './assets/theme';
 import { RouterProvider, StoreProvider } from './providers';
-import { store } from './redux';
 import { HotKeysProvider } from './providers/HotKeysProvider';
-import useAccessToken from './routing/useAccessToken';
+import { store } from './redux';
 
 const App: React.FC = () => {
 	const navigate = useNavigate();
-	const queryClient: QueryClient = new QueryClient();
+	const queryClient: QueryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      }
+    }
+  });
 
 	return (
 		<QueryClientProvider client={queryClient}>

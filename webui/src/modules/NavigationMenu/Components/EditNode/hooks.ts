@@ -1,9 +1,9 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
-import { type Dispatch, type RefObject, useState } from 'react';
+import { useState, type RefObject } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import type { TreeDataValues } from '../../types';
 
-const useEditNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>, node: NodeModel) => {
+const useEditNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
 	const [value, setValue] = useState<string>(node.text);
 	const [open, setOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -42,7 +42,7 @@ const useEditNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: Dispatc
 
 const useShortCommands = (
 	treeData: NodeModel<TreeDataValues>[],
-	setTreeData: Dispatch<React.SetStateAction<NodeModel<TreeDataValues>[]>>,
+	setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void,
 	node: NodeModel<TreeDataValues>,
 	nodeRef: RefObject<HTMLElement>,
 	openDeleteDialogHandler: () => void,

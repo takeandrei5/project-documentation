@@ -57,7 +57,6 @@ public sealed class OrganizationRepository : IOrganizationRepository
         var result = await transaction.UpdateAndGet<OrganizationEntity>()
            .MatchID(organization.Id.Value)
            .Modify(organizationEntity => organizationEntity.Name, organization.Name.Value)
-           .Modify(organizationEntity => organizationEntity.Projects, new Many<ProjectEntity>())
            .ExecuteAsync(cancellationToken);
 
         await result.Projects
