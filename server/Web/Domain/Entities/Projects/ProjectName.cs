@@ -1,4 +1,4 @@
-﻿using ProjectDocumentation.Web.Exceptions;
+﻿using ProjectDocumentation.Web.Domain.Exceptions;
 
 namespace ProjectDocumentation.Web.Domain.Entities.Projects;
 

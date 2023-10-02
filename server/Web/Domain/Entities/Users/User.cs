@@ -1,7 +1,7 @@
 ﻿using ProjectDocumentation.Web.Domain.Entities.Organizations;
 using ProjectDocumentation.Web.Domain.Entities.Pages;
 using ProjectDocumentation.Web.Domain.Entities.Projects;
-using ProjectDocumentation.Web.Exceptions;
+using ProjectDocumentation.Web.Domain.Exceptions;
 
 namespace ProjectDocumentation.Web.Domain.Entities.Users;
 

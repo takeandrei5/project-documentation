@@ -1,10 +1,15 @@
-import { type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { type AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
+import { stringFormat } from '../../../utils/helpers';
 import { PROJECTS_API_URI } from '../routes';
 import { type CreateProjectRequest } from './types';
 
-const createProjectApi = async (data: CreateProjectRequest): Promise<AxiosResponse<null, AxiosRequestConfig<unknown>>> => {
-	return await axiosInstance.post<unknown, AxiosResponse<null, AxiosRequestConfig<unknown>>, CreateProjectRequest>(PROJECTS_API_URI, data);
+const createProjectApi = async (data: CreateProjectRequest, organizationId: string): Promise<AxiosResponse> => {
+	const url: string = stringFormat(PROJECTS_API_URI, { organizationId });
+
+  const result = await axiosInstance.post<CreateProjectRequest>(url, data);
+
+  return result;
 };
 
 export default createProjectApi;

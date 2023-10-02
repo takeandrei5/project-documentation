@@ -1,5 +1,3 @@
-using ProjectDocumentation.Web.Exceptions;
-
 namespace ProjectDocumentation.Web.Domain.Entities.Pages;
 
 public sealed record PageParent

@@ -13,7 +13,7 @@ public sealed record PageEntity : IEntity
     public One<PageEntity>? ParentId { get; init; }
 
     [Field("iconName")]
-    public string? IconName { get; init; }
+    public string IconName { get; init; } = null!;
 
     [Field("content")]
     public string? Content { get; init; }

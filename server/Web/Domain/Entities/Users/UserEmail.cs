@@ -1,5 +1,5 @@
-﻿using ProjectDocumentation.Web.Exceptions;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using ProjectDocumentation.Web.Domain.Exceptions;
 
 namespace ProjectDocumentation.Web.Domain.Entities.Users;
 

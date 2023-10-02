@@ -6,7 +6,7 @@ public sealed record PageDto
 
     public string Name { get; set; } = null!;
 
-    public string? IconName { get; set; } 
+    public string IconName { get; set; } = null!; 
     
     public string? ParentId { get; set; }
 

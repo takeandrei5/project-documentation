@@ -1,4 +1,4 @@
-namespace ProjectDocumentation.Web.Exceptions;
+namespace ProjectDocumentation.Web.Domain.Exceptions;
 
 internal sealed class DomainRuleException : Exception
 {

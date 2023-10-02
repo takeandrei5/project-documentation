@@ -19,5 +19,6 @@ public sealed record CreateRequestBody
     public string? ParentId { get; init; }
 
     public string Name { get; init; } = null!;
+    
     public string IconName { get; init; } = null!;
 }
