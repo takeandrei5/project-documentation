@@ -3,7 +3,7 @@ import { Box, Icon, type Theme } from '@mui/material';
 import _ from 'lodash';
 import { setTrash } from '../../redux/slices/trash/trashSlice';
 import { setTree } from '../../redux/slices/tree/treeSlice';
-import type { TreeDataValues } from '../NavigationMenu/types';
+import type { TreeDataValues } from '../NavigationMenuModule/types';
 import TreeNode from './TreeNode/TreeNode';
 import type { TrashTreeDataValues } from './types';
 

@@ -1,6 +1,6 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { TreeDataValues } from '../../../modules/NavigationMenu/types';
+import type { TreeDataValues } from '../../../modules/NavigationMenuModule/types';
 
 const initialState: NodeModel<TreeDataValues>[] = [
 	{

@@ -2,7 +2,7 @@ import { type NodeModel } from '@minoru/react-dnd-treeview';
 import { Box, type Theme, Typography, Divider } from '@mui/material';
 import React from 'react';
 import { useAppSelector } from '../../redux/hooks';
-import type { TreeDataValues } from '../NavigationMenu/types';
+import type { TreeDataValues } from '../NavigationMenuModule/types';
 import { useTrashContainer } from './hooks';
 
 const TrashContainer: React.FC = () => {
