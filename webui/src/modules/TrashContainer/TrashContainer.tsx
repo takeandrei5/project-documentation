@@ -1,13 +1,9 @@
-import { type NodeModel } from '@minoru/react-dnd-treeview';
-import { Box, type Theme, Typography, Divider } from '@mui/material';
+import { Box, Divider, Typography, type Theme } from '@mui/material';
 import React from 'react';
-import { useAppSelector } from '../../redux/hooks';
-import type { TreeDataValues } from '../NavigationMenuModule/types';
 import { useTrashContainer } from './hooks';
 
 const TrashContainer: React.FC = () => {
-	const trashData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
-	const { arrayToTree, renderTree } = useTrashContainer();
+	const { arrayToTree, renderTree, trashData } = useTrashContainer();
 	const treeNodes = renderTree(arrayToTree(trashData));
 
 	return (

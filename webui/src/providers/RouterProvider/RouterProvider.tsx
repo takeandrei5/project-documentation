@@ -22,6 +22,7 @@ const RouterProvider: React.FC = withAuthenticationRequired(() => {
 			</Route>
 			<Route element={<NavigationLayoutOutlet />}>
 				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation' element={<ProjectPage />} />
+				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation/pages/:pageId' element={<ProjectPage />} />
 				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation/trash' element={<TrashPage />} />
 			</Route>
 			<Route path='*' element={<div>Not found ...</div>} />

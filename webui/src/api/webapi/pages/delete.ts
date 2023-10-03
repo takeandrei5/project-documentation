@@ -3,7 +3,7 @@ import axiosInstance from '../../../utils/axios';
 import { stringFormat } from '../../../utils/helpers';
 import { PAGES_API_URI } from '../routes';
 
-const deleteOnePageApi = async (pageId: string, projectId: string, organizationId: string): Promise<AxiosResponse> => {
+const deletePageApi = async (pageId: string, projectId: string, organizationId: string): Promise<AxiosResponse> => {
 	const url = `${stringFormat(PAGES_API_URI, { projectId, organizationId })}/${pageId}`;
 
   const result = await axiosInstance.delete(url);
@@ -11,4 +11,4 @@ const deleteOnePageApi = async (pageId: string, projectId: string, organizationI
   return result;
 };
 
-export default deleteOnePageApi;
+export default deletePageApi;

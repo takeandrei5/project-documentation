@@ -1,12 +1,25 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
-import type { Editor as TinyMCEEditor } from 'tinymce';
+import type { EditorEvent, Events, Editor as TinyMCEEditor } from 'tinymce';
 
-import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, usePlaceholder, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import { useTheme, type Theme } from '@mui/material';
+import {
+	useAccordion,
+	useAi,
+	useCallout,
+	useComponent,
+	useDragAndDrop,
+	usePageEmbed,
+	usePageTitle,
+	usePlaceholder,
+	useQuickToolbar,
+	useSelectAllBlock,
+	useSlashCommand
+} from './hooks';
 import './tinyMce.css';
-import { type Theme, useTheme } from '@mui/material';
+import type { TextEditorProps } from './types';
 
-const TextEditor: React.FC = () => {
+const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
 
 	const initializeAccordion = useAccordion();
@@ -21,7 +34,7 @@ const TextEditor: React.FC = () => {
 	const initializeSelectAllBlock = useSelectAllBlock();
 	const initializeSlashCommand = useSlashCommand();
 
-  const theme: Theme = useTheme();
+	const theme: Theme = useTheme();
 
 	const log = function () {
 		if (editorRef.current) {
@@ -34,7 +47,7 @@ const TextEditor: React.FC = () => {
 			<Editor
 				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
 				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
-				initialValue='This is the initial content of the editor.'
+				initialValue={content}
 				plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
 				init={{
 					menubar: false,
@@ -66,6 +79,10 @@ const TextEditor: React.FC = () => {
 
           body {
             margin: 0;
+          }
+
+          body.mce-content-body:before {
+            padding-left: 4rem;
           }
 
           body > * {
@@ -224,11 +241,14 @@ const TextEditor: React.FC = () => {
 						});
 					},
 					setup: function (editor: TinyMCEEditor) {
+            editor.on("keyup", () => {
+              onContentChangedHandler(editor.getContent());
+            });
 						initializeAccordion(editor);
 						initializeCallout(editor);
 						initializeComponent(editor);
 						initializeDragAndDrop(editor);
-            initializePageEmbed(editor);
+						initializePageEmbed(editor);
 						initializePageTitle(editor);
 						// initializePlaceholder(editor);
 						initializeQuickToolbar(editor);

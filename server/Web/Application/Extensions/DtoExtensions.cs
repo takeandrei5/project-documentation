@@ -14,6 +14,7 @@ public static class DtoExtensions
         {
             Id = page.Id.Value,
             Name = page.Name.Value,
+            IconName = page.IconName.Value,
             Content = page.Content.Value,
             IsSoftDeleted = page.IsSoftDeleted
         };
@@ -44,7 +45,8 @@ public static class DtoExtensions
                 Name = page.Name.Value,
                 Content = page.Content.Value,
                 IconName = page.IconName.Value,
-                ParentId = page.Parent.Value?.Value
+                ParentId = page.Parent.Value?.Value,
+                IsSoftDeleted = page.IsSoftDeleted
             })
         };
     }

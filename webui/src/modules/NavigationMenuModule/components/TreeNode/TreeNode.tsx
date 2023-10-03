@@ -64,9 +64,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 			})}
 			{...dragOverProps}>
 			<EditNode treeData={treeData} setTreeData={setTreeData} node={node} onToggle={onToggle} isOpen={isOpen} />
-			<Box id='option-menu' sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem', maxHeight: '1.25rem' }}>
+			<Box id='option-menu' onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()} sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem', maxHeight: '1.25rem' }}>
 				{node.droppable && <AddNewFile setTreeData={setTreeData} nodeId={node.id.toString()} treeData={treeData} />}
-				{node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={node.data.link} />}
+				{node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={'TBD'} />}
 			</Box>
 		</Box>
 	);

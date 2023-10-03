@@ -1,17 +1,27 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { Box, Icon, type Theme } from '@mui/material';
 import _ from 'lodash';
-import { setTrash } from '../../redux/slices/trash/trashSlice';
 import { setTree } from '../../redux/slices/tree/treeSlice';
 import type { TreeDataValues } from '../NavigationMenuModule/types';
 import TreeNode from './TreeNode/TreeNode';
 import type { TrashTreeDataValues } from './types';
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useMutation } from '@tanstack/react-query';
+import type { UpdatePageRequest } from '../../api/webapi/pages/types';
+import { deletePageApi, updatePageApi } from '../../api/webapi/pages';
+import { useParams } from 'react-router-dom';
 
 const useTrashContainer = () => {
 	const dispatch = useAppDispatch();
-	const trashData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.trash);
+	const treeData: NodeModel<TreeDataValues>[] = useAppSelector((state) => state.tree);
+	const params = useParams<{ organizationId: string; projectId: string }>();
+	const { mutate: updatePageMutate } = useMutation(({ data, nodeId }: { data: UpdatePageRequest; nodeId: string }) =>
+		updatePageApi(data, nodeId, params.projectId!, params.organizationId!)
+	);
+	const { mutate: deletePageMutate } = useMutation((nodeId: string) => deletePageApi(nodeId, params.projectId!, params.organizationId!));
+
+	const trashData: NodeModel<TreeDataValues>[] = treeData.filter((node: NodeModel<TreeDataValues>) => node.data && node.data.isDeleted);
 
 	const arrayToTree = (data: NodeModel<TreeDataValues>[]): TrashTreeDataValues[] => {
 		const tree: TrashTreeDataValues[] = [];
@@ -56,21 +66,30 @@ const useTrashContainer = () => {
 		return recoveredTree;
 	};
 
-	const onRecoveryFilesHandler = (item: TrashTreeDataValues) => {
+	const onPermanentDeleteClickedHandler = (node: TrashTreeDataValues) => {
+		deletePageMutate(node.id as string);
+		dispatch(setTree([...treeData.filter((item: NodeModel<TreeDataValues>) => item.id !== node.id)]));
+	};
+
+	const onRecoverFileClickedHandler = (item: TrashTreeDataValues) => {
 		const recoveredNodes: NodeModel<TreeDataValues>[] = treeToArray(item);
 
 		const ids = recoveredNodes.map((node: NodeModel<TreeDataValues>) => node.id as string);
-		const newTree: NodeModel<TreeDataValues>[] = _.cloneDeep(trashData);
+		const newTree: NodeModel<TreeDataValues>[] = _.cloneDeep(treeData);
 
 		newTree.forEach((treeItem: NodeModel<TreeDataValues>) => {
 			if (ids.includes(treeItem.id as string) && treeItem.data && treeItem.data.isDeleted) {
 				treeItem.data.isDeleted = false;
 				treeItem.parent = '0';
+
+				updatePageMutate({
+					data: { isSoftDeleted: treeItem.data.isDeleted, iconName: treeItem.data.iconName, name: treeItem.text, content: treeItem.data.content, parentId: undefined },
+					nodeId: treeItem.id as string
+				});
 			}
 		});
 
 		dispatch(setTree(newTree));
-		dispatch(setTrash(newTree));
 	};
 
 	const renderTree = (nodes: TrashTreeDataValues[], level = 0): JSX.Element[] => {
@@ -89,7 +108,7 @@ const useTrashContainer = () => {
 										cursor: 'pointer',
 										'&:hover': { color: theme.palette.greenDark[100] }
 									})}
-									onClick={() => onRecoveryFilesHandler(node)}>
+									onClick={() => onRecoverFileClickedHandler(node)}>
 									undo
 								</Icon>
 								<Icon
@@ -97,8 +116,9 @@ const useTrashContainer = () => {
 										color: theme.palette.red[60],
 										cursor: 'pointer',
 										'&:hover': { color: theme.palette.red[80] }
-									})}>
-									<Icon>delete_forever_outlined</Icon>
+									})}
+									onClick={() => onPermanentDeleteClickedHandler(node)}>
+									delete_forever_outlined
 								</Icon>
 							</Box>
 						)}
@@ -116,7 +136,7 @@ const useTrashContainer = () => {
 		return treeArrayNodes;
 	};
 
-	return { arrayToTree, renderTree };
+	return { arrayToTree, renderTree, trashData };
 };
 
 export { useTrashContainer };

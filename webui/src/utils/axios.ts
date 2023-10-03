@@ -7,9 +7,10 @@ const axiosInstance: AxiosInstance = axios.create({
 
 const injectAccessToken = (accessToken: string): void => {
   axiosInstance.defaults.headers.get.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.put.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.post.Authorization = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.delete.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.patch.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.post.Authorization = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.put.Authorization = `Bearer ${accessToken}`;
 };
 
 axiosInstance.interceptors.response.use((response: AxiosResponse) => {

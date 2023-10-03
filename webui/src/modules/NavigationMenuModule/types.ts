@@ -1,10 +1,9 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 
 export type TreeDataValues = {
-	link: string;
 	isDeleted: boolean;
-	isEditable?: boolean;
-	iconName?: string;
+	iconName: string;
+  content?: string;
 };
 
 export type TreeDataProps = {

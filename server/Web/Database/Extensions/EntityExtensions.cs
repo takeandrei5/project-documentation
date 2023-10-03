@@ -26,13 +26,21 @@ public static class EntityExtensions
                 : new Id(pageEntity.ParentId.ID)),
             pageEntity.IsSoftDeleted);
     }
-
+    
     public static Project ToDomain(this ProjectEntity projectEntity)
     {
         return new Project(new Id(projectEntity.ID),
             new ProjectIconName(projectEntity.IconName),
             new ProjectName(projectEntity.Name),
             new ProjectPages(projectEntity.Pages.Select(ToDomain)));
+    }
+
+    public static Project ToDomain(this ProjectEntity projectEntity, IEnumerable<PageEntity> pages)
+    {
+        return new Project(new Id(projectEntity.ID),
+            new ProjectIconName(projectEntity.IconName),
+            new ProjectName(projectEntity.Name),
+            new ProjectPages(pages.Select(ToDomain)));
     }
 
     public static User ToDomain(this UserEntity userEntity, OrganizationEntity? organizationEntity)

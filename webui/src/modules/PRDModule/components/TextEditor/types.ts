@@ -1,3 +1,8 @@
+export type TextEditorProps = {
+  content?: string;
+  onContentChangedHandler: (content: string) => void;
+}
+
 export type AiRequest = {
 	context: string;
 	prompt: string;

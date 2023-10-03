@@ -19,7 +19,7 @@ const useCreateProject = () => {
 	const navigate: NavigateFunction = useNavigate();
 
 	const { mutate: createProjectMutate } = useMutation((data: CreateProjectRequest) => createProjectApi(data, params['organizationId']!), {
-		onSuccess: (response: AxiosResponse<null>) => {
+		onSuccess: (response: AxiosResponse) => {
 			setSnackbarOpen(true);
 			setTimeout(() => navigate(`${response.headers.location}/project-documentation`), CREATE_PROJECT_SNACKBAR.Duration);
 		}

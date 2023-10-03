@@ -1,13 +1,14 @@
-import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel, type RenderParams } from '@minoru/react-dnd-treeview';
-import { Box, Icon, Typography, type Theme } from '@mui/material';
+import { MultiBackend, Tree, type DragLayerMonitorProps, type NodeModel, type RenderParams, getBackendOptions } from '@minoru/react-dnd-treeview';
+import { Box, type Theme } from '@mui/material';
 import { DndProvider } from 'react-dnd';
-import type { TreeDataProps, TreeDataValues } from '../../types';
+import type { TreeDataValues } from '../../types';
+import { NavigationMenuItem } from '../NavigationMenuItem';
 import { TreeNode } from '../TreeNode';
 import { useNavigationMenuBody } from './hooks';
-import { NavigationMenuItem } from '../NavigationMenuItem';
+import type { NavigationMenuBodyProps } from './types';
 
-const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) => {
-	const { onClickHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(setTreeData);
+const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ treeData, setTreeData, refreshTreeData }) => {
+	const { onNewPageClickedHandler, onPageClickedHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(setTreeData, refreshTreeData);
 
 	return (
 		<Box
@@ -68,7 +69,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 										node={monitorProps.item}
 										treeData={treeData}
 										setTreeData={setTreeData}
-										onClickHandler={onClickHandler}
+										onClickHandler={onPageClickedHandler}
 										onToggle={() => {
 											return;
 										}}
@@ -102,7 +103,7 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 									node={node}
 									treeData={treeData}
 									setTreeData={setTreeData}
-									onClickHandler={onClickHandler}
+									onClickHandler={onPageClickedHandler}
 									onToggle={onToggle}
 									depth={depth}
 									isOpen={isOpen}
@@ -112,7 +113,10 @@ const NavigationMenuBody: React.FC<TreeDataProps> = ({ treeData, setTreeData }) 
 						}}
 					/>
 				</DndProvider>
-				<NavigationMenuItem icon='add' onClick={console.log} text='Add new page' />
+				<NavigationMenuItem icon='add' onClick={() => onNewPageClickedHandler({
+          name: 'untitled',
+          iconName: 'add'
+        })} text='Add new page' />
 			</Box>
 		</Box>
 	);

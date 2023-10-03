@@ -92,7 +92,7 @@ public sealed class PageRepository : IPageRepository
                 }
             ]
         ")
-           .Tag("id", "ObjectId('650f5ec5fe1d3023189af70a')")
+           .Tag("id", $"ObjectId('{page.Id.Value}')")
            .Tag("pages_collection", DB.Entity<PageEntity>().CollectionName());
 
         var result = await transaction.PipelineAsync(query, cancellation: cancellationToken);

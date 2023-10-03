@@ -7,7 +7,7 @@ import type { UpdatePageRequest } from './types';
 const updatePageApi = async (data: UpdatePageRequest, pageId: string, projectId: string, organizationId: string): Promise<AxiosResponse<UpdatePageRequest>> => {
 	const url = `${stringFormat(PAGES_API_URI, { projectId, organizationId })}/${pageId}`;
 
-  const result = await axiosInstance.post<UpdatePageRequest>(url, data);
+  const result = await axiosInstance.patch<UpdatePageRequest>(url, data);
 
   return result;
 };

@@ -7,8 +7,8 @@ public sealed record CommandInput
     public string OrganizationId { get; init; } = null!;
 
     public string Name { get; init; } = null!;
-    
-    public string? IconName { get; init; }
+
+    public string IconName { get; init; } = null!;
 
     public string? ParentId { get; init; }
 }

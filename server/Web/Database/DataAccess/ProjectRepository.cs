@@ -33,11 +33,20 @@ public sealed class ProjectRepository : IProjectRepository
            .Where(project => project.ID == id.Value)
            .FirstOrDefaultAsync(cancellationToken);
 
+        var pageEntities = await DB.Entity<ProjectEntity>()
+           .Pages.JoinQueryable()
+           .Where(join => join.ParentID == id.Value)
+              .Join(DB.Collection<PageEntity>(),
+                 join => join.ChildID,
+                 page => page.ID,
+                 (_, page) => page)
+           .ToListAsync(cancellationToken);
+        
         if (projectEntity is null)
             return new NotFoundError($"Project with id {id.Value} not found.")
                .AsError<Project, NotFoundError>();
 
-        return projectEntity.ToDomain()
+        return projectEntity.ToDomain(pageEntities)
            .AsSuccess<Project, NotFoundError>();
     }
 
@@ -58,10 +67,19 @@ public sealed class ProjectRepository : IProjectRepository
 
     public async Task UpdateAsync(Project project, CancellationToken cancellationToken)
     {
-        await DB.Update<ProjectEntity>()
+        using var transaction = DB.Transaction();
+        
+        var result = await transaction.UpdateAndGet<ProjectEntity>()
            .MatchID(project.Id.Value)
            .Modify(projectEntity => projectEntity.Name, project.Name.Value)
            .Modify(projectEntity => projectEntity.IconName, project.IconName.Value)
            .ExecuteAsync(cancellationToken);
+        
+        await result.Pages
+           .AddAsync(project.Pages.Value.Select(page => page.Id.Value),
+                transaction.Session,
+                cancellationToken);
+
+        await transaction.CommitAsync(cancellationToken);
     }
 }

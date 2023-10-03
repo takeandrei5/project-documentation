@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCopyToClipboard } from '../../../../hooks';
 import { useAppDispatch } from '../../../../redux/hooks';
-import { setTrash } from '../../../../redux/slices/trash/trashSlice';
 import { type DialogControlProps } from '../../../../utils/types';
 import type { TreeDataValues } from '../../types';
 import { snackbarMessages } from './constants';
+import { useMutation } from '@tanstack/react-query';
+import { type NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import type { UpdatePageRequest } from '../../../../api/webapi/pages/types';
+import { deletePageApi, updatePageApi } from '../../../../api/webapi/pages';
 
 const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, text: string, nodeId: string) => {
 	const dispatch = useAppDispatch();
@@ -20,7 +23,10 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 	const [snackbarMessage, setSnackbarMessage] = useState<string>('');
 	const [newFileName, setNewFileName] = useState<string>(text);
 	const { copyToClipboard } = useCopyToClipboard();
-
+  const params = useParams<{ organizationId: string; projectId: string }>();
+  const navigate: NavigateFunction = useNavigate();
+  const { mutate: updatePageMutate } = useMutation((data: UpdatePageRequest) => updatePageApi(data, nodeId, params.projectId!, params.organizationId!));
+  const { mutate: deletePageMutate } = useMutation(() => deletePageApi(nodeId, params.projectId!, params.organizationId!));
 	const menuId = 'basic-menu';
 	const buttonId = 'basic-button';
 
@@ -37,6 +43,13 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 		data.forEach((item: NodeModel<TreeDataValues>) => {
 			if (item.id === nodeId && item.data) {
 				item.data.isDeleted = true;
+        updatePageMutate({
+          iconName: item.data.iconName,
+          isSoftDeleted: true,
+          name: item.text,
+          parentId: item.parent === '0' ? undefined : item.parent as string,
+          content: item.data.content
+        })
 			}
 
 			if (item.parent === nodeId && item.data) {
@@ -50,7 +63,6 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 
 		deleteItem(newTreeData, nodeId);
 		setTreeData(newTreeData);
-		dispatch(setTrash(newTreeData));
 	};
 
 	const duplicateNode = (nodeId: string, parentId: string | null = null): NodeModel<TreeDataValues>[] => {
@@ -107,7 +119,9 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 	};
 
 	const onPermanentDeleteItemHandler = (): void => {
+    deletePageMutate();
 		setTreeData([...treeData.filter((item: NodeModel<TreeDataValues>) => item.id !== nodeId)]);
+    navigate(`/organizations/${params.organizationId!}/projects/${params.projectId!}/project-documentation`);
 	};
 
 	const onDuplicateItemClickedHandler = (): void => {
@@ -123,7 +137,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 	};
 
 	const onMenuItemClickedHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		setAnchorEl(e.currentTarget);
+    setAnchorEl(e.currentTarget);
 		setMenuIsOpen(!menuIsOpen);
 	};
 

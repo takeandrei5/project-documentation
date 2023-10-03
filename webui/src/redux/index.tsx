@@ -1,9 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import trashSlice from './slices/trash/trashSlice';
 import treeSlice from './slices/tree/treeSlice';
 
 const rootReducer = {
-	trash: trashSlice,
 	tree: treeSlice
 };
 
