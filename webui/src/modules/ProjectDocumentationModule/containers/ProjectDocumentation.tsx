@@ -1,21 +1,26 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { TextEditor } from '../services';
 import { useProjectDocumentation } from './hooks';
 
 const ProjectDocumentation: React.FC = () => {
 	const { pageDetails, isLoading, debouncedUpdatePageMutate } = useProjectDocumentation();
 
-	if (!pageDetails) {
-		return null;
-	}
+  console.log(isLoading, pageDetails)
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
+  if (!isLoading && !pageDetails) {
+    return null;
+  }
 
 	return (
 		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF' }}>
-			<TextEditor content={pageDetails.content} onContentChangedHandler={debouncedUpdatePageMutate} />
+			{!isLoading ? (
+				<TextEditor content={pageDetails!.content} onContentChangedHandler={debouncedUpdatePageMutate} />
+			) : (
+				<Box sx={{ display: 'flex', flexDirection: 'column', paddingY: '2rem', paddingX: '4rem', height: '100%', width: '100%', gap: '0.5rem' }}>
+					<Skeleton animation='wave' variant='rounded' width='24rem' height='3rem' />
+					<Skeleton animation='wave' variant='rounded' width='100%' sx={{ flex: 1 }} />
+				</Box>
+			)}
 		</Box>
 	);
 };

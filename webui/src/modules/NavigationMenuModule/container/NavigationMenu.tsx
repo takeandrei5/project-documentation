@@ -5,21 +5,17 @@ import { useNavigationMenu } from './hooks';
 const NavigationMenuContainer: React.FC = () => {
 	const { isLoading, projectData, refetchProjectData, setTreeDataHandler, treeData } = useNavigationMenu();
 
-	if (isLoading || !projectData) {
-		return <div>Loading...</div>;
-	}
-
 	return (
 		<Box
 			sx={(theme: Theme) => ({
 				backgroundColor: theme.palette.common.white,
 				padding: '0.94rem 1rem'
 			})}>
-			<NavigationMenuHeader projectData={projectData} />
+			<NavigationMenuHeader isLoading={isLoading} projectName={projectData?.name || ''} />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-			<NavigationMenuBody treeData={treeData} setTreeData={setTreeDataHandler} refreshTreeData={refetchProjectData} />
+			<NavigationMenuBody isLoading={isLoading} treeData={treeData} setTreeData={setTreeDataHandler} refreshTreeData={refetchProjectData} />
 			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-			<NavigationMenuFooter />
+			<NavigationMenuFooter isLoading={isLoading} />
 		</Box>
 	);
 };

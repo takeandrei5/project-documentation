@@ -2,18 +2,7 @@ import { useTheme, type Theme } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import type { Editor as TinyMCEEditor } from 'tinymce';
-import {
-  useAccordion,
-  useAi,
-  useCallout,
-  useComponent,
-  useDragAndDrop,
-  usePageEmbed,
-  usePageTitle,
-  useQuickToolbar,
-  useSelectAllBlock,
-  useSlashCommand
-} from './hooks';
+import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
 import './tinyMce.css';
 import type { TextEditorProps } from './types';
 
@@ -238,9 +227,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 						});
 					},
 					setup: function (editor: TinyMCEEditor) {
-            editor.on("keyup", () => {
-              onContentChangedHandler(editor.getContent());
-            });
+						editor.on('keyup', () => {
+							onContentChangedHandler(editor.getContent());
+						});
 						initializeAccordion(editor);
 						initializeCallout(editor);
 						initializeComponent(editor);
@@ -255,7 +244,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					ai_request: initializeAiRequest
 				}}
 			/>
-			<button onClick={log}>Log editor content</button>
+			{/* <button onClick={log}>Log editor content</button> */}
 		</>
 	);
 };

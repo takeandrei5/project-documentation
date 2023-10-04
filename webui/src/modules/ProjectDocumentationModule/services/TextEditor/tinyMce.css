@@ -1,40 +1,47 @@
-div.tox * {
-  font-family: Manrope, sans-serif !important;
+textarea {
+	visibility: hidden;
+  height: 0;
+  width: 0;
 }
 
-div.tox input[placeholder="Ask AI to edit or generate..."] {
-  color: #4C4958 !important;
+div.tox * {
+	font-family: Manrope, sans-serif !important;
+}
+
+div.tox input[placeholder='Ask AI to edit or generate...'] {
+	color: #4c4958 !important;
 }
 
 *.tox-label {
-  color: #4C4958 !important;
+	color: #4c4958 !important;
 }
 
-div.tox input[placeholder="Ask AI to edit or generate..."]:focus {
-  border-color: #D5ECF5 !important;
-  box-shadow: 0 0 0 2px rgba(213, 236, 245, 1)
+div.tox input[placeholder='Ask AI to edit or generate...']:focus {
+	border-color: #d5ecf5 !important;
+	box-shadow: 0 0 0 2px rgba(213, 236, 245, 1);
 }
 
 div.tox div.tox-dialog__title {
-  color: #2B283D !important;
-  font-weight: 500 !important;
+	color: #2b283d !important;
+	font-weight: 500 !important;
 }
 
-div.tox button[aria-label="Close"] {
-  color: #2B283D !important;
+div.tox button[aria-label='Close'] {
+	color: #2b283d !important;
 }
 
-div.tox button[title="Generate"], button[title="Insert"] {
-  background-color: #D5ECF5 !important;
-  border-color: #D5ECF5 !important;
+div.tox button[title='Generate'],
+button[title='Insert'] {
+	background-color: #d5ecf5 !important;
+	border-color: #d5ecf5 !important;
 }
 
-div.tox button[title="Generate"] path {
-  fill: #110D59 !important;
+div.tox button[title='Generate'] path {
+	fill: #110d59 !important;
 }
 
-button[title="Insert"].tox-button {
-  color: #110D59 !important;
+button[title='Insert'].tox-button {
+	color: #110d59 !important;
 }
 
 div.tox.tox-tinymce {
@@ -42,48 +49,48 @@ div.tox.tox-tinymce {
 	border-radius: 0 !important;
 }
 
-div.tox.tox-tinymce-aux button[aria-label="Toggle accordion"]{
-  display: none !important;
+div.tox.tox-tinymce-aux button[aria-label='Toggle accordion'] {
+	display: none !important;
 }
 
-div.tox.tox-tinymce-aux div.tox-toolbar__group:first-child{
-  /* display: none !important; */
+div.tox.tox-tinymce-aux div.tox-toolbar__group:first-child {
+	/* display: none !important; */
 }
 
 div.tox-dialog--width-md {
-  max-width: 76% !important;
+	max-width: 76% !important;
 }
 
 div.tox-editor-header {
-  display: none !important;
-  position: absolute !important;
-  top: -9000px !important;
+	display: none !important;
+	position: absolute !important;
+	top: -9000px !important;
 }
 
 div.tox-collection__item--active {
-  background-color: #D5ECF5 !important;
+	background-color: #d5ecf5 !important;
 }
 
 div.tox-collection__item-icon {
-  color: #6AB8D6 !important;
+	color: #6ab8d6 !important;
 }
 
 div.tox-collection__item-icon path {
-  fill: #6AB8D6 !important;
+	fill: #6ab8d6 !important;
 }
 
 div.tox-collection__item-label {
-  color: #55555F !important;
+	color: #55555f !important;
 }
 
 div.tox-collection__item--active div.tox-collection__item-icon {
-  color: #110D59 !important;
+	color: #110d59 !important;
 }
 
 div.tox-collection__item--active div.tox-collection__item-label {
-  color: #110D59 !important;
+	color: #110d59 !important;
 }
 
 div.tox-collection__item--active path {
-  fill: #110D59 !important;
+	fill: #110d59 !important;
 }
