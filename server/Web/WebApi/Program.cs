@@ -2,6 +2,7 @@ using Microsoft.Net.Http.Headers;
 using ProjectDocumentation.Web.CompositionRoot;
 using ProjectDocumentation.Web.Database;
 using ProjectDocumentation.Web.WebApi.Extensions;
+using ProjectDocumentation.Web.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -52,6 +53,7 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ExceptionHandlerMiddleware>(); 
 app.UseEndpoints(endpoints =>
     endpoints.MapControllers()
        .RequireAuthorization());
