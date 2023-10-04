@@ -1,1 +1,1 @@
-export { CreateProjectContainer as CreateProjectModule } from './containers';
+export { CreateProject as CreateProjectModule } from './container';

@@ -1,1 +1,1 @@
-export { ProjectSelectionContainer as ProjectSelectionModule } from './container';
+export { ProjectSelection as ProjectSelectionModule } from './container';

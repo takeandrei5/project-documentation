@@ -1,3 +1,3 @@
 export { default as createProjectApi} from './create';
 export { default as readAllProjectsApi} from './readAll';
-export { default as readOneProjectsApi} from './readOne';
+export { default as readOneProjectApi} from './readOne';

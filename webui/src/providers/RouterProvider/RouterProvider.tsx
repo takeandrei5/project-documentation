@@ -2,7 +2,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { NavigationLayoutOutlet } from '../../layouts';
 import { MainLayoutOutlet } from '../../layouts/MainLayoutOutlet';
-import { CreateOrganizationPage, CreateProjectPage, ProjectPage, ProjectSelectionPage, TrashPage } from '../../pages';
+import { CreateOrganizationPage, CreateProjectPage, ProjectDocumentationPage, ProjectSelectionPage, TrashPage } from '../../pages';
 import { useAccessToken } from '../../routing';
 
 const RouterProvider: React.FC = withAuthenticationRequired(() => {
@@ -21,8 +21,8 @@ const RouterProvider: React.FC = withAuthenticationRequired(() => {
 				<Route path='/organizations/:organizationId/projects' element={<ProjectSelectionPage />} />
 			</Route>
 			<Route element={<NavigationLayoutOutlet />}>
-				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation' element={<ProjectPage />} />
-				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation/pages/:pageId' element={<ProjectPage />} />
+				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation' element={<ProjectDocumentationPage />} />
+				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation/pages/:pageId' element={<ProjectDocumentationPage />} />
 				<Route path='/organizations/:organizationId/projects/:projectId/project-documentation/trash' element={<TrashPage />} />
 			</Route>
 			<Route path='*' element={<div>Not found ...</div>} />

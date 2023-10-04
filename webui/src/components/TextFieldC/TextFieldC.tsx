@@ -2,7 +2,6 @@ import { Box, InputLabel, TextField, type Theme, Typography } from '@mui/materia
 import type { TextFieldCProps } from './types';
 
 const TextFieldC: React.FC<TextFieldCProps> = ({ name, id, value, hasError, label, onChange, placeholder = undefined, onKeyPress, errorMessage }) => {
-	console.log(hasError);
 	return (
 		<Box id={`wrapper_${id}`}>
 			<InputLabel htmlFor={id}>

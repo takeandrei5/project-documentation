@@ -1,5 +1,5 @@
 export type CreateOrganizationRequest = {
-  organizationName: string;
+  name: string;
 }
 
 export type OrganizationDto = {

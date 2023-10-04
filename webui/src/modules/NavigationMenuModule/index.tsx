@@ -1,1 +1,1 @@
-export { NavigationMenuContainer as NavigationMenuModule } from './containers';
+export { NavigationMenu as NavigationMenuModule } from './container';

@@ -2,12 +2,6 @@ export type FetchError = Error & {
 	statusCode: number;
 };
 
-export type DialogControlProps = {
-	isOpen: boolean;
-	closeHandler: () => void;
-	openHandler: () => void;
-};
-
 export type InputFieldProps = {
 	id: string;
 	name: string;

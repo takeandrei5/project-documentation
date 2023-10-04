@@ -1,1 +1,1 @@
-export { CreateOrganizationContainer as CreateOrganizationModule } from './containers';
+export { CreateOrganization as CreateOrganizationModule } from './container';

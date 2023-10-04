@@ -1,7 +1,7 @@
-import { TrashContainer } from '../modules/TrashContainer';
+import { TrashModule } from '../modules';
 
 const TrashPage: React.FC = () => {
-	return <TrashContainer />;
+	return <TrashModule />;
 };
 
 export default TrashPage;

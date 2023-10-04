@@ -1,1 +1,1 @@
-export { default as ProjectSelectionContainer } from './ProjectSelectionContainer';
+export { default as ProjectSelection } from './ProjectSelection';

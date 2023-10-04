@@ -1,0 +1,1 @@
+export { ProjectDocumentation as ProjectDocumentationModule } from './containers';

@@ -1,2 +1,3 @@
 export { ButtonC as ButtonC } from './ButtonC';
-export { DialogComponent as DialogComponent } from './DialogComponent';
+export { DialogC as DialogC } from './DialogC';
+export { TextFieldC as TextFieldC } from './TextFieldC';
