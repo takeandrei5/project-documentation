@@ -26,20 +26,20 @@ const useNavigationMenuBody = (treeData: NodeModel<TreeDataValues>[], setTreeDat
 	};
 
 	const onAddNewPageHandler = (parentId?: string) => {
-		const newTreeData: NodeModel<TreeDataValues>[] = [
-			...treeData,
-			{
-				id: `new-page-${Date.now()}}`,
-				parent: parentId || '0',
-				text: 'untitled',
-				droppable: true,
-				data: {
-					iconName: 'text_snippet_outlined',
-					isDeleted: false
-				}
-			}
-		];
-		setTreeData(newTreeData);
+		// const newTreeData: NodeModel<TreeDataValues>[] = [
+		// 	...treeData,
+		// 	{
+		// 		id: `new-page-${Date.now()}`,
+		// 		parent: parentId || '0',
+		// 		text: 'untitled',
+		// 		droppable: true,
+		// 		data: {
+		// 			iconName: 'text_snippet_outlined',
+		// 			isDeleted: false
+		// 		}
+		// 	}
+		// ];
+		// setTreeData(newTreeData);
 		createPageMutate({
 			name: 'untitled',
 			iconName: 'text_snippet_outlined',

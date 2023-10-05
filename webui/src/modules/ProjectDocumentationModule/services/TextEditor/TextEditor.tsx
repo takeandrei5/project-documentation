@@ -5,6 +5,7 @@ import type { Editor as TinyMCEEditor } from 'tinymce';
 import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
 import './tinyMce.css';
 import type { TextEditorProps } from './types';
+import useUpdater from './hooks/useUpdater';
 
 const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
@@ -19,6 +20,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 	const initializeQuickToolbar = useQuickToolbar();
 	const initializeSelectAllBlock = useSelectAllBlock();
 	const initializeSlashCommand = useSlashCommand();
+	const initializeUpdater = useUpdater(onContentChangedHandler);
 
 	const theme: Theme = useTheme();
 
@@ -32,7 +34,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 		<>
 			<Editor
 				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
-				onInit={(_, editor: TinyMCEEditor) => (editorRef.current = editor)}
+				onInit={(_, editor: TinyMCEEditor) => {
+					editorRef.current = editor;
+				}}
 				initialValue={content}
 				plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
 				init={{
@@ -225,11 +229,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 						editor.on('ExecCommand', (e) => {
 							console.log(`The ${e.command} command was fired.`);
 						});
+
+						initializeUpdater(editor);
 					},
 					setup: function (editor: TinyMCEEditor) {
-						editor.on('keyup', () => {
-							onContentChangedHandler(editor.getContent());
-						});
 						initializeAccordion(editor);
 						initializeCallout(editor);
 						initializeComponent(editor);

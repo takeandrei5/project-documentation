@@ -7,7 +7,7 @@ const ProjectDocumentation: React.FC = () => {
 
   console.log(isLoading, pageDetails)
 
-  if (!isLoading && !pageDetails) {
+  if (!pageDetails) {
     return null;
   }
 
