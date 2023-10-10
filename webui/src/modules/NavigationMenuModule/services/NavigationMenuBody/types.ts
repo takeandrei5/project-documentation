@@ -1,6 +1,7 @@
-import { type TreeDataProps } from '../../types';
+import type { PageDto } from '../../../../api/webapi/pages/types';
 
-export type NavigationMenuBodyProps = TreeDataProps & {
-  isLoading: boolean;
+export type NavigationMenuBodyProps = {
+	pages: PageDto[];
+	isLoading: boolean;
 	refreshTreeData: () => void;
 };

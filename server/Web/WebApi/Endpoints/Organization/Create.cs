@@ -23,7 +23,7 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
     {
         var result = await _command.ExecuteAsync(new CommandInput
             {
-                OrganizationName = createRequest.OrganizationName
+                OrganizationName = createRequest.Name
             },
             cancellationToken);
 

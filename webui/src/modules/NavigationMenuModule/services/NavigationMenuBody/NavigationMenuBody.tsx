@@ -7,8 +7,8 @@ import { TreeNode } from '../TreeNode';
 import { useNavigationMenuBody } from './hooks';
 import type { NavigationMenuBodyProps } from './types';
 
-const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, treeData, setTreeData, refreshTreeData }) => {
-	const { onAddNewPageHandler, onPageClickedHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(treeData, setTreeData, refreshTreeData);
+const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, pages, refreshTreeData }) => {
+	const { onAddNewPageHandler, onPageClickedHandler, onDropHandler, selectedTreeNode, setTreeData, treeData } = useNavigationMenuBody(pages, refreshTreeData);
 
 	return (
 		<>
@@ -119,6 +119,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 											depth={depth}
 											isOpen={isOpen}
 											isSelected={selectedTreeNode === node.id}
+											isCreating={node.data!.isCreating}
 										/>
 									);
 								}}

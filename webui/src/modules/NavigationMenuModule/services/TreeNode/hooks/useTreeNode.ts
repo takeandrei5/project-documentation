@@ -4,17 +4,17 @@ import type { TreeDataValues } from '../../../types';
 
 const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
 	const [value, setValue] = useState<string>(node.text);
-	const [open, setOpen] = useState<boolean>(false);
+	const [popupOpen, setPopupOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
 	const onDoubleClickHandler = (event: React.MouseEvent<HTMLDivElement>): void => {
 		setAnchorEl(event.currentTarget);
-		setOpen(true);
+		setPopupOpen(true);
 	};
 
 	const onCloseHandler = (): void => {
 		setAnchorEl(null);
-		setOpen(false);
+		setPopupOpen(false);
 	};
 
 	const onSaveHandler = (): void => {
@@ -25,7 +25,7 @@ const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeDa
 			setTreeData([...treeData]);
 		}
 
-		setOpen(false);
+		setPopupOpen(false);
 	};
 
 	return {
@@ -33,7 +33,7 @@ const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeDa
 		onCloseHandler,
 		onDoubleClickHandler,
 		onSaveHandler,
-		open,
+		popupOpen,
 		setValue,
 		value
 	};

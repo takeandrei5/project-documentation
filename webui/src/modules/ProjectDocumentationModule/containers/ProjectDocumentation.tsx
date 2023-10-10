@@ -5,14 +5,14 @@ import { useProjectDocumentation } from './hooks';
 const ProjectDocumentation: React.FC = () => {
 	const { pageDetails, isLoading, debouncedUpdatePageMutate } = useProjectDocumentation();
 
-  console.log(isLoading, pageDetails)
+	console.log(isLoading, pageDetails);
 
-  if (!pageDetails) {
-    return null;
-  }
+	if (!pageDetails) {
+		return null;
+	}
 
 	return (
-		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF' }}>
+		<Box sx={{ height: '100%', width: '100%', bgcolor: '#FFFFFF', overflow: 'auto' }}>
 			{!isLoading ? (
 				<TextEditor content={pageDetails!.content} onContentChangedHandler={debouncedUpdatePageMutate} />
 			) : (

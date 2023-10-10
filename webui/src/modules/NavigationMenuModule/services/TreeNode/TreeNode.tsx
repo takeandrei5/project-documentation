@@ -1,16 +1,32 @@
 import { useDragOver } from '@minoru/react-dnd-treeview';
-import { Box, Icon, IconButton, Tooltip, Typography, type Theme } from '@mui/material';
+import { Box, CircularProgress, Icon, IconButton, Tooltip, Typography, type Theme } from '@mui/material';
 import hexToRgba from 'hex-to-rgba';
 import { useRef } from 'react';
+import { TextFieldPopupC } from '../../../../components/TextFieldPopupC';
 import { AddNewPage } from '../../views/AddNewPage';
 import { useTreeNode } from './hooks';
 import type { TreeNodeProps } from './types';
 
-const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClickHandler, onToggle, depth, isOpen, isSelected, onAddNewPageHandler }: TreeNodeProps) => {
+const TreeNode: React.FC<TreeNodeProps> = ({
+	node,
+	treeData,
+	setTreeData,
+	onClickHandler,
+	onToggle,
+	depth,
+	isOpen,
+	isSelected,
+	isCreating,
+	onAddNewPageHandler
+}: TreeNodeProps) => {
 	const dragOverProps = useDragOver(node.id, isOpen, onToggle);
 	const editTreeNodeRef = useRef<HTMLElement | null>(null);
 
-	const { anchorEl, onDoubleClickHandler, onCloseHandler, open } = useTreeNode(treeData, setTreeData, node);
+	const { anchorEl, onDoubleClickHandler, onCloseHandler, popupOpen } = useTreeNode(treeData, setTreeData, node);
+
+	if (!node.data) {
+		return null;
+	}
 
 	return (
 		<Box
@@ -27,6 +43,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 				paddingBottom: '0.5rem',
 				paddingRight: '0.5rem',
 				paddingLeft: !depth ? '0.5rem' : 2 * depth,
+				pointerEvents: isCreating ? 'none' : 'auto',
+				opacity: isCreating ? 0.5 : 1,
 				'svg.MuiSvgIcon-root path': {
 					fill: isSelected ? theme.palette.purple[100] : theme.palette.cyan[40]
 				},
@@ -96,10 +114,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 						)}
 					</IconButton>
 				)}
-				{node.data && <Icon sx={{ fontSize: '1.25rem' }}>{node.data.iconName}</Icon>}
-				{/* <Popover id='popover' open={open} anchorEl={anchorEl} onClose={onCloseHandler}>
-					<PagePopup onChangeHandler={(ev) => setValue(ev.target.value)} onSaveHandler={onSaveHandler} value={value} onBlurHandler={onCloseHandler} />
-				</Popover> */}
+				<Icon sx={{ fontSize: '1.25rem' }}>{node.data.iconName}</Icon>
+				{popupOpen && anchorEl && <TextFieldPopupC anchorEl={anchorEl} initialTextFieldValue='1234' onClosePopupCallback={console.log} />}
 				<Tooltip enterDelay={1200} enterNextDelay={1200} enterTouchDelay={1200} placement='top' title={node.text} onDoubleClick={onDoubleClickHandler}>
 					<Typography
 						noWrap
@@ -113,7 +129,12 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, treeData, setTreeData, onClic
 				id='option-menu'
 				onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
 				sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem', maxHeight: '1.25rem' }}>
-				{node.droppable && <AddNewPage onAddNewPageHandler={() => onAddNewPageHandler(node.id as string)} />}
+				{node.data.isCreating && <CircularProgress color='inherit' size='1rem' />}
+				{!node.data.isCreating && (
+					<>
+						<AddNewPage onAddNewPageHandler={() => onAddNewPageHandler(node.id as string)} />
+					</>
+				)}
 				{/* {node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={'TBD'} />} */}
 			</Box>
 		</Box>

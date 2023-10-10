@@ -1,18 +1,17 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import _ from 'lodash';
-import { setTree } from '../../../redux/slices/tree/treeSlice';
 import type { TreeDataValues } from '../../NavigationMenuModule/types';
 import TreeNode from '../views/TreeNode/TreeNode';
 import type { TrashTreeDataValues } from './types';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { deletePageApi, updatePageApi } from '../../../api/webapi/pages';
 import type { UpdatePageRequest } from '../../../api/webapi/pages/types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 const useTrash = () => {
-	const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 	const treeData = useAppSelector((state) => state.tree);
 
 	const params = useParams<{ organizationId: string; projectId: string }>();
@@ -67,7 +66,7 @@ const useTrash = () => {
 
 	const onPermanentDeleteClickedHandler = (node: TrashTreeDataValues): void => {
 		deletePageMutate(node.id as string);
-		dispatch(setTree([...treeData.filter((item: NodeModel<TreeDataValues>) => item.id !== node.id)]));
+		// dispatch(setTree([...treeData.filter((item: NodeModel<TreeDataValues>) => item.id !== node.id)]));
 	};
 
 	const onRecoverFileClickedHandler = (item: TrashTreeDataValues): void => {
@@ -88,7 +87,7 @@ const useTrash = () => {
 			}
 		});
 
-		dispatch(setTree(newTree));
+		// dispatch(setTree(newTree));
 	};
 
 	const renderTree = (nodes: TrashTreeDataValues[], level = 0): JSX.Element[] => {
