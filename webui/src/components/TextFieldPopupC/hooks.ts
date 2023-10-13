@@ -1,27 +1,33 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import type { MUIIconKeys } from '../../utils/types';
 
-const useTextFieldPopup = (initialTextFieldValue: string, onClosePopupCallback: (textFieldValue: string) => void) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+const useTextFieldPopup = (initialTextFieldValue: string, initialIconValue: MUIIconKeys, onClosePopupCallback: (textFieldValue: string, iconName: MUIIconKeys) => void) => {
 	const [textFieldValue, setTextFieldValue] = useState<string>(initialTextFieldValue);
+	const [iconValue, setIconValue] = useState<MUIIconKeys>(initialIconValue);
 
 	const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
 		if (e.key === 'Enter') {
-			onSaveNewTextFieldValueHandler();
+			onSaveNewValuesHandler();
 		}
 	};
 
-	const onSaveNewTextFieldValueHandler = (): void => {
-		onClosePopupCallback(textFieldValue);
+	const onSaveNewValuesHandler = (): void => {
+		onClosePopupCallback(textFieldValue, iconValue);
 	};
 
 	const onTextFieldValueChangedHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setTextFieldValue(event.target.value);
 	};
 
+	const onIconValueChangedHandler = useCallback((icon: MUIIconKeys) => {
+		setIconValue(icon);
+	}, []);
+
 	return {
-    anchorEl,
-    onKeyDownHandler,
-		onSaveNewTextFieldValueHandler,
+		iconValue,
+		onIconValueChangedHandler,
+		onKeyDownHandler,
+		onSaveNewValuesHandler,
 		onTextFieldValueChangedHandler,
 		textFieldValue
 	};

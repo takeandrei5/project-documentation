@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectDocumentation.Web.WebApi.Endpoints.Organization.Projects.Pages;
 
-public sealed record UpdateRequest
+public sealed record UpdateOneRequest
 {
     [FromRoute(Name = "organizationId")]
     public string OrganizationId { get; init; } = null!;
@@ -14,10 +14,10 @@ public sealed record UpdateRequest
     public string PageId { get; init; } = null!;
 
     [FromBody]
-    public UpdateRequestBody Body { get; init; } = null!;
+    public UpdateOneRequestBody Body { get; init; } = null!;
 }
 
-public sealed record UpdateRequestBody
+public sealed record UpdateOneRequestBody
 {
     public string Name { get; init; } = null!;
 

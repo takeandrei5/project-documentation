@@ -1,13 +1,24 @@
+import type { SvgIconTypeMap } from '@mui/material';
+import type { OverridableComponent } from '@mui/material/OverridableComponent';
+import type { MUIIconKeys } from '../../utils/types';
+
 export type IIconPickerCProps = {
-	onClick: React.MouseEventHandler<HTMLSpanElement>;
-	width?: string;
-	height?: string;
+	onIconSelectedHandler: (iconName: MUIIconKeys) => void;
+	initialIcon?: MuiIcon;
 };
 
+export type MuiIconTabName = 'simple' | 'outlined' | 'rounded' | 'sharp' | 'twoTone';
+
 export type MuiIconsTabs = {
-	'simple': any[];
-	'outlined': any[];
-	'rounded': any[];
-	'sharp': any[];
-	'twoTone': any[];
+	[key in MuiIconTabName]: MuiIconTab[];
+};
+
+export type MuiIconsTabsGrid = {
+	[key in MuiIconTabName]: MuiIconTab[][];
+};
+
+export type MuiIconTab = [string, MuiIcon];
+
+export type MuiIcon = OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
+	muiName: string;
 };

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
-import { readOnePageApi, updatePageApi } from '../../../api/webapi/pages';
+import { readOnePageApi, updateOnePageApi } from '../../../api/webapi/pages';
 import type { UpdatePageRequest } from '../../../api/webapi/pages/types';
 
 const useProjectDocumentation = () => {
@@ -11,7 +11,7 @@ const useProjectDocumentation = () => {
       enabled: !!params.pageId
     }
 	);
-	const { mutate: updatePageMutate } = useMutation((data: UpdatePageRequest) => updatePageApi(data, params.pageId!, params.projectId!, params.organizationId!));
+	const { mutate: updatePageMutate } = useMutation((data: UpdatePageRequest) => updateOnePageApi(data, params.pageId!, params.projectId!, params.organizationId!));
 
 	const debouncedUpdatePageMutate = useDebouncedCallback((content: string) => {
 		if (!pageDetails) {

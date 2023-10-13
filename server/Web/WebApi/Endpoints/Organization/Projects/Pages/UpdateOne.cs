@@ -5,11 +5,11 @@ using ProjectDocumentation.Web.Application.UseCases.Pages.UpdatePage;
 namespace ProjectDocumentation.Web.WebApi.Endpoints.Organization.Projects.Pages;
 
 [Route("/api/webapi/organizations/{organizationId}/projects/{projectId}/pages/{pageId}")]
-public sealed class Update : EndpointBaseAsync.WithRequest<UpdateRequest>.WithActionResult
+public sealed class UpdateOne : EndpointBaseAsync.WithRequest<UpdateOneRequest>.WithActionResult
 {
     private readonly Command _command;
 
-    public Update(Command command)
+    public UpdateOne(Command command)
     {
         _command = command;
     }
@@ -20,7 +20,7 @@ public sealed class Update : EndpointBaseAsync.WithRequest<UpdateRequest>.WithAc
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public override async Task<ActionResult> HandleAsync([FromRoute] UpdateRequest request,
+    public override async Task<ActionResult> HandleAsync([FromRoute] UpdateOneRequest request,
         CancellationToken cancellationToken = default)
     {
         var commandResult = await _command.ExecuteAsync(new CommandInput

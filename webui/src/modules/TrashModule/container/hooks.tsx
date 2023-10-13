@@ -6,7 +6,7 @@ import type { TrashTreeDataValues } from './types';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { deletePageApi, updatePageApi } from '../../../api/webapi/pages';
+import { deletePageApi, updateOnePageApi } from '../../../api/webapi/pages';
 import type { UpdatePageRequest } from '../../../api/webapi/pages/types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
@@ -17,7 +17,7 @@ const useTrash = () => {
 	const params = useParams<{ organizationId: string; projectId: string }>();
 
 	const { mutate: updatePageMutate } = useMutation(({ data, nodeId }: { data: UpdatePageRequest; nodeId: string }) =>
-		updatePageApi(data, nodeId, params.projectId!, params.organizationId!)
+		updateOnePageApi(data, nodeId, params.projectId!, params.organizationId!)
 	);
 	const { mutate: deletePageMutate } = useMutation((nodeId: string) => deletePageApi(nodeId, params.projectId!, params.organizationId!));
 

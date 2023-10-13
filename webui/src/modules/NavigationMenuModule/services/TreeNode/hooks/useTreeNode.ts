@@ -1,9 +1,9 @@
 import type { NodeModel } from '@minoru/react-dnd-treeview';
 import { useState } from 'react';
+import type { MUIIconKeys } from '../../../../../utils/types';
 import type { TreeDataValues } from '../../../types';
 
 const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
-	const [value, setValue] = useState<string>(node.text);
 	const [popupOpen, setPopupOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
@@ -17,11 +17,12 @@ const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeDa
 		setPopupOpen(false);
 	};
 
-	const onSaveHandler = (): void => {
-		const findNode: NodeModel<TreeDataValues> | undefined = treeData.find((node: NodeModel<TreeDataValues>) => node.id === node.id);
+	const onSaveNewValuesHandler = (pageName: string, pageIconName: MUIIconKeys): void => {
+		const findNode: NodeModel<TreeDataValues> | undefined = treeData.find((treeNode: NodeModel<TreeDataValues>) => treeNode.id === node.id);
 
 		if (findNode) {
-			findNode.text = value;
+			findNode.text = pageName;
+			findNode.data!.iconName = pageIconName;
 			setTreeData([...treeData]);
 		}
 
@@ -32,10 +33,8 @@ const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeDa
 		anchorEl,
 		onCloseHandler,
 		onDoubleClickHandler,
-		onSaveHandler,
-		popupOpen,
-		setValue,
-		value
+		onSaveNewValuesHandler,
+		popupOpen
 	};
 };
 

@@ -1,11 +1,14 @@
 import { useDragOver } from '@minoru/react-dnd-treeview';
+import { ChevronRight, ExpandMore } from '@mui/icons-material';
 import { Box, CircularProgress, Icon, IconButton, Tooltip, Typography, type Theme } from '@mui/material';
 import hexToRgba from 'hex-to-rgba';
 import { useRef } from 'react';
 import { TextFieldPopupC } from '../../../../components/TextFieldPopupC';
+import type { MUIIconKeys } from '../../../../utils/types';
 import { AddNewPage } from '../../views/AddNewPage';
 import { useTreeNode } from './hooks';
 import type { TreeNodeProps } from './types';
+import * as MUIIcons from '@mui/icons-material';
 
 const TreeNode: React.FC<TreeNodeProps> = ({
 	node,
@@ -22,12 +25,13 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 	const dragOverProps = useDragOver(node.id, isOpen, onToggle);
 	const editTreeNodeRef = useRef<HTMLElement | null>(null);
 
-	const { anchorEl, onDoubleClickHandler, onCloseHandler, popupOpen } = useTreeNode(treeData, setTreeData, node);
+	const { anchorEl, onDoubleClickHandler, onCloseHandler, onSaveNewValuesHandler, popupOpen } = useTreeNode(treeData, setTreeData, node);
 
 	if (!node.data) {
 		return null;
 	}
 
+	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys];
 	return (
 		<Box
 			onClick={() => onClickHandler(node.id.toString())}
@@ -99,23 +103,29 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 				{node.droppable && (
 					<IconButton onClick={onToggle} size='small' sx={{ height: '1.25rem', width: '1.25rem' }}>
 						{isOpen ? (
-							<Icon sx={(theme: Theme) => ({ color: theme.palette.purple[100], fontSize: '1.25rem' })}>expand_more</Icon>
+							<ExpandMore sx={(theme: Theme) => ({ fill: theme.palette.purple[100], fontSize: '1.25rem' })} />
 						) : (
-							<Icon
+							<ChevronRight
 								sx={(theme: Theme) => ({
-									color: theme.palette.cyan[40],
+									fill: theme.palette.cyan[40],
 									fontSize: '1.25rem',
 									'&:hover': {
-										color: theme.palette.purple[100]
+										fill: theme.palette.purple[100]
 									}
-								})}>
-								chevron_right
-							</Icon>
+								})}
+							/>
 						)}
 					</IconButton>
 				)}
-				<Icon sx={{ fontSize: '1.25rem' }}>{node.data.iconName}</Icon>
-				{popupOpen && anchorEl && <TextFieldPopupC anchorEl={anchorEl} initialTextFieldValue='1234' onClosePopupCallback={console.log} />}
+				<TreeNodeIcon sx={{ fontSize: '1.25rem' }} />
+				{popupOpen && anchorEl && node.data && (
+					<TextFieldPopupC
+						anchorEl={anchorEl}
+						initialTextFieldValue={node.text}
+						initialIconValue={node.data.iconName as MUIIconKeys}
+						onClosePopupCallback={onSaveNewValuesHandler}
+					/>
+				)}
 				<Tooltip enterDelay={1200} enterNextDelay={1200} enterTouchDelay={1200} placement='top' title={node.text} onDoubleClick={onDoubleClickHandler}>
 					<Typography
 						noWrap
