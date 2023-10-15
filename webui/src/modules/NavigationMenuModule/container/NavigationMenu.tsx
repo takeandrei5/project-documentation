@@ -3,18 +3,19 @@ import { NavigationMenuBody, NavigationMenuFooter, NavigationMenuHeader } from '
 import { useNavigationMenu } from './hooks';
 
 const NavigationMenuContainer: React.FC = () => {
-	const { isLoading, projectData, refetchProjectData, setTreeDataHandler, treeData } = useNavigationMenu();
+	const { isLoading, pages, projectName, refetchProjectData } = useNavigationMenu();
 
 	return (
 		<Box
 			sx={(theme: Theme) => ({
 				backgroundColor: theme.palette.common.white,
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr auto',
+				maxHeight: '100%',
 				padding: '0.94rem 1rem'
 			})}>
-			<NavigationMenuHeader isLoading={isLoading} projectName={projectData?.name || ''} />
-			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-			<NavigationMenuBody isLoading={isLoading} treeData={treeData} setTreeData={setTreeDataHandler} refreshTreeData={refetchProjectData} />
-			<Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+			<NavigationMenuHeader isLoading={isLoading} projectName={projectName} />
+			<NavigationMenuBody isLoading={isLoading} pages={pages} refreshTreeData={refetchProjectData} />
 			<NavigationMenuFooter isLoading={isLoading} />
 		</Box>
 	);

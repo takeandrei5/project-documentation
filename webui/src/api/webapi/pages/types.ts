@@ -13,7 +13,16 @@ export type PageDto = {
   isSoftDeleted: boolean;
 }
 
-export type UpdatePageRequest = {
+export type UpdateOnePageRequest = {
+  parentId?: string;
+  name: string;
+  iconName: string;
+  isSoftDeleted: boolean;
+  content?: string;
+}
+
+export type UpdateManyPageRequest = {
+  pageId: string;
   parentId?: string;
   name: string;
   iconName: string;

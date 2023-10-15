@@ -1,5 +1,5 @@
 import { MultiBackend, Tree, getBackendOptions, type DragLayerMonitorProps, type NodeModel, type RenderParams } from '@minoru/react-dnd-treeview';
-import { Box, Skeleton, type Theme } from '@mui/material';
+import { Box, Divider, Skeleton, type Theme } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import type { TreeDataValues } from '../../types';
 import { NavigationMenuItem } from '../../views/NavigationMenuItem';
@@ -7,14 +7,15 @@ import { TreeNode } from '../TreeNode';
 import { useNavigationMenuBody } from './hooks';
 import type { NavigationMenuBodyProps } from './types';
 
-const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, treeData, setTreeData, refreshTreeData }) => {
-	const { onAddNewPageHandler, onPageClickedHandler, onDropHandler, selectedTreeNode } = useNavigationMenuBody(treeData, setTreeData, refreshTreeData);
+const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, pages, refreshTreeData }) => {
+	const { onAddNewPageHandler, onPageClickedHandler, onUpdateTreeHandler, selectedTreeNode, setTreeData, treeData } = useNavigationMenuBody(pages, refreshTreeData);
 
 	return (
 		<>
 			{!isLoading ? (
 				<Box
 					sx={{
+            overflow: 'scroll',
 						'& .Placeholder': {
 							position: 'relative'
 						},
@@ -52,7 +53,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 									container: 'Container',
 									placeholder: 'Placeholder'
 								}}
-								onDrop={onDropHandler}
+								onDrop={onUpdateTreeHandler}
 								canDrop={(_, { dragSource, dropTargetId }) => {
 									if (dragSource && dragSource.parent === dropTargetId) {
 										return true;
@@ -70,7 +71,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 											<TreeNode
 												node={item}
 												treeData={treeData}
-												setTreeData={setTreeData}
+												setTreeData={onUpdateTreeHandler}
 												onClickHandler={onPageClickedHandler}
 												onToggle={() => {
 													return;
@@ -107,7 +108,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 										<TreeNode
 											node={node}
 											treeData={treeData}
-											setTreeData={setTreeData}
+											setTreeData={onUpdateTreeHandler}
 											onClickHandler={onPageClickedHandler}
 											onAddNewPageHandler={(parentId: string) => {
 												if (!isOpen) {
@@ -119,6 +120,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 											depth={depth}
 											isOpen={isOpen}
 											isSelected={selectedTreeNode === node.id}
+											isCreating={node.data!.isCreating}
 										/>
 									);
 								}}
@@ -132,6 +134,7 @@ const NavigationMenuBody: React.FC<NavigationMenuBodyProps> = ({ isLoading, tree
 					<Skeleton animation='wave' variant='rounded' width='100%' height='20rem' />
 				</>
 			)}
+			<Divider sx={{ marginY: '0.5rem' }} />
 		</>
 	);
 };

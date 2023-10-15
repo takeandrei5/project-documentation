@@ -11,4 +11,5 @@ export type TreeNodeProps = {
 	depth: number;
 	isOpen: boolean;
 	isSelected: boolean;
+  isCreating?: boolean;
 };
