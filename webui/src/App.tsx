@@ -10,7 +10,7 @@ import { store } from './redux';
 
 const App: React.FC = () => {
 	const navigate = useNavigate();
-	const queryClient: QueryClient = new QueryClient({
+	const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
