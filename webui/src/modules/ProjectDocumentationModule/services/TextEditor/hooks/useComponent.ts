@@ -1,40 +1,49 @@
-import type { Editor as TinyMCEEditor } from 'tinymce';
-import { componentSvg } from '../../../../../assets/svg';
+import type {Editor as TinyMCEEditor} from 'tinymce'
+import {componentSvg} from '../../../../../assets/svg'
 
 const useComponent = () => {
-	const initializeComponent = (editor: TinyMCEEditor): void => {
-		editor.ui.registry.addIcon('component', componentSvg);
+  const initializeComponent = (editor:TinyMCEEditor):void => {
+    editor.ui.registry.addIcon('component', componentSvg)
 
-		editor.ui.registry.addButton('removecomponent', {
-			icon: 'remove',
-			tooltip: 'Remove component',
-			onAction: function () {
-				const node: HTMLElement = editor.selection.getNode();
-				const callout: Element | null = editor.dom.getParent(node, '.component');
-				const calloutWrapper: Element | null = editor.dom.getParent(callout, '.component-wrapper');
+    editor.ui.registry.addButton('component', {
+      icon: 'component',
+      tooltip: 'Insert component',
+      onAction: function () {
+        editor.insertContent(`
+          <div class="component">
+              <div class="content"><p>${editor.selection.getContent()}</p></div>
+          </div>
+        `)
+      }
+    })
 
-        console.log(node);
-        if (!callout || !calloutWrapper) {
-					return;
-				}
-				callout.remove();
-        calloutWrapper.remove();
+    editor.ui.registry.addButton('removecomponent', {
+      icon: 'remove',
+      tooltip: 'Remove component',
+      onAction: function () {
+        const node:HTMLElement = editor.selection.getNode()
+        const callout:Element | null = editor.dom.getParent(node, '.component')
 
-        editor.execCommand('delete');
-			}
-		});
+        if (!callout) {
+          return
+        }
 
-		editor.ui.registry.addContextToolbar('component', {
-			predicate: function (node: Element) {
-				return node.classList.contains('component');
-			},
-			items: 'removecomponent',
-			position: 'node',
-			scope: 'node'
-		});
-	};
+        callout.remove()
+        editor.execCommand('delete')
+      }
+    })
 
-	return initializeComponent;
-};
+    editor.ui.registry.addContextToolbar('component', {
+      predicate: function (node:Element) {
+        return node.classList.contains('component')
+      },
+      items: 'removecomponent',
+      position: 'node',
+      scope: 'node'
+    })
+  }
 
-export { useComponent };
+  return initializeComponent
+}
+
+export {useComponent}
