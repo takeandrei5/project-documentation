@@ -4,7 +4,7 @@ namespace ProjectDocumentation.Web.Domain.Entities.Projects;
 
 public sealed class Project
 {
-    private const string DEFAULT_PAGE_CONTENT = "<div>Hello world</div>";
+    private const string DEFAULT_PAGE_CONTENT = "";
 
     internal Project(Id id, ProjectIconName iconName, ProjectName name, ProjectPages pages)
     {

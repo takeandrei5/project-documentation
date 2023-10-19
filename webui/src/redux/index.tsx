@@ -1,9 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import treeSlice from './slices/tree/treeSlice';
 
-const rootReducer = {
-	tree: treeSlice
-};
+const rootReducer = {};
 
 export const store = configureStore({
 	reducer: rootReducer

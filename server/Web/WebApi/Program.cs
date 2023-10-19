@@ -51,11 +51,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseMiddleware<ExceptionHandlerMiddleware>(); 
-app.UseEndpoints(endpoints =>
-    endpoints.MapControllers()
-       .RequireAuthorization());
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
+}
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseEndpoints(endpoints =>
+        endpoints.MapControllers());
+} else
+{
+    app.UseEndpoints(endpoints =>
+        endpoints.MapControllers()
+           .RequireAuthorization());
+}
+// app.UseEndpoints(endpoints =>
+//     endpoints.MapControllers()
+//        .RequireAuthorization());
 
 app.Run();

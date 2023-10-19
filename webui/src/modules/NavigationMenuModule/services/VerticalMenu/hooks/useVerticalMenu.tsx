@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { useState } from 'react';
 import { useNavigate, useParams, type NavigateFunction } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { createPageApi, deletePageApi, updatePageApi } from '../../../../../api/webapi/pages';
+import { createPageApi, deletePageApi, updateOnePageApi } from '../../../../../api/webapi/pages';
 import type { CreatePageRequest, UpdatePageRequest } from '../../../../../api/webapi/pages/types';
 import type { DialogControl } from '../../../../../components/DialogC/types';
 import { useCopyToClipboard } from '../../../../../hooks';
@@ -22,7 +22,7 @@ const useVerticalMenu = (treeData: NodeModel<TreeDataValues>[], setTreeData: (tr
 	const params = useParams<{ organizationId: string; projectId: string }>();
 	const navigate: NavigateFunction = useNavigate();
   const { mutate: createPageMutate } = useMutation((data: CreatePageRequest) => createPageApi(data, params.projectId!, params.organizationId!));
-	const { mutate: updatePageMutate } = useMutation((data: UpdatePageRequest) => updatePageApi(data, nodeId, params.projectId!, params.organizationId!));
+	const { mutate: updatePageMutate } = useMutation((data: UpdatePageRequest) => updateOnePageApi(data, nodeId, params.projectId!, params.organizationId!));
 	const { mutate: deletePageMutate } = useMutation(() => deletePageApi(nodeId, params.projectId!, params.organizationId!));
 
 	const snackbarMessages: SnackbarMessages = {
