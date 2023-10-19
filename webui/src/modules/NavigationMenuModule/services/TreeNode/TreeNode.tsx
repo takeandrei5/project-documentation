@@ -1,14 +1,16 @@
 import { useDragOver } from '@minoru/react-dnd-treeview';
+import * as MUIIcons from '@mui/icons-material';
 import { ChevronRight, ExpandMore } from '@mui/icons-material';
-import { Box, CircularProgress, Icon, IconButton, Tooltip, Typography, type Theme } from '@mui/material';
+import { Box, CircularProgress, IconButton, Tooltip, Typography, type Theme, Divider, useTheme } from '@mui/material';
 import hexToRgba from 'hex-to-rgba';
 import { useRef } from 'react';
 import { TextFieldPopupC } from '../../../../components/TextFieldPopupC';
 import type { MUIIconKeys } from '../../../../utils/types';
 import { AddNewPage } from '../../views/AddNewPage';
-import { useTreeNode } from './hooks';
+import { VerticalMenu } from '../VerticalMenu';
 import type { TreeNodeProps } from './types';
-import * as MUIIcons from '@mui/icons-material';
+import { VerticalMenuItem } from '../../views';
+import { useTreeNodeEdit, useVerticalMenuControl } from './hooks';
 
 const TreeNode: React.FC<TreeNodeProps> = ({
 	node,
@@ -24,14 +26,17 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 }: TreeNodeProps) => {
 	const dragOverProps = useDragOver(node.id, isOpen, onToggle);
 	const editTreeNodeRef = useRef<HTMLElement | null>(null);
+	const theme = useTheme();
 
-	const { anchorEl, onDoubleClickHandler, onCloseHandler, onSaveNewValuesHandler, popupOpen } = useTreeNode(treeData, setTreeData, node);
+	const { anchorEl, onDoubleClickHandler, onCloseHandler, onSaveNewValuesHandler, popupOpen } = useTreeNodeEdit(treeData, setTreeData, node);
+	const { onCopyItemClickedHandler, onSoftDeleteItemHandler } = useVerticalMenuControl(treeData, setTreeData, node);
 
 	if (!node.data) {
 		return null;
 	}
 
 	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys];
+
 	return (
 		<Box
 			onClick={() => onClickHandler(node.id.toString())}
@@ -139,13 +144,20 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 				id='option-menu'
 				onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
 				sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem', maxHeight: '1.25rem' }}>
-				{node.data.isCreating && <CircularProgress color='inherit' size='1rem' />}
-				{!node.data.isCreating && (
+				{node.data.isCreating ? (
+					<CircularProgress color='inherit' size='1rem' />
+				) : (
 					<>
 						<AddNewPage onAddNewPageHandler={() => onAddNewPageHandler(node.id as string)} />
+						<VerticalMenu nodeId={node.id as string}>
+							<VerticalMenuItem icon={MUIIcons.ContentCopy} onClickHandler={onCopyItemClickedHandler} text='Copy' />
+							<VerticalMenuItem icon={MUIIcons.ContentPaste} onClickHandler={console.log} text='Paste' />
+							<VerticalMenuItem icon={MUIIcons.DynamicFeed} onClickHandler={console.log} text='Duplicate' />
+							<Divider sx={{ my: '0.25rem !important', pointerEvents: 'none' }} />
+							<VerticalMenuItem color={theme.palette.red[100]} icon={MUIIcons.DeleteOutline} onClickHandler={onSoftDeleteItemHandler} text='Delete' />
+						</VerticalMenu>
 					</>
 				)}
-				{/* {node.data && <VerticalMenu nodeId={node.id.toString()} text={node.text} treeData={treeData} setTreeData={setTreeData} link={'TBD'} />} */}
 			</Box>
 		</Box>
 	);

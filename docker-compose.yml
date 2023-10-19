@@ -44,7 +44,7 @@ services:
       - webapi
     volumes:
       - ./webui:/app
-      - node_modules:/app/node_modules
+      - ./webui/node_modules:/app/node_modules
 
   nginx:
     image: project-documentation-nginx

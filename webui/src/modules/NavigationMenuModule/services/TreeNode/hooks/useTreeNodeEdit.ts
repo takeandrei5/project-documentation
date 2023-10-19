@@ -3,18 +3,18 @@ import { useState } from 'react';
 import type { MUIIconKeys } from '../../../../../utils/types';
 import type { TreeDataValues } from '../../../types';
 
-const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
+const useTreeNodeEdit = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
 	const [popupOpen, setPopupOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-
-	const onDoubleClickHandler = (event: React.MouseEvent<HTMLDivElement>): void => {
-		setAnchorEl(event.currentTarget);
-		setPopupOpen(true);
-	};
 
 	const onCloseHandler = (): void => {
 		setAnchorEl(null);
 		setPopupOpen(false);
+	};
+
+	const onDoubleClickHandler = (event: React.MouseEvent<HTMLDivElement>): void => {
+		setAnchorEl(event.currentTarget);
+		setPopupOpen(true);
 	};
 
 	const onSaveNewValuesHandler = (pageName: string, pageIconName: MUIIconKeys): void => {
@@ -38,4 +38,4 @@ const useTreeNode = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeDa
 	};
 };
 
-export { useTreeNode };
+export { useTreeNodeEdit };

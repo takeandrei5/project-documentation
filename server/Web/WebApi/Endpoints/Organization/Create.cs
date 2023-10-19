@@ -13,7 +13,7 @@ public sealed class Create : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
     {
         _command = command;
     }
-
+    
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
