@@ -17,7 +17,7 @@ const App: React.FC = () => {
         refetchOnMount: false,
         refetchOnReconnect: true,
         cacheTime: 5 * 60 * 1000,
-        retry: 3
+        retry: Infinity
       }
     }
   });
