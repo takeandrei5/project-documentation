@@ -11,7 +11,7 @@ const options = {
 	clientID: 'QmLaNOfOioSDxraVUnmLuBf9UqKae8lz',
 	clientSecret: 'ATOAr5h9xFfOFaL4HyLjIddiX5A2tdZlGvrZyiVkgrhlZ3Hi9gBmPP87CW4Sn1sRIZd7D325D408',
 	callbackURL: 'http://localhost:8000/api/jira/auth/callback',
-	scope: 'read:me read:jira-work read:jira-user write:jira-work manage:jira-webhook write:webhook:jira offline_access'
+	scope: 'read:me read:jira-work read:jira-user read:issue-meta:jira read:field:jira read:project:jira write:jira-work manage:jira-webhook write:webhook:jira offline_access'
 };
 
 const jiraAuthRouter: Router = express.Router();

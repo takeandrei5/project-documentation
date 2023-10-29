@@ -9,8 +9,8 @@ app.use(passport.session());
 
 const port = 8000;
 
-app.use('/api/jira/auth/', jiraAuthRouter);
-app.use('/api/jira/issues/', jiraIssuesRouter);
+app.use('/api/jira/auth', jiraAuthRouter);
+app.use('/api/jira/issues', jiraIssuesRouter);
 
 app.listen(port, () => {
 	console.log(`Server is Fire at http://localhost:${port}`);

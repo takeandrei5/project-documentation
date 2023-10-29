@@ -1,17 +1,17 @@
 export interface Description {
-  version: number;
-  type: string;
-  content: ContentEntity[];
+	version: number;
+	type: string;
+	content: ContentEntity[];
 }
 
 export interface ContentEntity {
-  type: string;
-  content: TextContentEntity[];
+	type: string;
+	content: TextContentEntity[];
 }
 
 export interface TextContentEntity {
-  type: string;
-  text: string;
+	type: string;
+	text: string;
 }
 
 export namespace ReadOneJiraIssue {
@@ -41,8 +41,37 @@ export namespace UpdateOneJiraIssue {
 		description: string;
 	};
 
-  export type ApiRequest = {
-    summary: string;
-    description: Description;
-  }
+	export type ApiRequest = {
+		summary: string;
+		description: Description;
+	};
+}
+
+export namespace CreateOneJiraIssue {
+	export type ControllerRequest = {
+		summary: string;
+		description: string;
+		projectId: string;
+	};
+
+	export type ControllerResponse = {
+		id: string;
+	};
+
+	export type ApiRequest = {
+		summary: string;
+		description: Description;
+		issueType: IdObject;
+    priority: IdObject;
+    project: IdObject;
+	};
+
+	export type ApiResponse = {
+		id: string;
+		key: string;
+	};
+
+	export type IdObject = {
+		id: string;
+	};
 }
