@@ -39,3 +39,4 @@ export type AiMessage = {
 };
 
 export type StreamMessage = (message: string) => void;
+

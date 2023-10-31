@@ -3,9 +3,9 @@ import { Box, Divider, IconButton, Snackbar, useTheme, type Theme } from '@mui/m
 import Menu from '@mui/material/Menu';
 import DialogC from '../../../../components/DialogC/DialogC';
 import { VerticalMenuItem } from '../../views';
-import { useDialogControl } from './hooks';
 import { useVerticalMenu } from './hooks/useVerticalMenu';
 import { type VerticalMenuProps } from './types';
+import {useDialogControl} from '../../../../hooks'
 
 const VerticalMenu: React.FC<VerticalMenuProps> = ({ nodeId, setTreeData, text, treeData, link, onRenameItemClickedCallback }) => {
 	const control = useDialogControl();
