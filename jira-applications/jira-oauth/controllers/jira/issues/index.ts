@@ -51,7 +51,7 @@ jiraIssuesRouter.post(
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccessToken,
-	async (req: Request<CreateOneJiraIssue.ControllerRequest>, res: Response<CreateOneJiraIssue.ControllerResponse | string>) => {
+	async (req: Request<{}, {}, CreateOneJiraIssue.ControllerRequest>, res: Response<CreateOneJiraIssue.ControllerResponse | string>) => {
 		if (!req.body || !req.body.projectId || !req.body.summary || !req.body.description) {
 			return res.status(400).send('Missing required fields');
 		}
@@ -59,17 +59,16 @@ jiraIssuesRouter.post(
 		const mappedRequest: CreateOneJiraIssue.ApiRequest = {
 			summary: req.body.summary,
 			description: {
-				content: [
-					req.body.description.split('\n').map((line: string) => ({
-						content: [
-							{
-								text: line,
-								type: 'text'
-							}
-						],
-						type: 'paragraph'
-					}))
-				],
+				content: req.body.description.split('\n').map((line: string) => ({
+					content: [
+						{
+							text: line,
+							type: 'text'
+						}
+					],
+					type: 'paragraph'
+				})),
+
 				type: 'doc',
 				version: 1
 			},
@@ -99,7 +98,7 @@ jiraIssuesRouter.put(
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccessToken,
-	async (req: Request<{ id: string }, UpdateOneJiraIssue.ControllerRequest>, res: Response<null | string>) => {
+	async (req: Request<{ id: string }, {}, UpdateOneJiraIssue.ControllerRequest>, res: Response<null | string>) => {
 		if (!req.body || !req.body.summary || !req.body.description) {
 			return res.status(400).send('Missing required fields');
 		}
@@ -107,17 +106,15 @@ jiraIssuesRouter.put(
 		const mappedRequest: UpdateOneJiraIssue.ApiRequest = {
 			summary: req.body.summary,
 			description: {
-				content: [
-					req.body.description.split('\n').map((line: string) => ({
-						content: [
-							{
-								text: line,
-								type: 'text'
-							}
-						],
-						type: 'paragraph'
-					}))
-				],
+				content: req.body.description.split('\n').map((line: string) => ({
+					content: [
+						{
+							text: line,
+							type: 'text'
+						}
+					],
+					type: 'paragraph'
+				})),
 				type: 'doc',
 				version: 1
 			}

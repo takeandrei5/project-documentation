@@ -7,6 +7,14 @@ import { AtlassianProfile } from '../../../strategies/types';
 import { isAuthorizationTokenExpired } from './utils';
 import { OAuthRefreshTokenResponse } from './types';
 
+
+// const options: AtlassianOAuthStrategyConfigurableOptions = {
+// 	clientID: process.env.JIRA_OAUTH_CLIENT_ID as string,
+// 	clientSecret: process.env.JIRA_OAUTH_CLIENT_SECRET as string,
+// 	callbackURL: process.env.JIRA_OAUTH_CALLBACK_URL as string,
+// 	scope: 'read:me read:jira-work read:jira-user read:issue-meta:jira read:field:jira read:project:jira write:jira-work manage:jira-webhook write:webhook:jira offline_access'
+// };
+
 const options = {
 	clientID: 'QmLaNOfOioSDxraVUnmLuBf9UqKae8lz',
 	clientSecret: 'ATOAr5h9xFfOFaL4HyLjIddiX5A2tdZlGvrZyiVkgrhlZ3Hi9gBmPP87CW4Sn1sRIZd7D325D408',

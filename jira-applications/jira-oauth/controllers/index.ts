@@ -1,1 +1,1 @@
-export { jiraAuthRouter, jiraIssuesRouter } from './jira';
+export { jiraAuthRouter, jiraIssuesRouter, jiraProjectsRouter, jiraWebhooksRouter } from './jira';

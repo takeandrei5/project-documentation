@@ -54,6 +54,12 @@ services:
       dockerfile: ./Dockerfile
     container_name: project-documentation-jiraoauth
     restart: on-failure
+    environment:
+      - JIRA_OAUTH_CLIENT_ID=${JIRA_OAUTH_CLIENT_ID}
+      - JIRA_OAUTH_CLIENT_SECRET=${JIRA_OAUTH_CLIENT_SECRET}
+      - JIRA_OAUTH_CALLBACK_URL=${JIRA_OAUTH_CALLBACK_URL}
+      - PORT=${JIRA_OAUTH_PORT}
+      - NODE_ENV=${JIRA_OAUTH_NODE_ENV}
     ports:
       - '8000:8000'
     networks:
