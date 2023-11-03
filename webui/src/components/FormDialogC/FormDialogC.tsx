@@ -1,6 +1,6 @@
 import type {FormDialogCProps} from './types.ts'
 import type {FormEvent} from 'react'
-import {useEffect, useRef} from 'react'
+import {useEffect} from 'react'
 import {Box, Dialog, Typography} from '@mui/material'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -8,18 +8,16 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
 import {ButtonC} from '../ButtonC'
 
-const FormDialogC:React.FC<FormDialogCProps> = ({control, title, content, description, onSubmitHandler, submitCallback}:FormDialogCProps) => {
+const FormDialogC:React.FC<FormDialogCProps> = ({control, reset, title, content, description, onSubmitHandler, submitCallback}:FormDialogCProps) => {
   const {isOpen, closeHandler, openHandler} = control
 
-  const ref = useRef({callback: ''})
   useEffect(() => {
     window.addEventListener('message', (event) => {
       const data = event.data
       if (data.message !== 'OPEN_COMPONENT_MODAL') {
         return
       }
-      ref.current.callback = data.callback
-      eval(ref.current.callback)()
+      reset()
       openHandler()
     })
     return () => {
@@ -30,13 +28,13 @@ const FormDialogC:React.FC<FormDialogCProps> = ({control, title, content, descri
   const cancelHandler = () => {
     closeHandler()
     window.removeEventListener('message', () => {return})
-    ref.current.callback = ''
+    //    ref.current.callback = ''
   }
   const createHandler = (ev:FormEvent<HTMLElement>) => {
     onSubmitHandler(ev)
     if (submitCallback) submitCallback()
     window.removeEventListener('message', () => {return})
-    ref.current.callback = ''
+    //    ref.current.callback = ''
 
   }
 

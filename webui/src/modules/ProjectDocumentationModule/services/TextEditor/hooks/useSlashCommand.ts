@@ -132,6 +132,7 @@ const useSlashCommand = () => {
           editor.selection.collapse(false)
           editor.dom.setAttrib(editor.dom.select('div#newly_added_component')[0], 'id', '')
         })
+
       }
     },
     {

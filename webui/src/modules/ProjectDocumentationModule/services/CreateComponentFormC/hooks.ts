@@ -3,8 +3,8 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import type {CreateComponentFormValidationSchema} from './schema.ts'
 import {createComponentFormSchema} from './schema.ts'
 
-const useCreateComponent = () => {
-  const {control, handleSubmit, getValues, formState: {errors, isValid}} = useForm<CreateComponentFormValidationSchema>({
+const useCreateComponent = (closeHandler:()=>void) => {
+  const {control, handleSubmit,reset, getValues, formState: {errors, isValid}} = useForm<CreateComponentFormValidationSchema>({
     resolver: zodResolver(createComponentFormSchema)
   })
   const onSubmitHandler = handleSubmit((data:CreateComponentFormValidationSchema) => {
@@ -23,8 +23,8 @@ const useCreateComponent = () => {
       responseData: {title: title, content: projectId}
     }
     window.postMessage(payloadMessage)
-    dialogControl.closeHandler()
+    closeHandler()
   }
-  return {control, onSubmitHandler, errors, isValid, getValues, submitCallback}
+  return {control, onSubmitHandler, errors, isValid, getValues, submitCallback,reset}
 }
 export default useCreateComponent
