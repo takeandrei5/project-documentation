@@ -8,7 +8,6 @@ const isAuthorizationTokenExpired = (token: string | null) => {
 	const actualToken = token.split('Bearer ')[1];
 
 	const decoded = jwt.decode(actualToken) as JwtPayload;
-	console.log(decoded);
 	if (!decoded.exp) {
 		return true;
 	}

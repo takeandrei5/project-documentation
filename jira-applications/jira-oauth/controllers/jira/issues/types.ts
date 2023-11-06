@@ -42,8 +42,10 @@ export namespace UpdateOneJiraIssue {
 	};
 
 	export type ApiRequest = {
-		summary: string;
-		description: Description;
+		fields: {
+			summary: string;
+			description: Description;
+		};
 	};
 }
 
@@ -59,11 +61,12 @@ export namespace CreateOneJiraIssue {
 	};
 
 	export type ApiRequest = {
-		summary: string;
-		description: Description;
-		issueType: IdObject;
-    priority: IdObject;
-    project: IdObject;
+		fields: {
+			summary: string;
+			description: Description;
+			issuetype: IdObject;
+			project: IdObject;
+		};
 	};
 
 	export type ApiResponse = {

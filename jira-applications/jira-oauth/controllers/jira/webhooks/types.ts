@@ -1,8 +1,12 @@
+import { AccessibleResourceId } from '../types';
+
 export namespace ReadMultipleWebhooks {
 	export type ControllerResponse = {
 		webhooks: Webhook[];
 		total: number;
 	};
+
+  export type ControllerRequest = AccessibleResourceId;
 
 	export type Webhook = {
 		id: number;
@@ -17,7 +21,7 @@ export namespace ReadMultipleWebhooks {
 }
 
 export namespace DeleteMultipleWebhooks {
-	export type ControllerRequest = {
+	export type ControllerRequest = AccessibleResourceId & {
 		webhookIds: number[];
 	};
 
@@ -27,7 +31,7 @@ export namespace DeleteMultipleWebhooks {
 }
 
 export namespace CreateMultipleWebhooks {
-	export type ControllerRequest = {
+	export type ControllerRequest = AccessibleResourceId & {
 		url: string;
 	};
 

@@ -6,7 +6,8 @@ const createDefaultAxiosInstance = (baseURL: string = '') => {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json'
-		}
+		},
+    validateStatus: () => true
 	});
 };
 

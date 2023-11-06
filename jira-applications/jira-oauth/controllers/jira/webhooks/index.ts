@@ -1,7 +1,8 @@
 import express, { Request, Response, Router } from 'express';
 import { createDefaultAxiosInstance } from '../../../axios';
-import { hasAccessToken, hasRefreshToken, validateAccessToken } from '../../../middlewares';
-import { type ReadMultipleWebhooks, type DeleteMultipleWebhooks, type CreateMultipleWebhooks } from './types';
+import { hasAccessToken, hasRefreshToken, validateAccess } from '../../../middlewares';
+import { type CreateMultipleWebhooks, type DeleteMultipleWebhooks, type ReadMultipleWebhooks } from './types';
+import { ReqQuery } from '../../../middlewares/types';
 
 const jiraWebhooksRouter: Router = express.Router();
 
@@ -9,7 +10,7 @@ const JIRA_API_BASE_URL = 'https://api.atlassian.com/ex/jira/';
 
 const jiraApiAxiosInstance = createDefaultAxiosInstance(JIRA_API_BASE_URL);
 
-jiraWebhooksRouter.delete('/', hasAccessToken, hasRefreshToken, validateAccessToken, async (req: Request<{}, {}, DeleteMultipleWebhooks.ControllerRequest>, res: Response) => {
+jiraWebhooksRouter.delete('/', hasAccessToken, hasRefreshToken, validateAccess, async (req: Request<{}, {}, DeleteMultipleWebhooks.ControllerRequest, ReqQuery>, res: Response) => {
 	if (!req.body || !req.body.webhookIds || !req.body.webhookIds) {
 		return res.status(400).send('Bad request');
 	}
@@ -18,8 +19,11 @@ jiraWebhooksRouter.delete('/', hasAccessToken, hasRefreshToken, validateAccessTo
 		webhookIds: req.body.webhookIds
 	};
 
-	const readJiraWebhooksResult = await jiraApiAxiosInstance.delete<DeleteMultipleWebhooks.ApiRequest>(`/rest/api/3/webhook?maxResults=1000`, {
-		data: mappedRequest
+	const readJiraWebhooksResult = await jiraApiAxiosInstance.delete<DeleteMultipleWebhooks.ApiRequest>(`${req.query.accessibleResourceId}/rest/api/3/webhook?maxResults=1000`, {
+		data: mappedRequest,
+		headers: {
+			Authorization: req.headers.authorization
+		}
 	});
 
 	if (readJiraWebhooksResult.status >= 500) {
@@ -29,27 +33,37 @@ jiraWebhooksRouter.delete('/', hasAccessToken, hasRefreshToken, validateAccessTo
 	return res.status(204).send();
 });
 
-jiraWebhooksRouter.get('/', hasAccessToken, hasRefreshToken, validateAccessToken, async (_: Request, res: Response<ReadMultipleWebhooks.ControllerResponse | string>) => {
-	const readJiraWebhooksResult = await jiraApiAxiosInstance.get<ReadMultipleWebhooks.ApiResponse>(`/rest/api/3/webhook?maxResults=1000`);
+jiraWebhooksRouter.get(
+	'/',
+	hasAccessToken,
+	hasRefreshToken,
+	validateAccess,
+	async (req: Request<{}, {}, ReadMultipleWebhooks.ControllerRequest, ReqQuery>, res: Response<ReadMultipleWebhooks.ControllerResponse | string>) => {
+		const readJiraWebhooksResult = await jiraApiAxiosInstance.get<ReadMultipleWebhooks.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/webhook?maxResults=1000`, {
+			headers: {
+				Authorization: req.headers.authorization
+			}
+		});
 
-	if (readJiraWebhooksResult.status >= 500) {
-		return res.status(500).send('Internal server error');
+		if (readJiraWebhooksResult.status >= 500) {
+			return res.status(500).send('Internal server error');
+		}
+
+		const mappedResult: ReadMultipleWebhooks.ControllerResponse = {
+			total: readJiraWebhooksResult.data.total,
+			webhooks: readJiraWebhooksResult.data.values
+		};
+
+		return res.send(mappedResult);
 	}
-
-	const mappedResult: ReadMultipleWebhooks.ControllerResponse = {
-		total: readJiraWebhooksResult.data.total,
-		webhooks: readJiraWebhooksResult.data.values
-	};
-
-	return res.send(mappedResult);
-});
+);
 
 jiraWebhooksRouter.post(
 	'/',
 	hasAccessToken,
 	hasRefreshToken,
-	validateAccessToken,
-	async (req: Request<{}, {}, CreateMultipleWebhooks.ControllerRequest>, res: Response<CreateMultipleWebhooks.ControllerResponse | string>) => {
+	validateAccess,
+	async (req: Request<{}, {}, CreateMultipleWebhooks.ControllerRequest, ReqQuery>, res: Response<CreateMultipleWebhooks.ControllerResponse | string>) => {
 		if (!req.body || !req.body.url) {
 			return res.status(400).send('Bad request');
 		}
@@ -63,7 +77,7 @@ jiraWebhooksRouter.post(
 			]
 		};
 
-		const createJiraWebhooksResult = await jiraApiAxiosInstance.post<CreateMultipleWebhooks.ApiResponse>('/rest/api/3/webhook', mappedRequest);
+		const createJiraWebhooksResult = await jiraApiAxiosInstance.post<CreateMultipleWebhooks.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/webhook`, mappedRequest);
 
 		if (createJiraWebhooksResult.status >= 500) {
 			return res.status(500).send('Internal server error');

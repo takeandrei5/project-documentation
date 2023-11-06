@@ -10,8 +10,31 @@ export namespace ReadMultipleProjects {
 		name: string;
 	};
 
+	export type ApiResponse = Project[];
+}
+
+export namespace ReadMultipleProjectIssues {
+	export type ControllerResponse = {
+		issues: ControllerIssue[];
+		total: number;
+	};
+
+  export type ControllerIssue = {
+    id: string;
+    key: string;
+    summary: string;
+  };
+
+	export type ApiIssue = {
+		id: string;
+		key: string;
+		fields: {
+      summary: string;
+    }
+	};
+
 	export type ApiResponse = {
 		total: number;
-		values: Project[];
+		issues: ApiIssue[];
 	};
 }

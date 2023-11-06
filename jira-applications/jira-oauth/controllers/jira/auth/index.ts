@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import passport from 'passport';
 import { defaultAxiosInstance } from '../../../axios';
-import { hasAccessToken, hasRefreshToken } from '../../../middlewares';
+import { hasAccessToken, hasRefreshToken, validateAccess } from '../../../middlewares';
 import AtlassianStrategy from '../../../strategies/AtlassianStrategy';
 import { AtlassianProfile } from '../../../strategies/types';
 import { isAuthorizationTokenExpired } from './utils';
