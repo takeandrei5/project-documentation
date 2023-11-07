@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "2.1.1",
+    "@azure/msal-browser": "3.3.0",
+    "@azure/msal-react": "2.0.5",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@hookform/resolvers": "3.1.1",
@@ -23,7 +25,8 @@
     "@tanstack/react-query": "4.29.25",
     "@tinymce/tinymce-react": "4.3.0",
     "axios": "1.4.0",
-    "fs": "0.0.1-security",
+    "base-64": "1.0.0",
+    "fs-extra": "11.1.1",
     "hex-to-rgba": "2.0.1",
     "lodash": "4.17.21",
     "node-html-parser": "6.1.5",
@@ -45,6 +48,7 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "4.29.25",
+    "@types/base-64": "1.0.1",
     "@types/lodash": "4.14.199",
     "@types/node": "20.3.3",
     "@types/react": "18.2.24",

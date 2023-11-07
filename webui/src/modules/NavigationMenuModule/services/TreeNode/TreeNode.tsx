@@ -31,7 +31,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 		return null;
 	}
 
-	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys];
+  console.log('node.data.iconName', node.data.iconName)
+	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys] || Icon;
+  console.log(TreeNodeIcon);
 	return (
 		<Box
 			onClick={() => onClickHandler(node.id.toString())}
