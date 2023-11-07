@@ -22,7 +22,7 @@ jiraWebhooksRouter.delete('/', hasAccessToken, hasRefreshToken, validateAccess, 
 	const readJiraWebhooksResult = await jiraApiAxiosInstance.delete<DeleteMultipleWebhooks.ApiRequest>(`${req.query.accessibleResourceId}/rest/api/3/webhook?maxResults=1000`, {
 		data: mappedRequest,
 		headers: {
-			Authorization: req.headers.authorization
+			Authorization: `Bearer ${req.query.accessToken}`
 		}
 	});
 
@@ -41,7 +41,7 @@ jiraWebhooksRouter.get(
 	async (req: Request<{}, {}, ReadMultipleWebhooks.ControllerRequest, ReqQuery>, res: Response<ReadMultipleWebhooks.ControllerResponse | string>) => {
 		const readJiraWebhooksResult = await jiraApiAxiosInstance.get<ReadMultipleWebhooks.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/webhook?maxResults=1000`, {
 			headers: {
-				Authorization: req.headers.authorization
+				Authorization: `Bearer ${req.query.accessToken}`
 			}
 		});
 

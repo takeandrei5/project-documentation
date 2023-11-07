@@ -13,7 +13,7 @@ const jiraApiAxiosInstance = createDefaultAxiosInstance(JIRA_API_BASE_URL);
 jiraIssuesRouter.delete('/:id', hasAccessToken, hasRefreshToken, validateAccess, async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<null | string>) => {
 	const deleteJiraIssueResult = await jiraApiAxiosInstance.delete(`${req.query.accessibleResourceId}/rest/api/3/issue/${req.params.id}?deleteSubtasks=true`, {
 		headers: {
-			Authorization: req.headers.authorization
+			Authorization: `Bearer ${req.query.accessToken}`
 		}
 	});
 
@@ -28,35 +28,41 @@ jiraIssuesRouter.delete('/:id', hasAccessToken, hasRefreshToken, validateAccess,
 	return res.status(204).send();
 });
 
-jiraIssuesRouter.get('/:id', hasAccessToken, hasRefreshToken, validateAccess, async (req: Request, res: Response<ReadOneJiraIssue.ControllerResponse | string>) => {
-	const readJiraIssueResult = await jiraApiAxiosInstance.get<ReadOneJiraIssue.ApiResponse>(
-		`${req.query.accessibleResourceId}/rest/api/3/issue/${req.params.id}?fields=summary,description`,
-		{
-			headers: {
-				Authorization: req.headers.authorization
+jiraIssuesRouter.get(
+	'/:id',
+	hasAccessToken,
+	hasRefreshToken,
+	validateAccess,
+	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadOneJiraIssue.ControllerResponse | string>) => {
+		const readJiraIssueResult = await jiraApiAxiosInstance.get<ReadOneJiraIssue.ApiResponse>(
+			`${req.query.accessibleResourceId}/rest/api/3/issue/${req.params.id}?fields=summary,description`,
+			{
+				headers: {
+					Authorization: `Bearer ${req.query.accessToken}`
+				}
 			}
+		);
+
+		if (readJiraIssueResult.status === 404) {
+			return res.status(404).send('Issue not found');
 		}
-	);
 
-	if (readJiraIssueResult.status === 404) {
-		return res.status(404).send('Issue not found');
+		if (readJiraIssueResult.status >= 500) {
+			return res.status(500).send('Internal server error');
+		}
+
+		const mappedResult: ReadOneJiraIssue.ControllerResponse = {
+			id: readJiraIssueResult.data.id,
+			key: readJiraIssueResult.data.key,
+			summary: readJiraIssueResult.data.fields.summary,
+			description: readJiraIssueResult.data.fields.description.content
+				.map((content: ContentEntity) => content.content.map((content: TextContentEntity) => content.text).join(''))
+				.join('')
+		};
+
+		return res.send(mappedResult);
 	}
-
-	if (readJiraIssueResult.status >= 500) {
-		return res.status(500).send('Internal server error');
-	}
-
-	const mappedResult: ReadOneJiraIssue.ControllerResponse = {
-		id: readJiraIssueResult.data.id,
-		key: readJiraIssueResult.data.key,
-		summary: readJiraIssueResult.data.fields.summary,
-		description: readJiraIssueResult.data.fields.description.content
-			.map((content: ContentEntity) => content.content.map((content: TextContentEntity) => content.text).join(''))
-			.join('')
-	};
-
-	return res.send(mappedResult);
-});
+);
 
 jiraIssuesRouter.post(
 	'/',
@@ -96,7 +102,7 @@ jiraIssuesRouter.post(
 
 		const createIssueResult = await jiraApiAxiosInstance.post(`${req.query.accessibleResourceId}/rest/api/3/issue`, mappedRequest, {
 			headers: {
-				Authorization: req.headers.authorization
+				Authorization: `Bearer ${req.query.accessToken}`
 			}
 		});
 
@@ -140,7 +146,7 @@ jiraIssuesRouter.put(
 
 		const updateJiraIssueResult = await jiraApiAxiosInstance.put(`${req.query.accessibleResourceId}/rest/api/3/issue/${req.params.id}`, mappedRequest, {
 			headers: {
-				Authorization: req.headers.authorization
+				Authorization: `Bearer ${req.query.accessToken}`
 			}
 		});
 

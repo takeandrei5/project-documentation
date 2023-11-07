@@ -18,7 +18,7 @@ jiraProjectsRouter.get(
 	async (req: Request<{}, {}, {}, ReqQuery>, res: Response<ReadMultipleProjects.ControllerResponse | string>) => {
 		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadMultipleProjects.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/project`, {
 			headers: {
-				Authorization: req.headers.authorization
+				Authorization: `Bearer ${req.query.accessToken}`
 			}
 		});
 
@@ -45,7 +45,7 @@ jiraProjectsRouter.get(
 			`${req.query.accessibleResourceId}/rest/api/3/search?jql=project=${req.params.id}&fields=summary`,
 			{
 				headers: {
-					Authorization: req.headers.authorization
+					Authorization: `Bearer ${req.query.accessToken}`
 				}
 			}
 		);

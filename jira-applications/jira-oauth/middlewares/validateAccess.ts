@@ -9,11 +9,10 @@ const jiraAccessibleResourcesInstance = createDefaultAxiosInstance(JIRA_URL);
 const validateAccess = async (req: Request<{}, {}, {}, Partial<ReqQuery>>, res: Response, next: NextFunction) => {
   const readAccessibleResourcesResult = await jiraAccessibleResourcesInstance.get<ValidateAccessibleResourceId.ApiResponse>('', {
     headers: {
-      Authorization: req.headers.authorization
+      Authorization: `Bearer ${req.query.accessToken}`
     }
   });
 
-  console.log(readAccessibleResourcesResult.data)
 	if (readAccessibleResourcesResult.status >= 500) {
 		return res.status(500).send('Internal server error');
 	}

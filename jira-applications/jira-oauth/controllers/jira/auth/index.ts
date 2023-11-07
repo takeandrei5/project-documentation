@@ -45,7 +45,7 @@ jiraAuthRouter.get('/', hasAccessToken, hasRefreshToken, async (req: Request, re
 	if (res.locals.hasAccessToken) {
 		const response = await authAxiosInstance.get('https://api.atlassian.com/oauth/token/accessible-resources', {
 			headers: {
-				Authorization: req.headers.authorization
+				Authorization: `Bearer ${req.query.accessToken}`
 			}
 		});
 
