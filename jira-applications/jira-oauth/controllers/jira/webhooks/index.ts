@@ -38,7 +38,7 @@ jiraWebhooksRouter.get(
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccess,
-	async (req: Request<{}, {}, ReadMultipleWebhooks.ControllerRequest, ReqQuery>, res: Response<ReadMultipleWebhooks.ControllerResponse | string>) => {
+	async (req: Request<{}, {}, {}, ReqQuery>, res: Response<ReadMultipleWebhooks.ControllerResponse | string>) => {
 		const readJiraWebhooksResult = await jiraApiAxiosInstance.get<ReadMultipleWebhooks.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/webhook?maxResults=1000`, {
 			headers: {
 				Authorization: `Bearer ${req.query.accessToken}`

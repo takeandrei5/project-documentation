@@ -25,6 +25,9 @@ public sealed record OrganizationEntity : IEntity
     [Field("projects")]
     public Many<ProjectEntity> Projects { get; set; }
 
+    [Field("jiraSyncState")]
+    public bool JiraSyncState { get; init; } = false;
+
     [BsonId]
     [ObjectId]
     public string ID { get; set; } = null!;

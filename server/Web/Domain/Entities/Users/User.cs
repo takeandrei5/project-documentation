@@ -30,19 +30,19 @@ public sealed class User
     {
         if (UserOrganization.Value == null)
             throw new DomainRuleException("User must be a member of an organization to create a project.");
-        
+
         var project = new Project(new Id(), projectIconName, projectName, new ProjectPages(Enumerable.Empty<Page>()));
-        
-        UserOrganization.Value.OrganizationProjects.Value.Add(project);
+
+        UserOrganization.Value.Projects.Value.Add(project);
 
         return project;
     }
-    
+
     public Project UpdateProject(Project project, ProjectName newProjectName, ProjectIconName newProjectIconName)
     {
         project.Name = newProjectName;
         project.IconName = newProjectIconName;
-        
+
         return project;
     }
 
@@ -51,7 +51,9 @@ public sealed class User
         if (UserOrganization.Value is not null)
             throw new DomainRuleException("User cannot be a member of more than one organization.");
 
-        var organization = new Organization(new Id(), new OrganizationName(organizationName));
+        var organization = new Organization(new Id(),
+            new OrganizationName(organizationName),
+            new OrganizationJiraSyncState(false));
 
         UserOrganization = new UserOrganization(organization);
 

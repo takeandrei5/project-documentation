@@ -47,6 +47,7 @@ public static class ServiceCollectionExtensions
 
     private static void AddUpdateUseCases(IServiceCollection services)
     {
+        services.AddScoped<UseCases.Organizations.UpdateOrganization.Command>();
         services.AddScoped<UseCases.Pages.UpdatePage.Command>();
         services.AddScoped<UseCases.Projects.UpdateProject.Command>();
     }

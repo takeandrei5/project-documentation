@@ -10,6 +10,6 @@ export namespace ValidateAccessibleResourceId {
 
 export type ReqQuery = {
   accessToken: string;
-  refresh_token: string;
+  refreshToken: string;
   accessibleResourceId: string;
 }

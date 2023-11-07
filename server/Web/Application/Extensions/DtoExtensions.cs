@@ -56,7 +56,8 @@ public static class DtoExtensions
         return new OrganizationDto
         {
             Id = organization.Id.Value,
-            Name = organization.Name.Value
+            Name = organization.Name.Value,
+            JiraSyncState = organization.JiraSyncState.Value,
         };
     }
 

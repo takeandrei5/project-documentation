@@ -60,7 +60,7 @@ public sealed class OrganizationRepository : IOrganizationRepository
            .ExecuteAsync(cancellationToken);
 
         await result.Projects
-           .AddAsync(organization.OrganizationProjects.Value.Select(project => project.Id.Value),
+           .AddAsync(organization.Projects.Value.Select(project => project.Id.Value),
                 transaction.Session,
                 cancellationToken);
 
