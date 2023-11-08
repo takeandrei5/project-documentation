@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Logging;
 using Microsoft.Net.Http.Headers;
 using ProjectDocumentation.Web.CompositionRoot;
 using ProjectDocumentation.Web.Database;
@@ -31,6 +32,8 @@ builder.Services.Configure<DatabaseSettings>(options =>
     options.DatabaseName = "project-documentation";
 });
 
+IdentityModelEventSource.ShowPII = true;
+
 builder.Services.AddIoC();
 builder.Services.AddApplicationServices();
 builder.Services.AddSwagger(configuration["ASPNETCORE_AUTH0_DOMAIN"]!, configuration["ASPNETCORE_AUTH0_AUDIENCE"]!);
@@ -61,15 +64,12 @@ if (!app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
-{
     app.UseEndpoints(endpoints =>
         endpoints.MapControllers());
-} else
-{
+else
     app.UseEndpoints(endpoints =>
         endpoints.MapControllers()
            .RequireAuthorization());
-}
 // app.UseEndpoints(endpoints =>
 //     endpoints.MapControllers()
 //        .RequireAuthorization());

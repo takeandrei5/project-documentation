@@ -93,56 +93,40 @@ const useSlashCommand = () => {
           <div class="callout" id="newly_added_callout">
               <div class="content"><p>Callout</p></div>
           </div>
-        `)
-        editor.selection.select(editor.dom.select('div#newly_added_callout')[0], true)
-        editor.selection.collapse(false)
-        editor.dom.setAttrib(editor.dom.select('div#newly_added_callout')[0], 'id', '')
-      }
-    },
-    {
-      text: 'Component',
-      value: 'Component',
-      icon: 'component',
-      meta: function (editor:TinyMCEEditor) {
-        const callback = () => {console.log('Component created:')}
+        `);
+				editor.selection.select(editor.dom.select('div#newly_added_callout')[0], true);
+        editor.selection.collapse(false);
+				editor.dom.setAttrib(editor.dom.select('div#newly_added_callout')[0], 'id', '');
+			}
+		},
+		{
+			text: 'Component',
+			value: 'Component',
+			icon: 'component',
+			meta: function (editor: TinyMCEEditor) {
+				editor.insertContent(`
+        <div class="component-wrapper">
+          <h3>Add title component</h3>
+          <div class="component" id="newly_added_component">
+            <div class="content"><p>Create component</p></div>
+          </div>
+        </div>
+        `);
 
-        const payloadMessage = {
-          message: 'OPEN_COMPONENT_MODAL',
-          callback: callback.toString(),
-        }
-
-        window.postMessage(payloadMessage)
-
-        window.addEventListener('message', (event) => {
-          const data = event.data
-          if (data.responseMessage !== 'DATA_COMPONENT_MODAL') {
-            return
-          }
-          console.log('response in editor')
-          const {title, content} = data.responseData
-          editor.insertContent(`
-                  <div class="component-wrapper">
-                    <h3>${title}</h3>
-                    <div class="component" id="newly_added_component">
-                      <div class="content"><p>${content}</p></div>
-                    </div>
-                  </div>
-                  `)
-          editor.selection.select(editor.dom.select('div#newly_added_component')[0], true)
-          editor.selection.collapse(false)
-          editor.dom.setAttrib(editor.dom.select('div#newly_added_component')[0], 'id', '')
-        })
-      }
-    },
-    {
-      type: 'separator'
-    },
-    {
-      text: 'Page Embed',
-      value: 'Page Embed',
-      icon: 'embed-page',
-      meta: function () {
-        const pageEmbedButton = document.querySelector('button[title="Embed iframe"]') as HTMLButtonElement | null
+        editor.selection.select(editor.dom.select('div#newly_added_component')[0], true);
+        editor.selection.collapse(false);
+				editor.dom.setAttrib(editor.dom.select('div#newly_added_component')[0], 'id', '');
+			}
+		},
+		{
+			type: 'separator'
+		},
+		{
+			text: 'Page Embed',
+			value: 'Page Embed',
+			icon: 'embed-page',
+			meta: function () {
+        const pageEmbedButton = document.querySelector('button[title="Embed iframe"]') as HTMLButtonElement | null;
         if (pageEmbedButton) {
           pageEmbedButton.click()
 
