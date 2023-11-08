@@ -106,9 +106,11 @@ const useSlashCommand = () => {
 			meta: function (editor: TinyMCEEditor) {
 				editor.insertContent(`
         <div class="component-wrapper">
-          <h3>Add title component</h3>
-          <div class="component" id="newly_added_component">
-            <div class="content"><p>Create component</p></div>
+          <div class="component mceNonEditable" id="newly_added_component">
+            <div class="content">
+              <h3>Add title component</h3>
+              <p>Create component</p>
+            </div>
           </div>
         </div>
         `);

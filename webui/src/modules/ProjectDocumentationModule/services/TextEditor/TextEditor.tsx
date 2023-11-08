@@ -42,6 +42,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 				init={{
 					menubar: false,
 					toolbar: ['pageembed'],
+          noneditable_class: 'mceNonEditable',
 					statusbar: false,
 					placeholder: 'Untitled',
 					font_size_input_default_unit: 'px',
@@ -141,6 +142,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
           details.mce-accordion {
             outline: 0 !important;
             width: fit-content;
+          }
+
+          .component-wrapper {
+            outline: none !important;
           }
 
           .component {
