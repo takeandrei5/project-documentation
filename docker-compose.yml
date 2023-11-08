@@ -45,7 +45,28 @@ services:
       - webapi
     volumes:
       - ./webui:/app
-      - node_modules:/app/node_modules
+      - webui-node_modules:/app/node_modules
+
+  jiraoauth:
+    image: project-documentation-jiraoauth
+    build:
+      context: ./jira-applications/jira-oauth
+      dockerfile: ./Dockerfile
+    container_name: project-documentation-jiraoauth
+    restart: on-failure
+    environment:
+      - JIRA_OAUTH_CLIENT_ID=${JIRA_OAUTH_CLIENT_ID}
+      - JIRA_OAUTH_CLIENT_SECRET=${JIRA_OAUTH_CLIENT_SECRET}
+      - JIRA_OAUTH_CALLBACK_URL=${JIRA_OAUTH_CALLBACK_URL}
+      - PORT=${JIRA_OAUTH_PORT}
+      - NODE_ENV=${JIRA_OAUTH_NODE_ENV}
+    ports:
+      - '8000:8000'
+    networks:
+      - project-documentation-network
+    volumes:
+      - ./jira-applications/jira-oauth:/app
+      - jira-oauth-node_modules:/app/node_modules
 
   nginx:
     image: project-documentation-nginx
