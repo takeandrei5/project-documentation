@@ -16,6 +16,7 @@ const NavigationMenuContainer: React.FC = () => {
 				padding: '0.94rem 1rem'
 			})}>
 			<NavigationMenuHeader isLoading={isLoading} projectName={projectName} />
+			<Divider sx={{ marginY: '0.5rem', gridColumn: '1/-1' }} />
 			<NavigationMenuBody isLoading={isLoading} pages={pages} refreshTreeData={refetchProjectData} />
 			<NavigationMenuFooter isLoading={isLoading} />
 		</Box>

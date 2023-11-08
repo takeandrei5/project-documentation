@@ -1,3 +1,2 @@
-export { useDialogControl as useDialogControl } from './useDialogControl';
-export { useShortCommands as useShortCommands } from './useShortCommands';
-export { useTreeNode as useTreeNode } from './useTreeNode';
+export { useVerticalMenuControl as useVerticalMenuControl } from './useVerticalMenuControl';
+export { useTreeNodeEdit as useTreeNodeEdit } from './useTreeNodeEdit';
