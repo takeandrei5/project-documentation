@@ -32,7 +32,7 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
 
   const dialogControl = useDialogControl()
 
-  const {control, onSubmitHandler, submitCallback, reset} = useCreateComponent(dialogControl.closeHandler)
+  const {control, onSubmitHandler, submitCallback, reset, projectValue, issueValue, componentTitleValue, isComponentTitleDirty} = useCreateComponent(dialogControl.closeHandler)
 
   return (
     <>
@@ -255,7 +255,13 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
       <FormDialogC control={dialogControl}
                    submitCallback={submitCallback}
                    reset={reset}
-                   content={<CreateComponentFormC control={control}/>}
+                   issueValue={issueValue}
+                   componentTitleValue={componentTitleValue} isComponentTitleDirty={isComponentTitleDirty}
+                   content={<CreateComponentFormC projectValue={projectValue}
+                                                  control={control}
+                                                  componentTitleValue={componentTitleValue}
+                                                  isComponentTitleDirty={isComponentTitleDirty}
+                   />}
                    onSubmitHandler={onSubmitHandler}
                    title={'Create component'}
       />

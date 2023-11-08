@@ -11,4 +11,7 @@ export type FormDialogCProps = {
   onSubmitHandler:(event:FormEvent<HTMLElement>) => void;
   submitCallback?:() => void;
   reset:() => UseFormReset<CreateComponentFormValidationSchema>;
+  componentTitleValue?:string
+  isComponentTitleDirty?:boolean
+  issueValue?:string
 }
