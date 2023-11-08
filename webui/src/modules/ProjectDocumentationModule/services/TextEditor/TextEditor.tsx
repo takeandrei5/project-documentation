@@ -8,8 +8,6 @@ import type {TextEditorProps} from './types'
 import useUpdater from './hooks/useUpdater'
 import FormDialogC from '../../../../components/FormDialogC/FormDialogC.tsx'
 import {useDialogControl} from '../../../../hooks'
-import {useForm} from 'react-hook-form'
-import {CreateOrganizationValidationSchema} from '../../../CreateOrganizationModule/services/FormComponent/schema.ts'
 import useCreateComponent from '../CreateComponentFormC/hooks.ts'
 import {CreateComponentFormC} from '../CreateComponentFormC'
 
@@ -56,6 +54,7 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
             'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
           quickbars_insert_toolbar: false,
           noneditable_noneditable_class: 'callout',
+          noneditable_class: 'mceNonEditable',
           content_style: `
           * :not(p#content-paragraph) {
             color: ${theme.palette.textColor[80]} !important;
@@ -152,6 +151,10 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
             border: 3px solid #D5ECF5;
             border-radius:4px;
             font-size: 14px;
+          }
+          
+          .component-wrapper {
+            outline: none !important;
           }
 
           details.mce-accordion summary.mce-accordion-summary {

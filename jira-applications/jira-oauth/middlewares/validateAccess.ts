@@ -18,7 +18,7 @@ const validateAccess = async (req: Request<{}, {}, {}, Partial<ReqQuery>>, res: 
 	}
 
   if (readAccessibleResourcesResult.status >= 400) {
-		return res.status(401).send('Invalid access token or refresh token');
+		return res.status(401).send('Invalid access jiraQueryParams or refresh jiraQueryParams');
 	}
 
 	const isAccessibleResourcesIdValid = readAccessibleResourcesResult.data.some(

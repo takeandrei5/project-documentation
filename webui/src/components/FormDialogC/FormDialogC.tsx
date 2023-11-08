@@ -1,6 +1,6 @@
 import type {FormDialogCProps} from './types.ts'
 import type {FormEvent} from 'react'
-import {useEffect, useRef} from 'react'
+import {useEffect, useLayoutEffect, useRef} from 'react'
 import {Box, Dialog, Typography} from '@mui/material'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -25,13 +25,13 @@ const FormDialogC:React.FC<FormDialogCProps> = ({
   const {isOpen, closeHandler, openHandler} = control
 
   const titleRef = useRef({isComponentTitleDirty: false})
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isComponentTitleDirty) {
       titleRef.current.isComponentTitleDirty = true
     }
-    return () => titleRef.current.isComponentTitleDirty = false
 
   }, [isComponentTitleDirty])
+
   useEffect(() => {
     window.addEventListener('message', (event) => {
       const data = event.data
@@ -43,6 +43,8 @@ const FormDialogC:React.FC<FormDialogCProps> = ({
     })
     return () => {
       window.removeEventListener('message', () => {return})
+     titleRef.current.isComponentTitleDirty = false
+
     }
   }, [])
 
@@ -58,7 +60,8 @@ const FormDialogC:React.FC<FormDialogCProps> = ({
     //    ref.current.callback = ''
 
   }
-
+  console.log({componentTitleValue})
+  console.log('title ref', titleRef.current.isComponentTitleDirty)
   return (
     <Dialog
       open={isOpen}
@@ -67,7 +70,7 @@ const FormDialogC:React.FC<FormDialogCProps> = ({
       aria-describedby="alert-dialog-description"
       sx={{
         '& .MuiPaper-root': {
-          width: '25rem ',
+          width: '30rem ',
         }
       }}
     >

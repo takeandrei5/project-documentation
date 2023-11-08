@@ -20,7 +20,8 @@ const useCreateComponent = (closeHandler:() => void) => {
     defaultValues: {
       project: '',
       issue: '',
-      componentTitle: ''
+      componentTitle: '',
+      syncWithJira: false
     }
   })
   const onSubmitHandler = handleSubmit((data:CreateComponentFormValidationSchema) => {
@@ -46,6 +47,7 @@ const useCreateComponent = (closeHandler:() => void) => {
   const issueValue = values['issue']
   const componentTitleValue = values['componentTitle']
   const isComponentTitleDirty = dirtyFields['componentTitle']
+  console.log('dasdasdas',dirtyFields['componentTitle'])
   return {control, onSubmitHandler, errors, isValid, issueValue, projectValue, componentTitleValue, isComponentTitleDirty, submitCallback, reset}
 }
 export default useCreateComponent

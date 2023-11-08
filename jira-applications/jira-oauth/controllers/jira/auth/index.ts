@@ -74,7 +74,7 @@ jiraAuthRouter.get('/', hasAccessToken, hasRefreshToken, async (req: Request<{},
 			return;
 		}
 
-		return res.send('refreshed token');
+		return res.send('refreshed jiraQueryParams');
 	}
 
 	passport.authenticate('atlassian', {

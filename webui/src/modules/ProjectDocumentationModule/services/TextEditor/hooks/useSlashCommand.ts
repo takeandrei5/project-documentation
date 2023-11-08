@@ -121,13 +121,15 @@ const useSlashCommand = () => {
           console.log('response in editor')
           const {title, content} = data.responseData
           editor.insertContent(`
-                  <div class="component-wrapper">
-                    <h3>${title}</h3>
-                    <div class="component" id="newly_added_component">
-                      <div class="content"><p>${content}</p></div>
+                <div class="component-wrapper">
+                  <div class="component mceNonEditable" id="newly_added_component">
+                    <div class="content">
+                      <h3>Add title component</h3>
+                      <p>Create component</p>
                     </div>
                   </div>
-                  `)
+                 </div>
+              `)
           editor.selection.select(editor.dom.select('div#newly_added_component')[0], true)
           editor.selection.collapse(false)
           editor.dom.setAttrib(editor.dom.select('div#newly_added_component')[0], 'id', '')

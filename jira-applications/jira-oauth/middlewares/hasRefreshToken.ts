@@ -5,7 +5,7 @@ const hasRefreshToken = (req: Request<{}, {}, {}, Partial<ReqQuery>>, res: Respo
 	res.locals.hasRefreshToken = Boolean(req.query && req.query?.refreshToken);
 
 	if (!res.locals.hasRefreshToken && (res.locals.hasAccessToken || req.baseUrl !== '/api/jira/auth')) {
-		return res.status(401).send('Missing refresh token');
+		return res.status(401).send('Missing refresh jiraQueryParams');
 	}
 
 	next();
