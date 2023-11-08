@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
-import fs from 'fs';
 import module from "module";
+import fs from 'fs-extra';
 import path from 'path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vite';

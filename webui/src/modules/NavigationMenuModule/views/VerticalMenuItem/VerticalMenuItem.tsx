@@ -1,12 +1,14 @@
-import { Icon, ListItemIcon, ListItemText, MenuItem, Typography, type Theme } from '@mui/material';
+import { ListItemIcon, ListItemText, MenuItem, Typography, type Theme } from '@mui/material';
 import type { VerticalMenuItemProps } from './types';
 
-const VerticalMenuItem: React.FC<VerticalMenuItemProps> = ({ color = '', shortcut = '', iconName = '', onClickHandler, text }) => {
+const VerticalMenuItem: React.FC<VerticalMenuItemProps> = ({ color = '', shortcut = '', icon, onClickHandler, text }) => {
+  const Icon = icon;
+
 	return (
 		<MenuItem onClick={onClickHandler} sx={{display: 'grid', gridTemplateColumns: '1.75rem 1fr 2.5rem'}}>
-			{!!iconName && (
+			{!!Icon && (
 				<ListItemIcon sx={{marginRight: '0.25rem !important'}}>
-					<Icon sx={{ color: (theme: Theme) => !color ? theme.palette.textColor[60] : color, fontSize: '1.25rem !important' }}>{iconName}</Icon>
+					<Icon sx={{ color: (theme: Theme) => !color ? theme.palette.textColor[60] : color, fontSize: '1.25rem !important' }} />
 				</ListItemIcon>
 			)}
 			<ListItemText>

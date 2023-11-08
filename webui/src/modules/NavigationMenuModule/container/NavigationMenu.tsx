@@ -10,11 +10,13 @@ const NavigationMenuContainer: React.FC = () => {
 			sx={(theme: Theme) => ({
 				backgroundColor: theme.palette.common.white,
         display: 'grid',
-        gridTemplateRows: 'auto 1fr auto',
+        gridTemplateRows: '1fr auto 6fr auto 4fr',
 				maxHeight: '100%',
+        height: '100%',
 				padding: '0.94rem 1rem'
 			})}>
 			<NavigationMenuHeader isLoading={isLoading} projectName={projectName} />
+			<Divider sx={{ marginY: '0.5rem', gridColumn: '1/-1' }} />
 			<NavigationMenuBody isLoading={isLoading} pages={pages} refreshTreeData={refetchProjectData} />
 			<NavigationMenuFooter isLoading={isLoading} />
 		</Box>

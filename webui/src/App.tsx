@@ -7,6 +7,8 @@ import { mainTheme } from './assets/theme';
 import { RouterProvider, StoreProvider } from './providers';
 import { HotKeysProvider } from './providers/HotKeysProvider';
 import { store } from './redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
 	const navigate = useNavigate();
@@ -17,7 +19,7 @@ const App: React.FC = () => {
         refetchOnMount: false,
         refetchOnReconnect: true,
         cacheTime: 5 * 60 * 1000,
-        retry: 3
+        retry: Infinity
       }
     }
   });
@@ -43,6 +45,7 @@ const App: React.FC = () => {
 					<ThemeProvider theme={mainTheme}>
 						<HotKeysProvider>
 							<RouterProvider />
+              <ToastContainer theme='dark' />
 						</HotKeysProvider>
 					</ThemeProvider>
 				</StoreProvider>
