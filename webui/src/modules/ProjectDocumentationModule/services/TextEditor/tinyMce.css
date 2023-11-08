@@ -4,6 +4,10 @@ textarea {
   width: 0;
 }
 
+div.tox.tox-tinymce[role="application"] {
+  min-height: 100% !important;
+}
+
 div.tox * {
 	font-family: Manrope, sans-serif !important;
 }

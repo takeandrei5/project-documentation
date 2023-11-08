@@ -12,7 +12,8 @@ public static class EntityExtensions
     public static Organization ToDomain(this OrganizationEntity entity)
     {
         return new Organization(new Id(entity.ID),
-            new OrganizationName(entity.Name));
+            new OrganizationName(entity.Name),
+            new OrganizationJiraSyncState(entity.JiraSyncState));
     }
 
     public static Page ToDomain(this PageEntity pageEntity)
@@ -26,7 +27,7 @@ public static class EntityExtensions
                 : new Id(pageEntity.ParentId.ID)),
             pageEntity.IsSoftDeleted);
     }
-    
+
     public static Project ToDomain(this ProjectEntity projectEntity)
     {
         return new Project(new Id(projectEntity.ID),

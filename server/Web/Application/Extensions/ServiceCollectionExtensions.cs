@@ -1,4 +1,3 @@
-using System.Net.Security;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectDocumentation.Web.Application.Interfaces;
 using ProjectDocumentation.Web.Application.UseCases.Users.CreateUser;
@@ -16,6 +15,8 @@ public static class ServiceCollectionExtensions
         AddReadAllUseCases(services);
         AddUpdateUseCases(services);
         AddValidations(services);
+
+        AddJiraUseCases(services);
     }
 
     private static void AddCreateUseCases(IServiceCollection services)
@@ -43,9 +44,10 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<UseCases.Projects.ReadAllProjects.Command>();
     }
-    
+
     private static void AddUpdateUseCases(IServiceCollection services)
     {
+        services.AddScoped<UseCases.Organizations.UpdateOrganization.Command>();
         services.AddScoped<UseCases.Pages.UpdatePage.Command>();
         services.AddScoped<UseCases.Projects.UpdateProject.Command>();
     }
@@ -54,5 +56,16 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IOrganizationValidations, OrganizationValidations>();
         services.AddScoped<IUserValidations, UserValidations>();
+    }
+
+    private static void AddJiraUseCases(IServiceCollection services)
+    {
+        services.AddScoped<UseCases.Jira.Projects.ReadJiraProjects.Command>();
+
+        services.AddScoped<UseCases.Jira.Issues.CreateOneIssue.Command>();
+        services.AddScoped<UseCases.Jira.Issues.DeleteOneIssue.Command>();
+        services.AddScoped<UseCases.Jira.Issues.ReadAllIssues.Command>();
+        services.AddScoped<UseCases.Jira.Issues.ReadOneIssue.Command>();
+        services.AddScoped<UseCases.Jira.Issues.UpdateOneIssue.Command>();
     }
 }
