@@ -71,7 +71,7 @@ const useComponent = () => {
 
 		editor.ui.registry.addContextToolbar('component', {
 			predicate: function (node: Element) {
-				return node.classList.contains('component');
+				return node.classList.contains('component-wrapper');
 			},
 			items: 'removecomponent',
 			position: 'node',
