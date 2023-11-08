@@ -1,7 +1,7 @@
 import { useDragOver } from '@minoru/react-dnd-treeview';
 import * as MUIIcons from '@mui/icons-material';
 import { ChevronRight, ExpandMore } from '@mui/icons-material';
-import { Box, CircularProgress, IconButton, Tooltip, Typography, type Theme, Divider, useTheme } from '@mui/material';
+import { Box, CircularProgress, IconButton, Tooltip, Typography, type Theme, Divider, useTheme, Icon } from '@mui/material';
 import hexToRgba from 'hex-to-rgba';
 import { useRef } from 'react';
 import { TextFieldPopupC } from '../../../../components/TextFieldPopupC';
@@ -29,13 +29,13 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 	const theme = useTheme();
 
 	const { anchorEl, onDoubleClickHandler, onCloseHandler, onSaveNewValuesHandler, popupOpen } = useTreeNodeEdit(treeData, setTreeData, node);
-	const { onCopyItemClickedHandler, onSoftDeleteItemHandler } = useVerticalMenuControl(treeData, setTreeData, node);
+	const { onCopyItemClickedHandler, onDuplicateItemHandler, onSoftDeleteItemHandler } = useVerticalMenuControl(treeData, setTreeData, node);
 
 	if (!node.data) {
 		return null;
 	}
 
-	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys];
+	const TreeNodeIcon = MUIIcons[node.data.iconName as MUIIconKeys] || Icon;
 
 	return (
 		<Box
@@ -150,9 +150,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 					<>
 						<AddNewPage onAddNewPageHandler={() => onAddNewPageHandler(node.id as string)} />
 						<VerticalMenu nodeId={node.id as string}>
-							<VerticalMenuItem icon={MUIIcons.ContentCopy} onClickHandler={onCopyItemClickedHandler} text='Copy' />
-							<VerticalMenuItem icon={MUIIcons.ContentPaste} onClickHandler={console.log} text='Paste' />
-							<VerticalMenuItem icon={MUIIcons.DynamicFeed} onClickHandler={console.log} text='Duplicate' />
+							<VerticalMenuItem icon={MUIIcons.ContentCopy} onClickHandler={onCopyItemClickedHandler} text='Copy url' />
+							{/* <VerticalMenuItem icon={MUIIcons.ContentPaste} onClickHandler={console.log} text='Paste' /> */}
+							{/* <VerticalMenuItem icon={MUIIcons.DynamicFeed} onClickHandler={onDuplicateItemHandler} text='Duplicate' /> */}
 							<Divider sx={{ my: '0.25rem !important', pointerEvents: 'none' }} />
 							<VerticalMenuItem color={theme.palette.red[100]} icon={MUIIcons.DeleteOutline} onClickHandler={onSoftDeleteItemHandler} text='Delete' />
 						</VerticalMenu>

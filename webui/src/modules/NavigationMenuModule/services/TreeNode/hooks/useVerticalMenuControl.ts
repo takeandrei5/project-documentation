@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useCopyToClipboard } from '../../../../../hooks';
 import type { TreeDataValues } from '../../../types';
 import { ToastMessages } from '../types';
+import ObjectID from "bson-objectid";
 
 const useVerticalMenuControl = (treeData: NodeModel<TreeDataValues>[], setTreeData: (treeData: NodeModel<TreeDataValues>[]) => void, node: NodeModel) => {
 	const { copyToClipboard } = useCopyToClipboard();
@@ -22,25 +23,25 @@ const useVerticalMenuControl = (treeData: NodeModel<TreeDataValues>[], setTreeDa
 		});
 	};
 
-	// const duplicateNode = (nodeId: string, parentId: string | null = null): NodeModel<TreeDataValues>[] => {
-	// 	const selectedNode: NodeModel<TreeDataValues> | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
+	const duplicateNode = (nodeId: string, parentId: string | null = null): NodeModel<TreeDataValues>[] => {
+		const selectedNode: NodeModel<TreeDataValues> | undefined = treeData.find((item) => item.id === nodeId); //PROJECT MANAGEMENT node
 
-	// 	if (!selectedNode) {
-	// 		return [];
-	// 	}
+		if (!selectedNode) {
+			return [];
+		}
 
-	// 	const newSelectedNodeId: string = uuidv4();
-	// 	const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
+		const newSelectedNodeId: string = ObjectID().toHexString()
+		const newSelectedNode: NodeModel<TreeDataValues> = { ...selectedNode, id: newSelectedNodeId, parent: parentId || selectedNode.parent, text: `${selectedNode.text} (copy)` };
 
-	// 	let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];
-	// 	treeData
-	// 		.filter((item: NodeModel<TreeDataValues>) => item.parent === selectedNode.id)
-	// 		.forEach((item: NodeModel<TreeDataValues>) => {
-	// 			newNodes = [...newNodes, ...duplicateNode(item.id.toString(), newSelectedNodeId.toString())];
-	// 		});
+		let newNodes: NodeModel<TreeDataValues>[] = [newSelectedNode];
+		treeData
+			.filter((item: NodeModel<TreeDataValues>) => item.parent === selectedNode.id)
+			.forEach((item: NodeModel<TreeDataValues>) => {
+				newNodes = [...newNodes, ...duplicateNode(item.id.toString(), newSelectedNodeId.toString())];
+			});
 
-	// 	return newNodes;
-	// };
+		return newNodes;
+	};
 
 	const onCopyItemClickedHandler = async (): Promise<void> => {
 		const link = `${window.location.origin}/organizations/${params.organizationId}/projects/${params.projectId}/pages/${params.pageId}`;
@@ -59,6 +60,16 @@ const useVerticalMenuControl = (treeData: NodeModel<TreeDataValues>[], setTreeDa
 		});
 	};
 
+  const onDuplicateItemHandler = async (): Promise<void> => {
+		const newNodes = duplicateNode(node.id as string);
+    console.log('newNodes', newNodes)
+    setTreeData([...treeData, ...newNodes]);
+
+    toast(ToastMessages.duplicate, {
+      type: 'success'
+    });
+	};
+
 	const onSoftDeleteItemHandler = (): void => {
 		const newTreeData: NodeModel<TreeDataValues>[] = _.cloneDeep(treeData);
 
@@ -70,7 +81,7 @@ const useVerticalMenuControl = (treeData: NodeModel<TreeDataValues>[], setTreeDa
 		});
 	};
 
-	return { onCopyItemClickedHandler, onSoftDeleteItemHandler };
+	return { onCopyItemClickedHandler, onDuplicateItemHandler, onSoftDeleteItemHandler };
 };
 
 export { useVerticalMenuControl };
