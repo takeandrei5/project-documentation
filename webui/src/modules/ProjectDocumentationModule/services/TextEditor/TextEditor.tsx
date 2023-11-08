@@ -1,38 +1,34 @@
-import {useTheme, type Theme} from '@mui/material'
-import {Editor} from '@tinymce/tinymce-react'
-import {useRef} from 'react'
-import type {Editor as TinyMCEEditor} from 'tinymce'
-import {useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand} from './hooks'
-import './tinyMce.css'
-import type {TextEditorProps} from './types'
-import useUpdater from './hooks/useUpdater'
-import FormDialogC from '../../../../components/FormDialogC/FormDialogC.tsx'
-import {useDialogControl} from '../../../../hooks'
-import {useForm} from 'react-hook-form'
-import {CreateOrganizationValidationSchema} from '../../../CreateOrganizationModule/services/FormComponent/schema.ts'
-import useCreateComponent from '../CreateComponentFormC/hooks.ts'
-import {CreateComponentFormC} from '../CreateComponentFormC'
+import { useTheme, type Theme } from '@mui/material';
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
+import type { Editor as TinyMCEEditor } from 'tinymce';
+import { useDialogControl } from '../../../../hooks';
+import useCreateComponent from '../CreateComponentFormC/hooks.ts';
+import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import useUpdater from './hooks/useUpdater';
+import './tinyMce.css';
+import type { TextEditorProps } from './types';
 
-const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHandler}) => {
-  const editorRef = useRef<TinyMCEEditor | null>(null)
+const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
+	const editorRef = useRef<TinyMCEEditor | null>(null);
 
-  const initializeAccordion = useAccordion()
-  const initializeAiRequest = useAi()
-  const initializeCallout = useCallout()
-  const initializeComponent = useComponent()
-  const initializeDragAndDrop = useDragAndDrop()
-  const initializePageEmbed = usePageEmbed()
-  const initializePageTitle = usePageTitle()
-  const initializeQuickToolbar = useQuickToolbar()
-  const initializeSelectAllBlock = useSelectAllBlock()
-  const initializeSlashCommand = useSlashCommand()
-  const initializeUpdater = useUpdater(onContentChangedHandler)
+	const initializeAccordion = useAccordion();
+	const initializeAiRequest = useAi();
+	const initializeCallout = useCallout();
+	const initializeComponent = useComponent();
+	const initializeDragAndDrop = useDragAndDrop();
+	const initializePageEmbed = usePageEmbed();
+	const initializePageTitle = usePageTitle();
+	const initializeQuickToolbar = useQuickToolbar();
+	const initializeSelectAllBlock = useSelectAllBlock();
+	const initializeSlashCommand = useSlashCommand();
+	const initializeUpdater = useUpdater(onContentChangedHandler);
 
-  const theme:Theme = useTheme()
+	const theme: Theme = useTheme();
 
-  const dialogControl = useDialogControl()
+	const dialogControl = useDialogControl();
 
-  const {control, onSubmitHandler, submitCallback} = useCreateComponent()
+	const { control, onSubmitHandler, submitCallback } = useCreateComponent();
 
 	return (
 		<>
@@ -254,4 +250,4 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
 	);
 };
 
-export default TextEditor
+export default TextEditor;
