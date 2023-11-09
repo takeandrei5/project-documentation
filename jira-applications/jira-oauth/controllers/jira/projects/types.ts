@@ -1,4 +1,4 @@
-export namespace ReadMultipleProjects {
+export namespace ReadAllProjects {
 	export type ControllerResponse = {
 		projects: Project[];
 		total: number;
@@ -13,7 +13,7 @@ export namespace ReadMultipleProjects {
 	export type ApiResponse = Project[];
 }
 
-export namespace ReadMultipleProjectIssues {
+export namespace ReadAllProjectIssues {
 	export type ControllerResponse = {
 		issues: ControllerIssue[];
 		total: number;

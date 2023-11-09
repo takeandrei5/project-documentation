@@ -1,61 +1,61 @@
-import {useTheme, type Theme} from '@mui/material'
-import {Editor} from '@tinymce/tinymce-react'
-import {useRef} from 'react'
-import type {Editor as TinyMCEEditor} from 'tinymce'
-import {useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand} from './hooks'
-import './tinyMce.css'
-import type {TextEditorProps} from './types'
-import useUpdater from './hooks/useUpdater'
-import FormDialogC from '../../../../components/FormDialogC/FormDialogC.tsx'
-import {useDialogControl} from '../../../../hooks'
-import useCreateComponent from '../CreateComponentFormC/hooks.ts'
-import {CreateComponentFormC} from '../CreateComponentFormC'
+import { useTheme, type Theme } from '@mui/material';
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
+import type { Editor as TinyMCEEditor } from 'tinymce';
+import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import './tinyMce.css';
+import type { TextEditorProps } from './types';
+import useUpdater from './hooks/useUpdater';
+import FormDialogC from '../../../../components/FormDialogC/FormDialogC.tsx';
+import { useDialogControl } from '../../../../hooks';
+import useCreateComponent from '../CreateComponentFormC/hooks.ts';
+import { CreateComponentFormC } from '../CreateComponentFormC';
 
-const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHandler}) => {
-  const editorRef = useRef<TinyMCEEditor | null>(null)
+const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
+	const editorRef = useRef<TinyMCEEditor | null>(null);
 
-  const initializeAccordion = useAccordion()
-  const initializeAiRequest = useAi()
-  const initializeCallout = useCallout()
-  const initializeComponent = useComponent()
-  const initializeDragAndDrop = useDragAndDrop()
-  const initializePageEmbed = usePageEmbed()
-  const initializePageTitle = usePageTitle()
-  const initializeQuickToolbar = useQuickToolbar()
-  const initializeSelectAllBlock = useSelectAllBlock()
-  const initializeSlashCommand = useSlashCommand()
-  const initializeUpdater = useUpdater(onContentChangedHandler)
+	const initializeAccordion = useAccordion();
+	const initializeAiRequest = useAi();
+	const initializeCallout = useCallout();
+	const initializeComponent = useComponent();
+	const initializeDragAndDrop = useDragAndDrop();
+	const initializePageEmbed = usePageEmbed();
+	const initializePageTitle = usePageTitle();
+	const initializeQuickToolbar = useQuickToolbar();
+	const initializeSelectAllBlock = useSelectAllBlock();
+	const initializeSlashCommand = useSlashCommand();
+	const initializeUpdater = useUpdater(onContentChangedHandler);
 
-  const theme:Theme = useTheme()
+	const theme: Theme = useTheme();
 
-  const dialogControl = useDialogControl()
+	const dialogControl = useDialogControl();
 
-  const {control, onSubmitHandler, submitCallback, reset, projectValue, issueValue, componentTitleValue, isComponentTitleDirty} = useCreateComponent(dialogControl.closeHandler)
+	const { control, dirtyFields, getValues, onSubmitHandler, reset, submitCallback } = useCreateComponent(dialogControl.closeHandler);
 
-  return (
-    <>
-      <Editor
-        apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
-        onInit={(_, editor:TinyMCEEditor) => {
-          editorRef.current = editor
-        }}
-        initialValue={content}
-        plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
-        init={{
-          menubar: false,
-          toolbar: ['pageembed'],
-          statusbar: false,
-          placeholder: 'Untitled',
-          font_size_input_default_unit: 'px',
-          font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
-          forced_root_block: 'div',
-          table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-          quickbars_selection_toolbar:
-            'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
-          quickbars_insert_toolbar: false,
-          noneditable_noneditable_class: 'callout',
-          noneditable_class: 'mceNonEditable',
-          content_style: `
+	return (
+		<>
+			<Editor
+				apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
+				onInit={(_, editor: TinyMCEEditor) => {
+					editorRef.current = editor;
+				}}
+				initialValue={content}
+				plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
+				init={{
+					menubar: false,
+					toolbar: ['pageembed'],
+					statusbar: false,
+					placeholder: 'Untitled',
+					font_size_input_default_unit: 'px',
+					font_size_formats: '8px 10px 12px 14px 16px 18px 24px 36px 48px 72px',
+					forced_root_block: 'div',
+					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+					quickbars_selection_toolbar:
+						'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+					quickbars_insert_toolbar: false,
+					noneditable_noneditable_class: 'callout',
+					noneditable_class: 'mceNonEditable',
+					content_style: `
           * :not(p#content-paragraph) {
             color: ${theme.palette.textColor[80]} !important;
           }
@@ -152,7 +152,7 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
             border-radius:4px;
             font-size: 14px;
           }
-          
+
           .component-wrapper {
             outline: none !important;
           }
@@ -231,45 +231,40 @@ const TextEditor:React.FC<TextEditorProps> = ({content = '', onContentChangedHan
             outline: 3px solid #D5ECF5 !important;
           }
           `,
-          icons: 'material',
-          init_instance_callback: (editor) => {
-            editor.on('ExecCommand', (e) => {
-              //              console.log(`The ${e.command} command was fired.`)
-            })
+					icons: 'material',
+					init_instance_callback: (editor) => {
+						editor.on('ExecCommand', (e) => {
+							//              console.log(`The ${e.command} command was fired.`)
+						});
 
-            initializeUpdater(editor)
-          },
-          setup: function (editor:TinyMCEEditor) {
-            initializeAccordion(editor)
-            initializeCallout(editor)
-            initializeComponent(editor)
-            initializeDragAndDrop(editor)
-            initializePageEmbed(editor)
-            initializePageTitle(editor)
-            // initializePlaceholder(editor);
-            initializeQuickToolbar(editor)
-            initializeSelectAllBlock(editor)
-            initializeSlashCommand(editor)
-          },
-          ai_request: initializeAiRequest
-        }}
-      />
-      {/* <button onClick={log}>Log editor content</button> */}
-      <FormDialogC control={dialogControl}
-                   submitCallback={submitCallback}
-                   reset={reset}
-                   issueValue={issueValue}
-                   componentTitleValue={componentTitleValue} isComponentTitleDirty={isComponentTitleDirty}
-                   content={<CreateComponentFormC projectValue={projectValue}
-                                                  control={control}
-                                                  componentTitleValue={componentTitleValue}
-                                                  isComponentTitleDirty={isComponentTitleDirty}
-                   />}
-                   onSubmitHandler={onSubmitHandler}
-                   title={'Create component'}
-      />
-    </>
-  )
-}
+						initializeUpdater(editor);
+					},
+					setup: function (editor: TinyMCEEditor) {
+						initializeAccordion(editor);
+						initializeCallout(editor);
+						initializeComponent(editor);
+						initializeDragAndDrop(editor);
+						initializePageEmbed(editor);
+						initializePageTitle(editor);
+						// initializePlaceholder(editor);
+						initializeQuickToolbar(editor);
+						initializeSelectAllBlock(editor);
+						initializeSlashCommand(editor);
+					},
+					ai_request: initializeAiRequest
+				}}
+			/>
+			{/* <button onClick={log}>Log editor content</button> */}
+			<FormDialogC
+				control={dialogControl}
+				submitCallback={submitCallback}
+				reset={() => reset}
+				content={<CreateComponentFormC control={control} dirtyFields={dirtyFields} getValues={getValues} />}
+				onSubmitHandler={onSubmitHandler}
+				title={'Create component'}
+			/>
+		</>
+	);
+};
 
-export default TextEditor
+export default TextEditor;

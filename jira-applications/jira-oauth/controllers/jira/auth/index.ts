@@ -32,8 +32,8 @@ passport.use(
 			req.res.locals.accessToken = accessToken;
 			req.res.locals.refreshToken = refreshToken;
 			req.res.locals.accessibleResourceIds = profile.accessibleResources?.map((resource) => resource.id) || [];
-      req.res.locals.redirectUrl = req.query.state;
-    }
+			req.res.locals.redirectUrl = req.query.state;
+		}
 
 		cb(null, profile);
 	})
@@ -83,9 +83,11 @@ jiraAuthRouter.get('/', hasAccessToken, hasRefreshToken, async (req: Request<{},
 });
 
 jiraAuthRouter.get('/callback', passport.authenticate('atlassian', { failureRedirect: '/api/jira/auth/error' }), async (req: Request, res: Response) => {
-	res.redirect(307,
-		`//${res.locals.redirectUrl}/?accessToken=${res.locals.accessToken}&refreshToken=${res.locals.refreshToken}&accessibleResourceIds=${res.locals.accessibleResourceIds}`
-	);
+	res.setHeader('Access-Token', res.locals.accessToken);
+	res.setHeader('Refresh-Token', res.locals.refreshToken);
+	res.setHeader('Accessible-ResourceIds', res.locals.accessibleResourceIds);
+
+	res.redirect(307, res.locals.redirectUrl);
 });
 
 jiraAuthRouter.get('/error', (_, res: Response) => {

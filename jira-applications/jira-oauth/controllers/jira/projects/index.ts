@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { createDefaultAxiosInstance } from '../../../axios';
 import { hasAccessToken, hasRefreshToken, validateAccess } from '../../../middlewares';
-import { ReadMultipleProjects, ReadMultipleProjectIssues } from './types';
+import { ReadAllProjects, ReadAllProjectIssues } from './types';
 import { ReqQuery } from '../../../middlewares/types';
 
 const jiraProjectsRouter: Router = express.Router();
@@ -15,8 +15,8 @@ jiraProjectsRouter.get(
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccess,
-	async (req: Request<{}, {}, {}, ReqQuery>, res: Response<ReadMultipleProjects.ControllerResponse | string>) => {
-		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadMultipleProjects.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/project`, {
+	async (req: Request<{}, {}, {}, ReqQuery>, res: Response<ReadAllProjects.ControllerResponse | string>) => {
+		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadAllProjects.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/project`, {
 			headers: {
 				Authorization: `Bearer ${req.query.accessToken}`
 			}
@@ -26,7 +26,7 @@ jiraProjectsRouter.get(
 			return res.status(500).send('Internal server error');
 		}
 
-		const mappedResult: ReadMultipleProjects.ControllerResponse = {
+		const mappedResult: ReadAllProjects.ControllerResponse = {
 			total: readJiraProjectsResult.data.length,
 			projects: readJiraProjectsResult.data
 		};
@@ -40,8 +40,8 @@ jiraProjectsRouter.get(
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccess,
-	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadMultipleProjectIssues.ControllerResponse | string>) => {
-		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadMultipleProjectIssues.ApiResponse>(
+	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadAllProjectIssues.ControllerResponse | string>) => {
+		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadAllProjectIssues.ApiResponse>(
 			`${req.query.accessibleResourceId}/rest/api/3/search?jql=project=${req.params.id}&fields=summary`,
 			{
 				headers: {
@@ -55,15 +55,15 @@ jiraProjectsRouter.get(
 			return res.status(500).send('Internal server error');
 		}
 
-		const mappedResult: ReadMultipleProjectIssues.ControllerResponse = {
+		const mappedResult: ReadAllProjectIssues.ControllerResponse = {
 			total: readJiraProjectsResult.data.total,
 			issues: readJiraProjectsResult.data.issues.map(
-				(issue: ReadMultipleProjectIssues.ApiIssue) =>
+				(issue: ReadAllProjectIssues.ApiIssue) =>
 					({
 						id: issue.id,
 						key: issue.key,
 						summary: issue.fields.summary
-					} satisfies ReadMultipleProjectIssues.ControllerIssue)
+					} satisfies ReadAllProjectIssues.ControllerIssue)
 			)
 		};
 

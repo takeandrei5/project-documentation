@@ -6,6 +6,7 @@ module.exports = {
 	plugins: ['react-refresh', '@typescript-eslint'],
 	rules: {
 		'react-refresh/only-export-components': 'warn',
-		'@typescript-eslint/consistent-type-imports': 'warn'
+		'@typescript-eslint/consistent-type-imports': 'warn',
+		'@typescript-eslint/no-namespace': 'off'
 	}
 };
