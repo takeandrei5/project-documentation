@@ -3,13 +3,8 @@ import axiosInstance from '../../../utils/axios';
 import { JIRA_ISSUES_API_URI } from '../routes';
 import type { ReadOneJiraIssue } from './types';
 
-const readOneJiraIssueApi = async (
-	issueId: string,
-	accessToken?: string,
-	refreshToken?: string,
-	accessibleResourceId?: string
-): Promise<AxiosResponse<ReadOneJiraIssue.ControllerResponse>> => {
-	const url = `${JIRA_ISSUES_API_URI}/${issueId}?accessToken=${accessToken}&refreshToken=${refreshToken}&accessibleResourceId=${accessibleResourceId}`;
+const readOneJiraIssueApi = async (issueId: string): Promise<AxiosResponse<ReadOneJiraIssue.ControllerResponse>> => {
+	const url = tryAddJiraQueryParams(`${JIRA_ISSUES_API_URI}/${issueId}`);
 
 	const result = await axiosInstance.get<ReadOneJiraIssue.ControllerResponse>(url);
 
