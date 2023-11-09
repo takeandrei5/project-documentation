@@ -54,8 +54,8 @@ const FormDialogC: React.FC<FormDialogCProps> = ({
 		});
 	};
 
-	const createHandler = (ev: FormEvent<HTMLElement>) => {
-		onSubmitHandler(ev);
+	const createHandler = () => {
+		onSubmitHandler();
 
 		if (submitCallback) {
 			submitCallback();

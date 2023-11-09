@@ -19,7 +19,8 @@ const useCreateComponent = (closeHandler: () => void) => {
 			syncWithJira: false
 		}
 	});
-	const onSubmitHandler = handleSubmit((data: CreateComponentFormValidationSchema) => {
+	const onSubmitHandler = handleSubmit(() => {
+		const data = getValues();
 		console.log(data);
 	});
 
