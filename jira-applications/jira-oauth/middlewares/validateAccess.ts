@@ -17,7 +17,7 @@ const validateAccess = async (req: Request<{}, {}, {}, Partial<ReqQuery>>, res: 
 		return res.status(500).send('Internal server error');
 	}
 
-  if (readAccessibleResourcesResult.status >= 400) {
+  if (readAccessibleResourcesResult.status === 401) {
 		return res.status(401).send('Invalid access jiraQueryParams or refresh jiraQueryParams');
 	}
 

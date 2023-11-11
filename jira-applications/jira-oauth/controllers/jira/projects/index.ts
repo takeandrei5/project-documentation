@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { createDefaultAxiosInstance } from '../../../axios';
-import { hasAccessToken, hasRefreshToken, validateAccess } from '../../../middlewares';
+import { hasAccessToken, hasRefreshToken, validateAccess, validateAccessAndRefreshTokens } from '../../../middlewares';
 import { ReadAllProjects, ReadAllProjectIssues } from './types';
 import { ReqQuery } from '../../../middlewares/types';
 
@@ -14,6 +14,7 @@ jiraProjectsRouter.get(
 	'/',
 	hasAccessToken,
 	hasRefreshToken,
+	validateAccessAndRefreshTokens,
 	validateAccess,
 	async (req: Request<{}, {}, {}, ReqQuery>, res: Response<ReadAllProjects.ControllerResponse | string>) => {
 		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadAllProjects.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/project`, {
@@ -39,6 +40,7 @@ jiraProjectsRouter.get(
 	'/:id/issues',
 	hasAccessToken,
 	hasRefreshToken,
+	validateAccessAndRefreshTokens,
 	validateAccess,
 	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadAllProjectIssues.ControllerResponse | string>) => {
 		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadAllProjectIssues.ApiResponse>(
@@ -50,7 +52,6 @@ jiraProjectsRouter.get(
 			}
 		);
 
-		console.log(readJiraProjectsResult.status);
 		if (readJiraProjectsResult.status >= 500) {
 			return res.status(500).send('Internal server error');
 		}

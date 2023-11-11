@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
 import { JIRA_ISSUES_API_URI } from '../routes';
+import { tryAddJiraQueryParams } from '../utils';
 import type { UpdateOneJiraIssue } from './types';
 
 const updateJiraIssueApi = async (summary: string, description: string, issueId: string): Promise<AxiosResponse> => {

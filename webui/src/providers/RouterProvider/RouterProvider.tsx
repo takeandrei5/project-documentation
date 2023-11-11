@@ -11,6 +11,20 @@ const RouterProvider: React.FC = withAuthenticationRequired(() => {
 		return null;
 	}
 
+	const urlParams = new URLSearchParams(window.location.search);
+	const payloadParam = urlParams.get('payload');
+
+	if (payloadParam) {
+		const payload: { accessToken: string; refreshToken: string; accessibleResourceIds: string } = JSON.parse(payloadParam);
+
+		localStorage.setItem('accessToken', payload.accessToken);
+		localStorage.setItem('refreshToken', payload.refreshToken);
+		localStorage.setItem('accessibleResourceIds', payload.accessibleResourceIds);
+
+		const newUrl = window.location.href.split('?')[0];
+		window.location.href = newUrl;
+	}
+
 	return (
 		<Routes>
 			<Route element={<MainLayoutOutlet />}>

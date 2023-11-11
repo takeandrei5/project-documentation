@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
 import { JIRA_ISSUES_API_URI } from '../routes';
+import { tryAddJiraQueryParams } from '../utils';
 import type { ReadOneJiraIssue } from './types';
 
 const readOneJiraIssueApi = async (issueId: string): Promise<AxiosResponse<ReadOneJiraIssue.ControllerResponse>> => {

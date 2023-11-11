@@ -1,7 +1,7 @@
-const tryAddJiraQueryParams = (url: string) => {
+const tryAddJiraQueryParams = (url: string): string => {
 	const accessToken = localStorage.getItem('accessToken');
 	const refreshToken = localStorage.getItem('refreshToken');
-	const accessibleResourceId = localStorage.getItem('accessibleResourceId');
+	const accessibleResourceId = localStorage.getItem('accessibleResourceIds');
 
 	if (accessToken && refreshToken && accessibleResourceId) {
 		url += `?accessToken=${accessToken}&refreshToken=${refreshToken}&accessibleResourceId=${accessibleResourceId}`;
@@ -13,3 +13,5 @@ const tryAddJiraQueryParams = (url: string) => {
 
 	return url;
 };
+
+export { tryAddJiraQueryParams };
