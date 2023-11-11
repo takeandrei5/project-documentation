@@ -44,20 +44,21 @@ const validateAccessAndRefreshTokens = async (req: Request<{}, any, {}, ReqQuery
 		}
 	}
 
-	if (res.locals.hasRefreshToken && !isAuthorizationTokenExpired(req.query.accessToken)) {
-		const postRequest = await authAxiosInstance.post<OAuthRefreshTokenResponse>('https://auth.atlassian.com/oauth/token', {
-			grant_type: 'refresh_token',
-			client_id: options.clientID,
-			client_secret: options.clientSecret,
-			refresh_token: req.query.refreshToken
-		});
+  // TODO: Fix this
+	// if (res.locals.hasRefreshToken && !isAuthorizationTokenExpired(req.query.accessToken)) {
+	// 	const postRequest = await authAxiosInstance.post<OAuthRefreshTokenResponse>('https://auth.atlassian.com/oauth/token', {
+	// 		grant_type: 'refresh_token',
+	// 		client_id: options.clientID,
+	// 		client_secret: options.clientSecret,
+	// 		refresh_token: req.query.refreshToken
+	// 	});
 
 
-		if (postRequest.status !== 200) {
-			res.setHeader('Link', `/api/jira/auth?redirectUrl=${req.headers.referer}`).status(302).send();
-			return;
-		}
-	}
+	// 	if (postRequest.status !== 200) {
+	// 		res.setHeader('Link', `/api/jira/auth?redirectUrl=${req.headers.referer}`).status(302).send();
+	// 		return;
+	// 	}
+	// }
 
 	next();
 };
