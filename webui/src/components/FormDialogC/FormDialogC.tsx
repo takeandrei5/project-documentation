@@ -1,75 +1,16 @@
-import { Box, Dialog, Typography } from '@mui/material';
+import { Box, Dialog, Typography, type Theme } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import type { FormEvent } from 'react';
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import { ButtonC } from '../ButtonC';
 import type { FormDialogCProps } from './types.ts';
+import { ButtonC } from '../index.tsx';
 
-const FormDialogC: React.FC<FormDialogCProps> = ({
-	control,
-	reset,
-	title,
-	content,
-	description,
-	componentTitleValue,
-	isComponentTitleDirty,
-	onSubmitHandler,
-	issueValue,
-	submitCallback
-}: FormDialogCProps) => {
-	const { isOpen, closeHandler, openHandler } = control;
-
-	const titleRef = useRef({ isComponentTitleDirty: false });
-	useLayoutEffect(() => {
-		if (isComponentTitleDirty) {
-			titleRef.current.isComponentTitleDirty = true;
-		}
-	}, [isComponentTitleDirty]);
-
-	useEffect(() => {
-		window.addEventListener('message', (event) => {
-			const data = event.data;
-			if (data.message !== 'OPEN_COMPONENT_MODAL') {
-				return;
-			}
-			reset();
-			openHandler();
-		});
-
-		return () => {
-			window.removeEventListener('message', () => {
-				return;
-			});
-			titleRef.current.isComponentTitleDirty = false;
-		};
-	}, []);
-
-	const cancelHandler = () => {
-		closeHandler();
-		window.removeEventListener('message', () => {
-			return;
-		});
-	};
-
-	const createHandler = () => {
-		onSubmitHandler();
-
-		if (submitCallback) {
-			submitCallback();
-		}
-
-		window.removeEventListener('message', () => {
-			return;
-		});
-	};
-
+const FormDialogC: React.FC<FormDialogCProps> = ({ isOpen, onCloseHandler, dialogActions, title, content, description }: FormDialogCProps) => {
 	return (
 		<Dialog
 			open={isOpen}
-			onClose={closeHandler}
+			onClose={onCloseHandler}
 			aria-labelledby='alert-dialog-title'
 			aria-describedby='alert-dialog-description'
 			sx={{
@@ -78,7 +19,7 @@ const FormDialogC: React.FC<FormDialogCProps> = ({
 				}
 			}}>
 			<DialogTitle id='alert-dialog-title'>
-				<Typography variant={'largeBold'} sx={(theme) => ({ color: theme.palette.textColor[100] })}>
+				<Typography variant={'largeBold'} sx={(theme: Theme) => ({ color: theme.palette.textColor[100] })}>
 					{title}
 				</Typography>
 			</DialogTitle>
@@ -86,20 +27,12 @@ const FormDialogC: React.FC<FormDialogCProps> = ({
 				{description && <DialogContentText>{description}</DialogContentText>}
 				<Box component={'form'}>{content}</Box>
 			</DialogContent>
-			<DialogActions>
-				<ButtonC size={'small'} variant={'secondary'} onClick={cancelHandler}>
+
+			<DialogActions sx={{ padding: '1rem 1.5rem', justifyContent: 'initial' }}>
+				<ButtonC size={'small'} variant={'secondary'} onClick={onCloseHandler}>
 					Cancel
 				</ButtonC>
-				{(componentTitleValue || titleRef.current.isComponentTitleDirty) && (
-					<ButtonC size={'small'} disabled={!componentTitleValue} variant={'secondary'} onClick={createHandler}>
-						Create
-					</ButtonC>
-				)}
-				{issueValue && (
-					<ButtonC size={'small'} variant={'secondary'} onClick={createHandler}>
-						Import from Jira
-					</ButtonC>
-				)}
+				<Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: '1', gap: '0.5rem' }}>{dialogActions}</Box>
 			</DialogActions>
 		</Dialog>
 	);

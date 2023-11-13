@@ -10,7 +10,7 @@ const CheckboxFieldC: React.FC<CheckboxFieldProps> = ({ id, label, disabled = fa
 			control={
 				<Checkbox
 					sx={(theme: Theme) => ({
-						width: '100%',
+						width: 'fit-content',
 						mt: '0.25rem',
 						'& .MuiInputBase-input': {
 							background: '#F8F8F8',

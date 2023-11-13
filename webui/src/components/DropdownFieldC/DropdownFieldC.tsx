@@ -1,17 +1,18 @@
-import type { Theme } from '@mui/material';
+import type { SelectChangeEvent, Theme } from '@mui/material';
 import { Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import type { DropdownFieldProps, DropdownOption } from './types.ts';
 
-const DropdownFieldC: React.FC<DropdownFieldProps> = ({ id, label, name, options, onChange, value }: DropdownFieldProps) => {
+const DropdownFieldC: React.FC<DropdownFieldProps> = ({ id, label, name, options, onChange, value, disabled = false }) => {
 	return (
 		<>
 			<InputLabel htmlFor={id}>
 				<Typography variant={'smallRegular'}>{label}</Typography>
 			</InputLabel>
 			<Select
+				disabled={disabled}
 				sx={(theme: Theme) => ({
 					width: '100%',
 					mt: '0.25rem',
@@ -28,13 +29,18 @@ const DropdownFieldC: React.FC<DropdownFieldProps> = ({ id, label, name, options
 				id={id}
 				name={name}
 				value={value}
-				onChange={onChange}>
+				onChange={(e: SelectChangeEvent<string>) => onChange(e.target.value)}>
 				{options.map((option: DropdownOption) => (
 					<MenuItem key={option.value} value={option.value}>
 						{option.label}
 					</MenuItem>
 				))}
 			</Select>
+			{value && !disabled && (
+				<Typography variant='extraSmallMedium' onClick={() => onChange('')} sx={(theme: Theme) => ({ cursor: 'pointer', color: theme.palette.blue[80] })}>
+					Clear
+				</Typography>
+			)}
 		</>
 	);
 };

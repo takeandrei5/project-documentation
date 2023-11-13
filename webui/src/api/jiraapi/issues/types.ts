@@ -1,4 +1,4 @@
-export namespace ReadMultipleProjectIssues {
+export namespace ReadAllJiraProjectIssues {
 	export type ControllerResponse = {
 		issues: Issue[];
 		total: number;
@@ -29,16 +29,15 @@ export interface TextContentEntity {
 
 export namespace ReadOneJiraIssue {
 	export type ControllerResponse = {
+		issue: Issue;
+	};
+
+	export type Issue = {
 		id: string;
 		key: string;
 		summary: string;
 		description: string;
 	};
-
-	export interface Fields {
-		summary: string;
-		description: Description;
-	}
 }
 
 export namespace UpdateOneJiraIssue {
@@ -46,7 +45,6 @@ export namespace UpdateOneJiraIssue {
 		summary: string;
 		description: string;
 	};
-
 }
 
 export namespace CreateOneJiraIssue {

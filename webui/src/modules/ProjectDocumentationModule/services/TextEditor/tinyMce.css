@@ -1,4 +1,4 @@
-textarea {
+textarea[id^=tiny] {
 	visibility: hidden;
   height: 0;
   width: 0;

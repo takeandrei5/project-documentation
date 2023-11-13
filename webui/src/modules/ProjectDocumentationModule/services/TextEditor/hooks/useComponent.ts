@@ -1,71 +1,72 @@
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import { componentSvg } from '../../../../../assets/svg';
+import type { MessageEventEditComponentModal, MessageEventOpenEditComponentModal } from '../../CreateUpdateComponentFormDialog/types';
 
 const useComponent = () => {
 	const initializeComponent = (editor: TinyMCEEditor): void => {
 		editor.ui.registry.addIcon('component', componentSvg);
-
-		editor.ui.registry.addButton('component', {
-			icon: 'component',
-			tooltip: 'Insert component',
-			onAction: function () {
-				editor.windowManager.open({
-					title: 'Create component', // The dialog's title - displayed in the dialog header
-					body: {
-						type: 'panel', // The root body type - a Panel or TabPanel
-						items: [
-							// A list of panel components
-							{
-                type: 'input',
-                name: 'componentName',
-                inputMode: 'text',
-                label: 'Component name',
-                placeholder: 'User registration story...',
-                enabled: true,
-                maximized: true
-              },
-              {
-                type: 'selectbox', // component type
-                name: 'SelectA', // identifier
-                label: 'Select Label',
-                enabled: false, // enabled state
-                size: 1, // number of visible values (optional)
-                items: [
-                  { value: 'one', text: 'One' },
-                  { value: 'two', text: 'Two' }
-                ]
-              }
-						]
-					},
-					buttons: [
-						{
-							type: 'submit',
-							text: 'OK'
-						}
-					],
-					size: 'normal'
-				});
-				// editor.insertContent(`
-				//   <div class="component">
-				//       <div class="content"><p>${editor.selection.getContent()}</p></div>
-				//   </div>
-				// `)
-			}
-		});
 
 		editor.ui.registry.addButton('removecomponent', {
 			icon: 'remove',
 			tooltip: 'Remove component',
 			onAction: function () {
 				const node: HTMLElement = editor.selection.getNode();
-				const callout: Element | null = editor.dom.getParent(node, '.component');
+				const component: Element | null = editor.dom.getParent(node, '.component');
 
-				if (!callout) {
+				if (!component) {
 					return;
 				}
 
-				callout.remove();
+				component.remove();
 				editor.execCommand('delete');
+			}
+		});
+
+		editor.ui.registry.addButton('editcomponent', {
+			icon: 'edit-block',
+			tooltip: 'Edit component',
+			onAction: function () {
+				const node: HTMLElement = editor.selection.getNode();
+				const component: Element | null = editor.dom.getParent(node, '.component');
+
+				if (!component) {
+					return;
+				}
+
+				const componentTitle = component.querySelector('#component-title')?.textContent || '';
+				const componentContent = component.querySelector('#component-content')?.textContent || '';
+				const jiraIssueId = component.getAttribute('data-jiraissueid') || '';
+				const jiraProjectId = component.getAttribute('data-jiraProjectId') || '';
+
+				const payloadMessage: MessageEventOpenEditComponentModal = {
+					message: 'OPEN_EDIT_COMPONENT_MODAL',
+					componentData: {
+						title: componentTitle,
+						content: componentContent,
+						jiraIssueId,
+						jiraProjectId
+					}
+				};
+
+				window.postMessage(payloadMessage);
+
+				window.addEventListener('message', (event: MessageEvent<MessageEventEditComponentModal>) => {
+					const data: MessageEventEditComponentModal = event.data;
+
+					if (data.message !== 'EDIT_COMPONENT_MODAL') {
+						return;
+					}
+
+					const { title, content, jiraIssueId } = data.componentData;
+
+          console.log(content);
+					component.querySelector('#component-title')!.textContent = title;
+					component.querySelector('#component-content')!.textContent = content;
+
+					if (jiraIssueId) {
+						component.setAttribute('data-jiraIssueId', jiraIssueId);
+					}
+				});
 			}
 		});
 
@@ -73,7 +74,7 @@ const useComponent = () => {
 			predicate: function (node: Element) {
 				return node.classList.contains('component-wrapper');
 			},
-			items: 'removecomponent',
+			items: 'editcomponent removecomponent',
 			position: 'node',
 			scope: 'node'
 		});

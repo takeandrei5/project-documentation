@@ -1,5 +1,3 @@
-import type { SelectChangeEvent } from '@mui/material/Select';
-
 export type DropdownOption = {
 	value: string;
 	label: string;
@@ -7,9 +5,10 @@ export type DropdownOption = {
 
 export type DropdownFieldProps = {
 	id: string;
-	label: string;
 	name: string;
-	onChange: (event: SelectChangeEvent) => void;
+	label: string;
+	onChange: (value: string) => void;
 	options: DropdownOption[];
 	value: string;
+  disabled?: boolean;
 };

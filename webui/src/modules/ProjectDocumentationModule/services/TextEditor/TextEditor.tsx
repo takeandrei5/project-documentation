@@ -2,14 +2,22 @@ import { useTheme, type Theme } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import type { Editor as TinyMCEEditor } from 'tinymce';
-import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import { CreateUpdateComponentFormDialog } from '../CreateUpdateComponentFormDialog';
+import {
+	useAccordion,
+	useAi,
+	useCallout,
+	useComponent,
+	useDragAndDrop,
+	usePageEmbed,
+	usePageTitle,
+	useQuickToolbar,
+	useSelectAllBlock,
+	useSlashCommand,
+	useUpdater
+} from './hooks';
 import './tinyMce.css';
-import type { TextEditorProps } from './types';
-import useUpdater from './hooks/useUpdater';
-import FormDialogC from '../../../../components/FormDialogC/FormDialogC.tsx';
-import { useDialogControl } from '../../../../hooks';
-import useCreateComponent from '../CreateComponentFormC/hooks.ts';
-import { CreateComponentFormC } from '../CreateComponentFormC';
+import type { TextEditorProps } from './types.ts';
 
 const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
@@ -27,10 +35,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 	const initializeUpdater = useUpdater(onContentChangedHandler);
 
 	const theme: Theme = useTheme();
-
-	const dialogControl = useDialogControl();
-
-	const { control, dirtyFields, getValues, onSubmitHandler, reset, submitCallback } = useCreateComponent(dialogControl.closeHandler);
 
 	return (
 		<>
@@ -227,6 +231,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             background-color: #6AB8D6 !important;
           }
 
+          p#component-content {
+            white-space: pre-line;
+          }
+
           table {
             outline: 3px solid #D5ECF5 !important;
           }
@@ -254,15 +262,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					ai_request: initializeAiRequest
 				}}
 			/>
-			{/* <button onClick={log}>Log editor content</button> */}
-			<FormDialogC
-				control={dialogControl}
-				submitCallback={submitCallback}
-				reset={() => reset}
-				content={<CreateComponentFormC control={control} dirtyFields={dirtyFields} getValues={getValues} />}
-				onSubmitHandler={onSubmitHandler}
-				title={'Create component'}
-			/>
+
+			<CreateUpdateComponentFormDialog />
 		</>
 	);
 };

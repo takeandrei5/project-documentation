@@ -10,3 +10,4 @@ export { useQuickToolbar as useQuickToolbar } from './useQuickToolbar';
 export { useSelectAllBlock as useSelectAllBlock } from './useSelectAllBlock';
 export { useSlashCommand as useSlashCommand } from './useSlashCommand';
 export { useTextEditor as useTextEditor } from './useTextEditor';
+export { useUpdater as useUpdater } from './useUpdater';

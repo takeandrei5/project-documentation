@@ -1,16 +1,9 @@
-import type { DialogControl } from '../DialogC/types.ts';
-import type { UseFormReset } from 'react-hook-form';
-import type { CreateComponentFormValidationSchema } from '../../modules/ProjectDocumentationModule/services/CreateComponentFormC/schema.ts';
 
 export type FormDialogCProps = {
-	control: DialogControl;
+	isOpen: boolean;
+	onCloseHandler: () => void;
 	title: string;
 	content: React.ReactNode;
 	description?: string;
-	onSubmitHandler: () => void;
-	submitCallback?: () => void;
-	reset: () => UseFormReset<CreateComponentFormValidationSchema>;
-	componentTitleValue?: string;
-	isComponentTitleDirty?: boolean;
-	issueValue?: string;
+	dialogActions: React.ReactNode;
 };

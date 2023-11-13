@@ -7,7 +7,7 @@ import type { UpdateOneJiraIssue } from './types';
 const updateJiraIssueApi = async (summary: string, description: string, issueId: string): Promise<AxiosResponse> => {
 	const url = tryAddJiraQueryParams(`${JIRA_ISSUES_API_URI}/${issueId}`);
 
-	const result = await axiosInstance.post<UpdateOneJiraIssue.ControllerRequest>(url, {
+	const result = await axiosInstance.put<UpdateOneJiraIssue.ControllerRequest>(url, {
 		summary,
 		description
 	});

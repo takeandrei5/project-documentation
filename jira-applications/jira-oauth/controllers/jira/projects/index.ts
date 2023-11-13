@@ -1,8 +1,8 @@
 import express, { Request, Response, Router } from 'express';
 import { createDefaultAxiosInstance } from '../../../axios';
 import { hasAccessToken, hasRefreshToken, validateAccess, validateAccessAndRefreshTokens } from '../../../middlewares';
-import { ReadAllProjects, ReadAllProjectIssues } from './types';
 import { ReqQuery } from '../../../middlewares/types';
+import { ReadAllProjectIssues, ReadAllProjects, ReadOneProject } from './types';
 
 const jiraProjectsRouter: Router = express.Router();
 
@@ -37,13 +37,42 @@ jiraProjectsRouter.get(
 );
 
 jiraProjectsRouter.get(
+	'/:id/',
+	hasAccessToken,
+	hasRefreshToken,
+	validateAccessAndRefreshTokens,
+	validateAccess,
+	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadOneProject.ControllerResponse | string>) => {
+		const readJiraProjectResult = await jiraApiAxiosInstance.get<ReadOneProject.ApiResponse>(`${req.query.accessibleResourceId}/rest/api/3/project/${req.params.id}`, {
+			headers: {
+				Authorization: `Bearer ${req.query.accessToken}`
+			}
+		});
+
+		if (readJiraProjectResult.status >= 500) {
+			return res.status(500).send('Internal server error');
+		}
+
+		const mappedResult: ReadOneProject.ControllerResponse = {
+			project: {
+				id: readJiraProjectResult.data.id,
+				key: readJiraProjectResult.data.key,
+				name: readJiraProjectResult.data.name
+			}
+		};
+
+		return res.send(mappedResult);
+	}
+);
+
+jiraProjectsRouter.get(
 	'/:id/issues',
 	hasAccessToken,
 	hasRefreshToken,
 	validateAccessAndRefreshTokens,
 	validateAccess,
 	async (req: Request<{ id: string }, {}, {}, ReqQuery>, res: Response<ReadAllProjectIssues.ControllerResponse | string>) => {
-		const readJiraProjectsResult = await jiraApiAxiosInstance.get<ReadAllProjectIssues.ApiResponse>(
+		const readJiraProjectIssuesResult = await jiraApiAxiosInstance.get<ReadAllProjectIssues.ApiResponse>(
 			`${req.query.accessibleResourceId}/rest/api/3/search?jql=project=${req.params.id}&fields=summary`,
 			{
 				headers: {
@@ -52,20 +81,30 @@ jiraProjectsRouter.get(
 			}
 		);
 
-		if (readJiraProjectsResult.status >= 500) {
+		if (readJiraProjectIssuesResult.status >= 500) {
 			return res.status(500).send('Internal server error');
 		}
 
 		const mappedResult: ReadAllProjectIssues.ControllerResponse = {
-			total: readJiraProjectsResult.data.total,
-			issues: readJiraProjectsResult.data.issues.map(
-				(issue: ReadAllProjectIssues.ApiIssue) =>
-					({
-						id: issue.id,
-						key: issue.key,
-						summary: issue.fields.summary
-					} satisfies ReadAllProjectIssues.ControllerIssue)
-			)
+			total: readJiraProjectIssuesResult.data.total,
+			issues: readJiraProjectIssuesResult.data.issues
+				.map(
+					(issue: ReadAllProjectIssues.ApiIssue) =>
+						({
+							id: issue.id,
+							key: issue.key,
+							summary: issue.fields.summary
+						} satisfies ReadAllProjectIssues.Issue)
+				)
+				.sort((issue1: ReadAllProjectIssues.Issue, issue2: ReadAllProjectIssues.Issue) => {
+					if (issue1.id < issue2.id) {
+						return -1;
+					} else if (issue1.id > issue2.id) {
+						return 1;
+					}
+
+					return 0;
+				})
 		};
 
 		return res.send(mappedResult);

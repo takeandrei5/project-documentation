@@ -1,1 +1,0 @@
-export {default as CreateComponentFormC} from './CreateComponentFormC.tsx'
