@@ -174,15 +174,15 @@ const useCreateUpdateComponentFormDialog = () => {
 			jiraProjectId
 		};
 
-		// if (syncWithJira) {
-		// 	const jiraIssue = await createIssue({ componentTitle, componentDescription, projectId: jiraProjectId });
+		if (syncWithJira) {
+			const jiraIssue = await createIssue({ componentTitle, componentDescription, projectId: jiraProjectId });
 
-		// 	componentData.jiraIssueId = jiraIssue.id;
-		// }
+			componentData.jiraIssueId = jiraIssue.id;
+		}
 
-		// if (jiraIssueId) {
-		// 	await updateIssue({ componentTitle, componentDescription, issueId: jiraIssueId });
-		// }
+		if (jiraIssueId) {
+			await updateIssue({ componentTitle, componentDescription, issueId: jiraIssueId });
+		}
 
 		const payloadMessage: MessageEventEditComponentModal = {
 			message: 'EDIT_COMPONENT_MODAL',

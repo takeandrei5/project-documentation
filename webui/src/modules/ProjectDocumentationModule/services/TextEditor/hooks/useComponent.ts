@@ -1,6 +1,7 @@
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import { componentSvg } from '../../../../../assets/svg';
 import type { MessageEventEditComponentModal, MessageEventOpenEditComponentModal } from '../../CreateUpdateComponentFormDialog/types';
+import { deleteJiraIssueApi } from '../../../../../api/jiraapi';
 
 const useComponent = () => {
 	const initializeComponent = (editor: TinyMCEEditor): void => {
@@ -9,12 +10,18 @@ const useComponent = () => {
 		editor.ui.registry.addButton('removecomponent', {
 			icon: 'remove',
 			tooltip: 'Remove component',
-			onAction: function () {
+			onAction: async function () {
 				const node: HTMLElement = editor.selection.getNode();
 				const component: Element | null = editor.dom.getParent(node, '.component');
 
 				if (!component) {
 					return;
+				}
+
+				const jiraIssueId = component.getAttribute('data-jiraissueid') || '';
+
+				if (jiraIssueId) {
+					await deleteJiraIssueApi(jiraIssueId);
 				}
 
 				component.remove();
@@ -59,7 +66,7 @@ const useComponent = () => {
 
 					const { title, content, jiraIssueId } = data.componentData;
 
-          console.log(content);
+					console.log(content);
 					component.querySelector('#component-title')!.textContent = title;
 					component.querySelector('#component-content')!.textContent = content;
 
