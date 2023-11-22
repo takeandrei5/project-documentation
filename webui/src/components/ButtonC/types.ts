@@ -4,6 +4,7 @@ export type ButtonCProps = {
 	children: React.ReactNode;
 	onClick?: () => void;
 	type?: ButtonCTypeVariant;
+	disabled?: boolean;
 };
 
 export type ButtonCSize = 'small' | 'medium' | 'large';

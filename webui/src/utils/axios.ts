@@ -6,15 +6,16 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 const injectAccessToken = (accessToken: string): void => {
-  axiosInstance.defaults.headers.get.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.delete.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.patch.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.post.Authorization = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.put.Authorization = `Bearer ${accessToken}`;
+	axiosInstance.defaults.headers.get.Authorization = `Bearer ${accessToken}`;
+	axiosInstance.defaults.headers.delete.Authorization = `Bearer ${accessToken}`;
+	axiosInstance.defaults.headers.patch.Authorization = `Bearer ${accessToken}`;
+	axiosInstance.defaults.headers.post.Authorization = `Bearer ${accessToken}`;
+	axiosInstance.defaults.headers.put.Authorization = `Bearer ${accessToken}`;
 };
 
 axiosInstance.interceptors.response.use((response: AxiosResponse) => {
 	handleDates(response.data);
+	handleJiraRedirects(response);
 	return response;
 });
 
@@ -22,6 +23,12 @@ function isIsoDateString(value: unknown): boolean {
 	const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
 
 	return !!value && typeof value === 'string' && isoDateFormat.test(value);
+}
+
+function handleJiraRedirects(response: AxiosResponse): void {
+	if (response.status === 302 || response.status === 301 || response.status === 303 || response.status === 307) {
+		window.location.href = response.headers.link;
+	}
 }
 
 function handleDates(body: any): void {

@@ -1,15 +1,23 @@
 import { useTheme, type Theme } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { Editor as TinyMCEEditor } from 'tinymce';
-import { useAccordion, useAi, useCallout, useComponent, useDragAndDrop, usePageEmbed, usePageTitle, useQuickToolbar, useSelectAllBlock, useSlashCommand } from './hooks';
+import { CreateUpdateComponentFormDialog } from '../CreateUpdateComponentFormDialog';
+import {
+	useAccordion,
+	useAi,
+	useCallout,
+	useComponent,
+	useDragAndDrop,
+	usePageEmbed,
+	usePageTitle,
+	useQuickToolbar,
+	useSelectAllBlock,
+	useSlashCommand,
+	useUpdater
+} from './hooks';
 import './tinyMce.css';
-import type { TextEditorProps } from './types';
-import useUpdater from './hooks/useUpdater';
-import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../../../../utils/axios';
-import { encode as base64_encode } from 'base-64';
-import { readAllJiraIssuesApi } from '../../../../api/webapi';
+import type { TextEditorProps } from './types.ts';
 
 const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedHandler }) => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
@@ -28,20 +36,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 
 	const theme: Theme = useTheme();
 
-	const log = function () {
-		if (editorRef.current) {
-			console.log(editorRef.current.getContent());
-		}
-	};
-
-	const { isLoading, data } = useQuery(['jiraIssues'], readAllJiraIssuesApi);
-
-	if (isLoading) {
-		return null;
-	}
-
-	console.log(data);
-
 	return (
 		<>
 			<Editor
@@ -50,9 +44,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					editorRef.current = editor;
 				}}
 				initialValue={content}
-				plugins={['pageembed', 'ai', 'shortcodes', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
+				plugins={['pageembed', 'ai', 'quickbars', 'autoresize', 'table', 'advtable', 'link', 'lists', 'checklist', 'code', 'advlist', 'accordion']}
 				init={{
-					toolbar: ['pageembed', 'shortcodes'],
+					menubar: false,
+					toolbar: ['pageembed'],
 					statusbar: false,
 					placeholder: 'Untitled',
 					font_size_input_default_unit: 'px',
@@ -60,12 +55,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					forced_root_block: 'div',
 					table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
 					quickbars_selection_toolbar:
-						'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout component | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
+						'pageembed aishortcuts bold italic underline strikethrough link fontsize blockquote callout | indent outdent | alignleft aligncenter alignjustify alignright | backcolor forecolor | bullist numlist checklist',
 					quickbars_insert_toolbar: false,
 					noneditable_noneditable_class: 'callout',
+					noneditable_class: 'mceNonEditable',
 					content_style: `
           * :not(p#content-paragraph) {
-            color: ${theme.palette.textColor[80]} ;
+            color: ${theme.palette.textColor[80]} !important;
           }
 
           * {
@@ -91,7 +87,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             padding-left: 4rem;
           }
 
-
           div.mce-visual-caret {
             padding: 0;
           }
@@ -106,7 +101,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             font-size: 2.5rem;
             line-height: 1.2;
             font-weight: 700;
-            color: ${theme.palette.textColor[80]} !important;
+            color: ${theme.palette.textColor[100]} !important;
           }
 
           body[aria-placeholder="Untitled"] {
@@ -162,6 +157,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             font-size: 14px;
           }
 
+          .component-wrapper {
+            outline: none !important;
+          }
+
           details.mce-accordion summary.mce-accordion-summary {
             outline: 0 !important;
           }
@@ -198,6 +197,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
           //   position: absolute;
           // }
 
+          h2:before {
+            content: "Heading 2";
+          }
 
           div:after {
             display: inline-block;
@@ -229,6 +231,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             background-color: #6AB8D6 !important;
           }
 
+          p#component-content {
+            white-space: pre-line;
+          }
+
           table {
             outline: 3px solid #D5ECF5 !important;
           }
@@ -236,8 +242,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					icons: 'material',
 					init_instance_callback: (editor) => {
 						editor.on('ExecCommand', (e) => {
-							console.log(e.command);
-							console.log(`The ${e.command} command was fired.`);
+							//              console.log(`The ${e.command} command was fired.`)
 						});
 
 						initializeUpdater(editor);
@@ -257,7 +262,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
 					ai_request: initializeAiRequest
 				}}
 			/>
-			{/* <button onClick={log}>Log editor content</button> */}
+
+			<CreateUpdateComponentFormDialog />
 		</>
 	);
 };

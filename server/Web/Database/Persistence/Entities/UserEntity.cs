@@ -18,9 +18,9 @@ public sealed record UserEntity : IEntity
 
     [Field("name")]
     public string Name { get; init; } = null!;
-
-    [Field("image")]
-    public string Image { get; init; } = null!;
+    //
+    // [Field("image")]
+    // public string Image { get; init; } = null!;
 
     [Field("organization")]
     public One<OrganizationEntity>? Organization { get; set; }

@@ -5,8 +5,6 @@ import { useProjectDocumentation } from './hooks';
 const ProjectDocumentation: React.FC = () => {
 	const { pageDetails, isLoading, debouncedUpdatePageMutate } = useProjectDocumentation();
 
-	console.log(isLoading, pageDetails);
-
 	if (!pageDetails) {
 		return null;
 	}

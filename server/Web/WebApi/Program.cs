@@ -1,5 +1,4 @@
 using Microsoft.IdentityModel.Logging;
-using Microsoft.Net.Http.Headers;
 using ProjectDocumentation.Web.CompositionRoot;
 using ProjectDocumentation.Web.Database;
 using ProjectDocumentation.Web.WebApi.Extensions;
@@ -11,16 +10,7 @@ var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddHttpClient("Auth0",
-    httpClient =>
-    {
-        httpClient.BaseAddress = new Uri(configuration["ASPNETCORE_AUTH0_DOMAIN"]!);
-
-        httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-    });
-
-builder.Services.AddAuthenticationAndAuthorization(configuration["ASPNETCORE_AUTH0_DOMAIN"]!,
-    configuration["ASPNETCORE_AUTH0_AUDIENCE"]!);
+builder.Services.AddAuthenticationAndAuthorization(configuration.GetSection("AzureAd"));
 builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,7 +26,9 @@ IdentityModelEventSource.ShowPII = true;
 
 builder.Services.AddIoC();
 builder.Services.AddApplicationServices();
-builder.Services.AddSwagger(configuration["ASPNETCORE_AUTH0_DOMAIN"]!, configuration["ASPNETCORE_AUTH0_AUDIENCE"]!);
+builder.Services.AddSwagger(configuration.GetSection("AzureAd")["AuthorizationUrl"]!,
+    configuration.GetSection("AzureAd")["TokenUrl"]!,
+    configuration.GetSection("AzureAd")["SwaggerScope"]!);
 
 var app = builder.Build();
 
@@ -48,30 +40,19 @@ if (app.Environment.IsDevelopment())
     {
         swaggerUiOptions.SwaggerEndpoint("/api/webapi/swagger/v1/swagger.json", "Project documentation Web APIs v1");
         swaggerUiOptions.RoutePrefix = "api/webapi/swagger";
-        swaggerUiOptions.OAuthClientId(configuration["AUTH0_CLIENT_ID"]);
+        swaggerUiOptions.OAuthClientId(configuration.GetSection("AzureAd")["ClientId"]);
     });
 }
 
+app.UseAuthentication();
 app.UseRouting();
+app.UseAuthorization();
 app.UseHttpsRedirection();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseAuthentication();
-    app.UseAuthorization();
-}
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-if (app.Environment.IsDevelopment())
-    app.UseEndpoints(endpoints =>
-        endpoints.MapControllers());
-else
-    app.UseEndpoints(endpoints =>
-        endpoints.MapControllers()
-           .RequireAuthorization());
-// app.UseEndpoints(endpoints =>
-//     endpoints.MapControllers()
-//        .RequireAuthorization());
+app.UseEndpoints(endpoints =>
+    endpoints.MapControllers()
+       .RequireAuthorization());
 
 app.Run();

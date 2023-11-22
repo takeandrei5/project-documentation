@@ -1,10 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using ProjectDocumentation.Web.Common.Interfaces;
-using ProjectDocumentation.Web.WebApi.Models;
 using ProjectDocumentation.Web.WebApi.Services;
 
 namespace ProjectDocumentation.Web.WebApi.Extensions;
@@ -15,9 +13,9 @@ public static class ServicesExtensions
     {
         services.AddScoped<ILoggedUser, HttpContextLoggedUser>();
     }
-    
-    public static void AddAuthenticationAndAuthorization(this IServiceCollection serviceCollection, string domain,
-        string audience)
+
+    public static void AddAuthenticationAndAuthorization(this IServiceCollection serviceCollection,
+        IConfigurationSection azureAdConfiguration)
     {
         serviceCollection.AddAuthorization(options =>
         {
@@ -31,64 +29,10 @@ public static class ServicesExtensions
 
         serviceCollection
            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           .AddJwtBearer(options =>
-            {
-                options.Authority = domain;
-                options.Audience = audience;
-#if DEBUG
-                options.RequireHttpsMetadata = false;
-#endif
-                options.SaveToken = true;
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        var accessToken = context.Request.Query["access_token"];
-
-                        // todo - improve this
-                        if (!string.IsNullOrEmpty(accessToken)
-                            && (context.Request.Headers["Sec-WebSocket-Version"] == "13"
-                                || context.Request.Headers["Accept"] == "text/event-stream"))
-                            context.Token = context.Request.Query["access_token"];
-
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = async context =>
-                    {
-                        var currentIdentity = context.Principal!.Identities.First();
-
-                        if (!currentIdentity.IsAuthenticated)
-                            throw new InvalidOperationException("Current user is not authenticated.");
-
-                        var accessToken = (JwtSecurityToken)context.SecurityToken;
-
-                        var httpClient = new HttpClient
-                        {
-                            BaseAddress = new Uri(domain)
-                        };
-
-                        httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization,
-                            $"Bearer {accessToken.RawData}");
-                        httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-
-                        var response = await httpClient.GetFromJsonAsync<UserInfo>("userinfo", CancellationToken.None);
-
-                        if (response is null)
-                            throw new InvalidOperationException("Failed fetching user information.");
-
-                        currentIdentity.AddClaims(new Claim[]
-                        {
-                            new(ClaimTypes.Email, response.Email),
-                            new(ClaimTypes.Name, response.Name),
-                            new(ClaimTypes.Uri, response.Picture)
-                        });
-                    }
-                };
-            });
+           .AddMicrosoftIdentityWebApi(azureAdConfiguration);
     }
 
-    public static void AddSwagger(this IServiceCollection services, string authority, string audience)
+    public static void AddSwagger(this IServiceCollection services, string azureAuthorizationUrl, string azureTokenUrl, string swaggerScope)
     {
         services.AddSwaggerGen(swaggerGenOptions =>
         {
@@ -107,11 +51,12 @@ public static class ServicesExtensions
                     {
                         Implicit = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri($"{authority}authorize?audience={audience}"),
+                            AuthorizationUrl = new Uri(azureAuthorizationUrl),
+                            TokenUrl = new Uri(azureTokenUrl),
                             Scopes = new Dictionary<string, string>
                             {
                                 {
-                                    "openid profile email", "Get required info from Auth0"
+                                    swaggerScope, "Get required info from Azure"
                                 }
                             }
                         }

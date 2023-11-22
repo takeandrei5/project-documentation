@@ -122,7 +122,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 						)}
 					</IconButton>
 				)}
-				<TreeNodeIcon sx={{ fontSize: '1.25rem' }} />
+				{/*<TreeNodeIcon sx={{ fontSize: '1.25rem' }} />*/}
 				{popupOpen && anchorEl && node.data && (
 					<TextFieldPopupC
 						anchorEl={anchorEl}

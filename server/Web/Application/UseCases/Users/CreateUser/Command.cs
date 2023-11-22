@@ -22,12 +22,12 @@ public sealed class Command
     {
         var email = _loggedUser.GetEmailFromClaims();
         var name = _loggedUser.GetNameFromClaims();
-        var image = _loggedUser.GetImageFromClaims();
+        // var image = _loggedUser.GetImageFromClaims();
 
         var newUser = new User(new Id(),
             new UserEmail(email),
             new UserName(name),
-            new UserImage(image),
+            // new UserImage(image),
             new UserOrganization(null));
 
         var result = await _userRepository.CreateAsync(newUser, cancellationToken);

@@ -24,10 +24,10 @@ public sealed class HttpContextLoggedUser : ILoggedUser
                 () => throw new ArgumentException(
                     "Could not fetch name from claims."));
 
-    public string GetImageFromClaims() =>
-        _httpContextAccessor.HttpContext!.User
-            .GetImage()
-            .Match(email => email,
-                () => throw new ArgumentException(
-                    "Could not fetch image from claims."));
+    // public string GetImageFromClaims() =>
+    //     _httpContextAccessor.HttpContext!.User
+    //         .GetImage()
+    //         .Match(email => email,
+    //             () => throw new ArgumentException(
+    //                 "Could not fetch image from claims."));
 }

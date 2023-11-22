@@ -5,10 +5,7 @@ const useUpdater = (onContentChangedHandler: (content: string) => void) => {
 	const mutationObserver = useRef<MutationObserver | null>(null);
 	const avoidableNodeMutations = ['drag-element-hook'];
 
-  let editor: TinyMCEEditor;
-
 	const initializeUpdater = (editor: TinyMCEEditor) => {
-    editor = editor;
 		mutationObserver.current = new MutationObserver((mutations: MutationRecord[]) => {
 			mutations.forEach((mutation: MutationRecord) => {
 				if (mutation.addedNodes.item(0)) {
@@ -40,7 +37,7 @@ const useUpdater = (onContentChangedHandler: (content: string) => void) => {
 
 	useEffect(() => {
 		return () => {
-      if (mutationObserver.current) {
+			if (mutationObserver.current) {
 				mutationObserver.current.disconnect();
 			}
 		};
@@ -49,4 +46,4 @@ const useUpdater = (onContentChangedHandler: (content: string) => void) => {
 	return initializeUpdater;
 };
 
-export default useUpdater;
+export { useUpdater };

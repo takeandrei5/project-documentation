@@ -14,7 +14,7 @@ public sealed class Update : EndpointBaseAsync.WithRequest<CreateRequest>.WithAc
         _command = command;
     }
 
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
