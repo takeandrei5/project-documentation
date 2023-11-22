@@ -12,7 +12,7 @@ public class ExceptionHandlerMiddleware
             {
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                
+
                 await context.Response.WriteAsync(new ErrorDetails
                 {
                     Message = message
@@ -42,6 +42,10 @@ public class ExceptionHandlerMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        if (!_exceptionHandler.ContainsKey(exception.GetType()
+               .Name))
+            throw exception;
+
         await _exceptionHandler[exception.GetType()
            .Name](context, exception.Message);
     }

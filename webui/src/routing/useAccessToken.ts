@@ -1,13 +1,17 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import { EventType, type AuthenticationResult, type EventMessage, type PublicClientApplication, AccountInfo } from '@azure/msal-browser';
 import { useMutation } from '@tanstack/react-query';
+import type { InternalAxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createUserApi } from '../api';
-import { injectAccessToken } from '../utils/axios';
+import { loginRequest } from '../utils/authConfig';
+import axiosInstance, { injectAccessToken } from '../utils/axios';
+import { CustomNavigationClient } from '../utils/navigationClient';
 
-const useAccessToken = () => {
-	const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-	const [accessToken, setAccessToken] = useState<string>('');
+const useAccessToken = (msalInstance: PublicClientApplication) => {
 	const [isAccessTokenInjected, setIsAccessTokenInjected] = useState<boolean>(false);
+
+	const navigate = useNavigate();
 
 	const { mutate } = useMutation({
 		mutationFn: createUserApi,
@@ -15,37 +19,42 @@ const useAccessToken = () => {
 		onSettled: () => localStorage.setItem('authenticationFlowFinished', 'true')
 	});
 
+	const navigationClient = new CustomNavigationClient(navigate);
+	msalInstance.setNavigationClient(navigationClient);
+
 	useEffect(() => {
-		const getAccessToken = async () => {
-			try {
-				const token = await getAccessTokenSilently();
-				setAccessToken(token);
-			} catch (error) {
-				console.log(error);
-			}
+		const addAccessToken = async () => {
+			const accounts = msalInstance.getAllAccounts();
+			const activeAccount: AccountInfo = accounts[0];
+
+			const msalResponse = await msalInstance.acquireTokenSilent({
+				...loginRequest,
+				account: activeAccount
+			});
+
+			injectAccessToken(msalResponse.accessToken);
+			setIsAccessTokenInjected(true);
+			msalInstance.setActiveAccount(activeAccount);
 		};
+		addAccessToken();
+	}, [msalInstance]);
 
-		if (!isAuthenticated) {
-			return;
+	msalInstance.addEventCallback(async (event: EventMessage) => {
+		if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
+			const payload = event.payload as AuthenticationResult;
+			const account = payload.account;
+
+			msalInstance.setActiveAccount(account);
+
+			injectAccessToken(payload.accessToken);
+			setIsAccessTokenInjected(true);
+			if (!localStorage.getItem('authenticationFlowFinished')) {
+				mutate();
+			}
 		}
+	});
 
-		getAccessToken();
-	}, [getAccessTokenSilently, isAuthenticated]);
-
-	useEffect(() => {
-		if (!accessToken) {
-			return;
-		}
-
-		injectAccessToken(accessToken);
-		setIsAccessTokenInjected(true);
-
-		if (!localStorage.getItem('authenticationFlowFinished')) {
-			mutate();
-		}
-	}, [accessToken]);
-
-	return { isAccessTokenInjected, isAuthenticated };
+	return { isAccessTokenInjected };
 };
 
 export default useAccessToken;

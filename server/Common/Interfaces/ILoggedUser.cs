@@ -6,5 +6,5 @@ public interface ILoggedUser
 
     string GetNameFromClaims();
 
-    string GetImageFromClaims();
+    // string GetImageFromClaims();
 }

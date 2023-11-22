@@ -49,7 +49,7 @@ public static class EntityExtensions
         return new User(new Id(userEntity.ID),
             new UserEmail(userEntity.Email),
             new UserName(userEntity.Name),
-            new UserImage(userEntity.Image),
+            // new UserImage(userEntity.Image),
             new UserOrganization(organizationEntity?.ToDomain()));
     }
 }

@@ -7,12 +7,12 @@ namespace ProjectDocumentation.Web.Domain.Entities.Users;
 
 public sealed class User
 {
-    public User(Id id, UserEmail email, UserName name, UserImage image, UserOrganization userOrganization)
+    public User(Id id, UserEmail email, UserName name, UserOrganization userOrganization)
     {
         Id = id;
         Email = email;
         Name = name;
-        Image = image;
+        // Image = image;
         UserOrganization = userOrganization;
     }
 
@@ -22,7 +22,7 @@ public sealed class User
 
     public UserName Name { get; }
 
-    public UserImage Image { get; }
+    // public UserImage Image { get; }
 
     public UserOrganization UserOrganization { get; set; }
 

@@ -24,8 +24,8 @@ public class UserRepository : IUserRepository
         {
             ID = user.Id.Value,
             Name = user.Name.Value,
-            Email = user.Email.Value,
-            Image = user.Image.Value
+            Email = user.Email.Value
+            // Image = user.Image.Value
         };
 
         await newUserEntity.SaveAsync(cancellation: cancellationToken);
@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
         await DB.Update<UserEntity>()
            .MatchID(user.Id.Value)
            .Modify(userEntity => userEntity.Name, user.Name.Value)
-           .Modify(userEntity => userEntity.Image, user.Image.Value)
+           // .Modify(userEntity => userEntity.Image, user.Image.Value)
            .Modify(userEntity => userEntity.Organization,
                 user.UserOrganization.Value == null
                     ? null
