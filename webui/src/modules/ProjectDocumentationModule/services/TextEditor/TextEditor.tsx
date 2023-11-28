@@ -155,6 +155,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ content = '', onContentChangedH
             border: 3px solid #D5ECF5;
             border-radius:4px;
             font-size: 14px;
+            outline: none !important;
           }
 
           .component-wrapper {

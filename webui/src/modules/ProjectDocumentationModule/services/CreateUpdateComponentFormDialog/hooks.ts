@@ -24,7 +24,7 @@ const useCreateUpdateComponentFormDialog = () => {
 		getValues,
 		setValue,
 		reset,
-		formState: { isValid, defaultValues, dirtyFields, touchedFields }
+		formState: { isValid, dirtyFields, touchedFields }
 	} = useForm<ComponentFormValidationSchema>({
 		resolver: zodResolver(componentFormSchema),
 		defaultValues: {

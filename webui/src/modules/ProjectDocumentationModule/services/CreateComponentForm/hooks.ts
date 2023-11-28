@@ -17,9 +17,6 @@ const useCreateComponentForm = (getValues: UseFormGetValues<ComponentFormValidat
 			const apiResponse = await readAllJiraProjectsApi();
 
 			return apiResponse.data;
-		},
-		{
-			retry: false
 		}
 	);
 

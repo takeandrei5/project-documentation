@@ -19,7 +19,6 @@ const useUpdateComponentForm = (getValues: UseFormGetValues<ComponentFormValidat
 			return apiResponse.data;
 		},
 		{
-			retry: false,
       enabled: !!jiraProjectIdValue
 		}
 	);
