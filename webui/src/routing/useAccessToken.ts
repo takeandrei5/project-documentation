@@ -1,11 +1,10 @@
-import { EventType, type AuthenticationResult, type EventMessage, type PublicClientApplication, AccountInfo } from '@azure/msal-browser';
+import { EventType, type AccountInfo, type AuthenticationResult, type EventMessage, type PublicClientApplication } from '@azure/msal-browser';
 import { useMutation } from '@tanstack/react-query';
-import type { InternalAxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserApi } from '../api';
 import { loginRequest } from '../utils/authConfig';
-import axiosInstance, { injectAccessToken } from '../utils/axios';
+import { injectAccessToken } from '../utils/axios';
 import { CustomNavigationClient } from '../utils/navigationClient';
 
 const useAccessToken = (msalInstance: PublicClientApplication) => {
@@ -25,16 +24,21 @@ const useAccessToken = (msalInstance: PublicClientApplication) => {
 	useEffect(() => {
 		const addAccessToken = async () => {
 			const accounts = msalInstance.getAllAccounts();
-			const activeAccount: AccountInfo = accounts[0];
+			if (accounts.length > 0) {
+				msalInstance.setActiveAccount(accounts[0]);
+			}
+
+			if (msalInstance.getActiveAccount() === null) {
+				return;
+			}
 
 			const msalResponse = await msalInstance.acquireTokenSilent({
 				...loginRequest,
-				account: activeAccount
+				account: msalInstance.getActiveAccount() as AccountInfo
 			});
 
 			injectAccessToken(msalResponse.accessToken);
 			setIsAccessTokenInjected(true);
-			msalInstance.setActiveAccount(activeAccount);
 		};
 		addAccessToken();
 	}, [msalInstance]);
@@ -48,8 +52,9 @@ const useAccessToken = (msalInstance: PublicClientApplication) => {
 
 			injectAccessToken(payload.accessToken);
 			setIsAccessTokenInjected(true);
-			if (!localStorage.getItem('authenticationFlowFinished')) {
+			if (!localStorage.getItem('authenticationFlowFinished') || !localStorage.getItem('authenticationFlowStarted')) {
 				mutate();
+				localStorage.setItem('authenticationFlowStarted', 'true');
 			}
 		}
 	});

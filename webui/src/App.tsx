@@ -10,8 +10,6 @@ import { RouterProvider, StoreProvider } from './providers';
 import { HotKeysProvider } from './providers/HotKeysProvider';
 import { store } from './redux';
 import { queryClient } from './utils/queryClientConfig';
-import { useNavigate } from 'react-router-dom';
-import { CustomNavigationClient } from './utils/navigationClient';
 
 const App: React.FC<{ msalInstance: PublicClientApplication }> = ({ msalInstance }) => {
 	return (

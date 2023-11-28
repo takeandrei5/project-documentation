@@ -1,7 +1,7 @@
 import type { Editor as TinyMCEEditor } from 'tinymce';
+import { deleteJiraIssueApi } from '../../../../../api/jiraapi';
 import { componentSvg } from '../../../../../assets/svg';
 import type { MessageEventEditComponentModal, MessageEventOpenEditComponentModal } from '../../CreateUpdateComponentFormDialog/types';
-import { deleteJiraIssueApi } from '../../../../../api/jiraapi';
 
 const useComponent = () => {
 	const initializeComponent = (editor: TinyMCEEditor): void => {
@@ -11,10 +11,11 @@ const useComponent = () => {
 			icon: 'remove',
 			tooltip: 'Remove component',
 			onAction: async function () {
-				const node: HTMLElement = editor.selection.getNode();
-				const component: Element | null = editor.dom.getParent(node, '.component');
+				const node = editor.selection.getNode();
+				const component = editor.dom.getParent(node, '.component');
+				const componentWrapper = component?.closest('.component-wrapper');
 
-				if (!component) {
+				if (!component || !componentWrapper) {
 					return;
 				}
 
@@ -25,7 +26,10 @@ const useComponent = () => {
 				}
 
 				component.remove();
-				editor.execCommand('delete');
+				componentWrapper.remove();
+
+				(editor.contentDocument.activeElement as HTMLElement)?.blur();
+				editor.focus();
 			}
 		});
 
