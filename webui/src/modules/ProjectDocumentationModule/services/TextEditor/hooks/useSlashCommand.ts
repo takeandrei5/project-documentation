@@ -131,7 +131,7 @@ const useSlashCommand = () => {
                   <p id="component-content">${content}</p>
                 </div>
               </div>
-              </div>
+            </div>
           `
 					);
 					editor.selection.select(editor.dom.select('div#newly_added_component')[0], true);

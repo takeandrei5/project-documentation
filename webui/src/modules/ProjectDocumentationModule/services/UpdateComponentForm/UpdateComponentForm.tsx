@@ -17,6 +17,8 @@ const UpdateComponentForm: React.FC<UpdateComponentFormProps> = ({ control, dirt
 		mapJiraIssueToDropdownHandler
 	} = useUpdateComponentForm(getValues);
 
+  console.log(isLoadingJiraProject)
+
 	if (isLoadingJiraProject || (isLoadingJiraIssue && jiraIssueIdValue)) {
 		return null;
 	}
