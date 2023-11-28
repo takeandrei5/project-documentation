@@ -11,9 +11,6 @@ const useUpdateComponentForm = (getValues: UseFormGetValues<ComponentFormValidat
 	const jiraProjectIdValue: string = getValues('jiraProjectId');
 	const jiraIssueIdValue: string = getValues('jiraIssueId');
 
-  console.log(jiraProjectIdValue)
-  console.log(jiraIssueIdValue)
-
   const { data: jiraProjectData, isLoading: isLoadingJiraProject } = useQuery(
 		['project', jiraProjectIdValue],
 		async () => {

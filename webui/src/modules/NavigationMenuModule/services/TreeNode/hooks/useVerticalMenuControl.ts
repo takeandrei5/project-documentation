@@ -62,7 +62,6 @@ const useVerticalMenuControl = (treeData: NodeModel<TreeDataValues>[], setTreeDa
 
   const onDuplicateItemHandler = async (): Promise<void> => {
 		const newNodes = duplicateNode(node.id as string);
-    console.log('newNodes', newNodes)
     setTreeData([...treeData, ...newNodes]);
 
     toast(ToastMessages.duplicate, {
